@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import useAuth from '../auth/useAuth';
+import { RouteComponentProps } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -46,15 +49,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LoginScreen() {
+export default function LoginScreen({ history }: RouteComponentProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const classes = useStyles();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(username, password);
+  const { login, user } = useAuth();
+
+  const handleSubmit = async (e: any) => {
+    try {
+      e.preventDefault();
+
+      const { data } = await axios.post('/api/user/login', {
+        email: username,
+        password,
+      });
+
+      login(data);
+    } catch (ex) {
+      console.log(ex.response);
+    }
   };
+
+  if (user) history.push('/');
 
   return (
     <Container component="main" maxWidth="xs">
@@ -109,11 +126,6 @@ export default function LoginScreen() {
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>
