@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useAuth from '../auth/useAuth';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -49,10 +49,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LoginScreen({ history }: RouteComponentProps) {
+export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const classes = useStyles();
+  const history = useHistory();
 
   const { login, user } = useAuth();
 
