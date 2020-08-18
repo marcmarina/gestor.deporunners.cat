@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
 import './App.css';
