@@ -34,6 +34,8 @@ export default function SimpleTable() {
     retrieveData();
   }, []);
 
+  if (members.length === 0) return null;
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
