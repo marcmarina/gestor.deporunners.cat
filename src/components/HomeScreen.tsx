@@ -17,6 +17,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './listItems';
 import { Route, Switch } from 'react-router-dom';
 
+import MemberTable from './MemberTable';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -158,11 +160,6 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Typography>sdasd</Typography>
-              </Paper>
-            </Grid>
             {/* Chart
             Recent Deposits
             <Grid item xs={12} md={4} lg={3}>
@@ -173,14 +170,7 @@ export default function Dashboard() {
               <Paper className={classes.paper}></Paper>
             </Grid> */}
             <Switch>
-              <Route
-                path="/socis"
-                component={() => (
-                  <Typography>
-                    <h1>Socis</h1>
-                  </Typography>
-                )}
-              />
+              <Route path="/socis" component={MemberTable} />
             </Switch>
           </Grid>
         </Container>
