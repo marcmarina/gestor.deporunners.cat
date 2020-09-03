@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { fetchMembers } from '../services/member';
-import { Button } from '@material-ui/core';
+import { Button, TablePagination } from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 export default function SimpleTable() {
   const classes = useStyles();
   const [members, setMembers] = useState<any>([]);
+  const [page, setPage] = useState(0);
 
   const retrieveData = async () => {
     try {
@@ -37,7 +38,10 @@ export default function SimpleTable() {
   if (members.length === 0) return null;
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
+    >
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -66,6 +70,20 @@ export default function SimpleTable() {
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[]}
+        labelRowsPerPage="Files per pagina"
+        count={members.length}
+        page={0}
+        onChangePage={() => console.log('Page change')}
+        rowsPerPage={10}
+        style={{
+          justifyItems: 'center',
+          // backgroundColor: 'dodgerblue',
+          width: '100%',
+          margin: '10',
+        }}
+      />
     </TableContainer>
   );
 }
