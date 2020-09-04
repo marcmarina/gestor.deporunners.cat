@@ -18,6 +18,10 @@ interface Member {
   email: string;
   dni: string;
   telephone: string;
+  address: {
+    postCode: string;
+    streetAddress: string;
+  };
 }
 
 export default function SingleMember() {
@@ -41,20 +45,29 @@ export default function SingleMember() {
 
   if (!member) return null;
 
+  const {
+    dni,
+    email,
+    firstName,
+    lastName,
+    telephone,
+    numMember,
+    address,
+  } = member;
+
+  const fullAddress = `${address.streetAddress}, ${address.postCode}`;
+
   return (
     <div>
       <h1>
-        {member.firstName} {member.lastName} -{' '}
-        {padStart(member.numMember.toString(), 3, '0')}
+        {firstName} {lastName} - {padStart(numMember.toString(), 3, '0')}
       </h1>
       <Paper style={{ padding: 10 }}>
-        <TextWithLabel
-          label="Nom Complet"
-          text={`${member.firstName} ${member.lastName}`}
-        />
-        <TextWithLabel label="DNI" text={member.dni} />
-        <TextWithLabel label="Email" text={member.email} />
-        <TextWithLabel label="Telefon" text={member.telephone} />
+        <TextWithLabel label="Nom Complet" text={`${firstName} ${lastName}`} />
+        <TextWithLabel label="DNI" text={dni} />
+        <TextWithLabel label="Email" text={email} />
+        <TextWithLabel label="Telefon" text={telephone} />
+        <TextWithLabel label="Adreça" text={fullAddress} />
       </Paper>
     </div>
   );
