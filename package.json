@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@types/jwt-decode": "^2.2.1",
+    "@types/lodash": "^4.14.161",
     "@types/react-router-dom": "^5.1.5"
   }
 }
