@@ -7,7 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { fetchMembers } from '../services/member';
 import {
   Button,
   ButtonGroup,
@@ -15,7 +14,9 @@ import {
   TablePagination,
 } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
+import { padStart } from 'lodash';
 
+import { fetchMembers } from '../services/member';
 import { paginate } from '../utils/paginate';
 import { useHistory } from 'react-router-dom';
 
@@ -72,7 +73,9 @@ export default function SimpleTable() {
                 {row.firstName} {row.lastName}
               </TableCell>
               <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">{row.numMember}</TableCell>
+              <TableCell align="left">
+                {padStart(row.numMember.toString(), 3, '0')}
+              </TableCell>
               <TableCell align="left">{row.dni}</TableCell>
               <TableCell align="left">{row.telephone}</TableCell>
               <TableCell align="right">
