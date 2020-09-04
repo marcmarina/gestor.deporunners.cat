@@ -49,17 +49,10 @@ export default function SimpleTable() {
     setPage(newPage);
   };
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
+    <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -67,6 +60,7 @@ export default function SimpleTable() {
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Num. Soci</TableCell>
             <TableCell align="left">DNI</TableCell>
+            <TableCell align="left">Telefon</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
@@ -79,6 +73,7 @@ export default function SimpleTable() {
               <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.numMember}</TableCell>
               <TableCell align="left">{row.dni}</TableCell>
+              <TableCell align="left">{row.telephone}</TableCell>
               <TableCell align="right">
                 <ButtonGroup
                   color="primary"
