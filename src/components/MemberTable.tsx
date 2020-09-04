@@ -8,7 +8,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { fetchMembers } from '../services/member';
-import { Button, TablePagination } from '@material-ui/core';
+import {
+  Button,
+  ButtonGroup,
+  TableFooter,
+  TablePagination,
+} from '@material-ui/core';
+import { Delete, Edit, Visibility } from '@material-ui/icons';
+
+import { paginate } from '../utils/paginate';
 
 const useStyles = makeStyles({
   table: {
@@ -37,10 +45,20 @@ export default function SimpleTable() {
 
   if (members.length === 0) return null;
 
+  const handlePageChange = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const rowsPerPage = 5;
+
   return (
     <TableContainer
       component={Paper}
-      style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
     >
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -49,11 +67,11 @@ export default function SimpleTable() {
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Num. Soci</TableCell>
             <TableCell align="left">DNI</TableCell>
-            {/* <TableCell align="right"></TableCell> */}
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {members.map((row: any) => (
+          {paginate(members, page + 1, rowsPerPage).map((row: any) => (
             <TableRow key={row._id}>
               <TableCell component="th" scope="row">
                 {row.firstName} {row.lastName}
@@ -61,29 +79,38 @@ export default function SimpleTable() {
               <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.numMember}</TableCell>
               <TableCell align="left">{row.dni}</TableCell>
-              {/* <TableCell align="right">
-                <Button type="submit" variant="contained" color="primary">
-                  Misc. Actions
-                </Button>
-              </TableCell> */}
+              <TableCell align="right">
+                <ButtonGroup
+                  color="primary"
+                  variant="text"
+                  aria-label="text primary button group"
+                >
+                  <Button style={{ color: 'green' }}>
+                    <Visibility />
+                  </Button>
+                  <Button style={{ color: 'orange' }}>
+                    <Edit />
+                  </Button>
+                  <Button style={{ color: 'tomato' }}>
+                    <Delete />
+                  </Button>
+                </ButtonGroup>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[]}
+              count={members.length}
+              page={page}
+              onChangePage={handlePageChange}
+              rowsPerPage={rowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
-      <TablePagination
-        rowsPerPageOptions={[]}
-        labelRowsPerPage="Files per pagina"
-        count={members.length}
-        page={0}
-        onChangePage={() => console.log('Page change')}
-        rowsPerPage={10}
-        style={{
-          justifyItems: 'center',
-          // backgroundColor: 'dodgerblue',
-          width: '100%',
-          margin: '10',
-        }}
-      />
     </TableContainer>
   );
 }
