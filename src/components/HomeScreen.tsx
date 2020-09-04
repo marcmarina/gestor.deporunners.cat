@@ -160,6 +160,10 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
+          <Switch>
+            <Route path="/socis/:id" component={SingleMember} />
+            <Route path="/socis" component={MemberTable} />
+          </Switch>
           <Grid container spacing={4}>
             {/* Chart
             Recent Deposits
@@ -170,10 +174,6 @@ export default function Dashboard() {
             <Grid item xs={12}>
               <Paper className={classes.paper}></Paper>
             </Grid> */}
-            <Switch>
-              <Route path="/socis/:id" component={SingleMember} />
-              <Route path="/socis" component={MemberTable} />
-            </Switch>
           </Grid>
         </Container>
       </main>

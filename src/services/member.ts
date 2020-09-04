@@ -8,3 +8,12 @@ export const fetchMembers = async () => {
     throw ex;
   }
 };
+
+export const fetchById = async (id: string) => {
+  try {
+    const member = await axios.get(`/api/member/${id}`);
+    return member;
+  } catch (ex) {
+    throw ex;
+  }
+};

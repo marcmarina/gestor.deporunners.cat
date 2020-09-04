@@ -78,7 +78,7 @@ export default function SimpleTable() {
               <TableCell align="right">
                 <ButtonGroup
                   color="primary"
-                  variant="text"
+                  variant="outlined"
                   aria-label="text primary button group"
                 >
                   <Button
