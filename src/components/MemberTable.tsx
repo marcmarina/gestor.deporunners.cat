@@ -17,6 +17,7 @@ import {
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 
 import { paginate } from '../utils/paginate';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   table: {
@@ -38,7 +39,7 @@ export default function SimpleTable() {
       console.log(ex);
     }
   };
-
+  const { push } = useHistory();
   useEffect(() => {
     retrieveData();
   }, []);
@@ -80,7 +81,10 @@ export default function SimpleTable() {
                   variant="text"
                   aria-label="text primary button group"
                 >
-                  <Button style={{ color: 'green' }}>
+                  <Button
+                    style={{ color: 'green' }}
+                    onClick={() => push(`/socis/${row._id}`)}
+                  >
                     <Visibility />
                   </Button>
                   <Button style={{ color: 'orange' }}>

@@ -17,6 +17,7 @@ import { mainListItems } from './listItems';
 import { Route, Switch } from 'react-router-dom';
 
 import MemberTable from './MemberTable';
+import SingleMember from './SingleMember';
 
 const drawerWidth = 240;
 
@@ -170,6 +171,7 @@ export default function Dashboard() {
               <Paper className={classes.paper}></Paper>
             </Grid> */}
             <Switch>
+              <Route path="/socis/:id" component={SingleMember} />
               <Route path="/socis" component={MemberTable} />
             </Switch>
           </Grid>
