@@ -16,9 +16,11 @@ import {
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { padStart } from 'lodash';
 
-import { fetchMembers } from '../services/member';
-import { paginate } from '../utils/paginate';
+import { fetchMembers } from '../../services/member';
+import { paginate } from '../../utils/paginate';
 import { useHistory } from 'react-router-dom';
+
+import './style.css';
 
 const useStyles = makeStyles({
   table: {
@@ -75,7 +77,7 @@ export default function SimpleTable() {
         </TableHead>
         <TableBody>
           {paginate(members, page + 1, rowsPerPage).map((row: any) => (
-            <TableRow key={row._id}>
+            <TableRow key={row._id} className="table__row">
               <TableCell align="left">
                 {padStart(row.numMember.toString(), 3, '0')}
               </TableCell>
