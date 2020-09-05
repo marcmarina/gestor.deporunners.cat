@@ -89,19 +89,19 @@ export default function SimpleTable() {
                   }}
                 >
                   <IconButton
-                    style={{ backgroundColor: 'green', color: '#f6f6f6' }}
+                    style={{ backgroundColor: '#66BB6A', color: '#f6f6f6' }}
                     onClick={() => push(`/socis/${row._id}`)}
                   >
                     <Visibility />
                   </IconButton>
                   <IconButton
-                    style={{ backgroundColor: 'orange', color: '#f6f6f6' }}
+                    style={{ backgroundColor: '#FFA726', color: '#f6f6f6' }}
                   >
                     <Edit />
                   </IconButton>
                   <IconButton
                     color="default"
-                    style={{ backgroundColor: 'tomato', color: '#f6f6f6' }}
+                    style={{ backgroundColor: '#EF5350', color: '#f6f6f6' }}
                   >
                     <Delete />
                   </IconButton>
