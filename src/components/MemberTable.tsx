@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {
-  Button,
+  IconButton,
   ButtonGroup,
   TableFooter,
   TablePagination,
@@ -83,19 +83,20 @@ export default function SimpleTable() {
                   color="primary"
                   variant="outlined"
                   aria-label="text primary button group"
+                  style={{ backgroundColor: '#F5F5F5', borderRadius: '100px' }}
                 >
-                  <Button
+                  <IconButton
                     style={{ color: 'green' }}
                     onClick={() => push(`/socis/${row._id}`)}
                   >
                     <Visibility />
-                  </Button>
-                  <Button style={{ color: 'orange' }}>
+                  </IconButton>
+                  <IconButton style={{ color: 'orange' }}>
                     <Edit />
-                  </Button>
-                  <Button style={{ color: 'tomato' }}>
+                  </IconButton>
+                  <IconButton style={{ color: 'tomato' }}>
                     <Delete />
-                  </Button>
+                  </IconButton>
                 </ButtonGroup>
               </TableCell>
             </TableRow>
