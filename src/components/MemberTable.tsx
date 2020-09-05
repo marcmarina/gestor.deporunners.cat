@@ -63,7 +63,15 @@ export default function SimpleTable() {
             <TableCell align="left">Num. Soci</TableCell>
             <TableCell align="left">DNI</TableCell>
             <TableCell align="left">Telefon</TableCell>
-            <TableCell align="right"></TableCell>
+            {/* <TableCell align="right"> */}
+            <TablePagination
+              rowsPerPageOptions={[]}
+              count={members.length}
+              page={page}
+              onChangePage={handlePageChange}
+              rowsPerPage={rowsPerPage}
+            />
+            {/* </TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
