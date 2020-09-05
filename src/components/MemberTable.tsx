@@ -83,25 +83,33 @@ export default function SimpleTable() {
                   color="primary"
                   variant="outlined"
                   aria-label="text primary button group"
-                  style={{
-                    backgroundColor: '#F5F5F5',
-                    borderRadius: '100px',
-                  }}
                 >
                   <IconButton
-                    style={{ backgroundColor: '#66BB6A', color: '#f6f6f6' }}
+                    style={{
+                      backgroundColor: '#66BB6A',
+                      color: '#f6f6f6',
+                      height: '35px',
+                    }}
                     onClick={() => push(`/socis/${row._id}`)}
                   >
                     <Visibility />
                   </IconButton>
                   <IconButton
-                    style={{ backgroundColor: '#FFA726', color: '#f6f6f6' }}
+                    style={{
+                      backgroundColor: '#FFA726',
+                      color: '#f6f6f6',
+                      height: '35px',
+                    }}
                   >
                     <Edit />
                   </IconButton>
                   <IconButton
                     color="default"
-                    style={{ backgroundColor: '#EF5350', color: '#f6f6f6' }}
+                    style={{
+                      backgroundColor: '#EF5350',
+                      color: '#f6f6f6',
+                      height: '35px',
+                    }}
                   >
                     <Delete />
                   </IconButton>
