@@ -35,7 +35,6 @@ export default function SimpleTable() {
     try {
       const fetchedMembers = await fetchMembers();
       if (fetchedMembers.data) setMembers(fetchedMembers.data);
-      console.log(fetchedMembers.data);
     } catch (ex) {
       console.log(ex);
     }
@@ -58,9 +57,9 @@ export default function SimpleTable() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell align="left">Num. Soci</TableCell>
             <TableCell>Nom Complet</TableCell>
             <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Num. Soci</TableCell>
             <TableCell align="left">DNI</TableCell>
             <TableCell align="left">Telefon</TableCell>
             {/* <TableCell align="right"> */}
@@ -77,13 +76,13 @@ export default function SimpleTable() {
         <TableBody>
           {paginate(members, page + 1, rowsPerPage).map((row: any) => (
             <TableRow key={row._id}>
+              <TableCell align="left">
+                {padStart(row.numMember.toString(), 3, '0')}
+              </TableCell>
               <TableCell component="th" scope="row">
                 {row.firstName} {row.lastName}
               </TableCell>
               <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">
-                {padStart(row.numMember.toString(), 3, '0')}
-              </TableCell>
               <TableCell align="left">{row.dni}</TableCell>
               <TableCell align="left">{row.telephone}</TableCell>
               <TableCell align="right">
