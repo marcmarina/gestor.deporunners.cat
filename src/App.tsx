@@ -5,6 +5,7 @@ import HomeScreen from './components/HomeScreen';
 import './App.css';
 import AuthContext from './auth/context';
 import { getUser } from './auth/storage';
+import { StylesProvider } from '@material-ui/core';
 
 function App() {
   const [user, setUser] = useState();
@@ -15,13 +16,15 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      <Switch>
-        <Route path="/login" component={LoginScreen} />
-        {/* <Redirect from="/" to="/login" /> */}
-        <Route path="/" component={HomeScreen} />
-      </Switch>
-    </AuthContext.Provider>
+    <StylesProvider injectFirst>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <Switch>
+          <Route path="/login" component={LoginScreen} />
+          {/* <Redirect from="/" to="/login" /> */}
+          <Route path="/" component={HomeScreen} />
+        </Switch>
+      </AuthContext.Provider>
+    </StylesProvider>
   );
 }
 

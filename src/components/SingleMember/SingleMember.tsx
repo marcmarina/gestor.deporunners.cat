@@ -32,7 +32,6 @@ export default function SingleMember() {
   const retrieveData = async (id: string) => {
     try {
       const { data } = await fetchById(id);
-      console.log(data);
       setMember(data);
     } catch (ex) {
       console.log(ex);

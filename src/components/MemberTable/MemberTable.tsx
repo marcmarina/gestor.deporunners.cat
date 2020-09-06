@@ -56,7 +56,7 @@ export default function SimpleTable() {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className="table" aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="left">Num. Soci</TableCell>
@@ -92,34 +92,18 @@ export default function SimpleTable() {
                   color="primary"
                   variant="outlined"
                   aria-label="text primary button group"
+                  size="small"
                 >
                   <IconButton
-                    style={{
-                      backgroundColor: '#66BB6A',
-                      color: '#f6f6f6',
-                      height: '35px',
-                    }}
+                    className="IconButton ViewButton"
                     onClick={() => push(`/socis/${row._id}`)}
                   >
                     <Visibility />
                   </IconButton>
-                  <IconButton
-                    style={{
-                      backgroundColor: '#FFA726',
-                      color: '#f6f6f6',
-                      height: '35px',
-                    }}
-                  >
+                  <IconButton className="IconButton EditButton">
                     <Edit />
                   </IconButton>
-                  <IconButton
-                    color="default"
-                    style={{
-                      backgroundColor: '#EF5350',
-                      color: '#f6f6f6',
-                      height: '35px',
-                    }}
-                  >
+                  <IconButton className="IconButton DeleteButton">
                     <Delete />
                   </IconButton>
                 </ButtonGroup>

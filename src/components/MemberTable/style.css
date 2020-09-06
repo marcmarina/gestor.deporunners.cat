@@ -1,3 +1,22 @@
 .table__row:hover {
   background-color: #f5f5f5;
 }
+
+.IconButton {
+  color: #f6f6f6;
+}
+.IconButton:hover {
+  
+}
+
+.ViewButton {
+  background-color: #66bb6a;
+}
+
+.EditButton {
+  background-color: #FFA726;
+}
+
+.DeleteButton {
+  background-color: #EF5350;
+}
