@@ -1,24 +1,21 @@
-import React, {
-  ChangeEvent,
-  ReactEventHandler,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import {
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
   Paper,
   Select,
 } from '@material-ui/core';
+import axios from 'axios';
+
 import { useParams } from 'react-router-dom';
 import { fetchById } from '../../services/member';
-import axios from 'axios';
+
+import './style.css';
 
 type TParams = {
   id: string;
@@ -76,6 +73,10 @@ export default function EditMember() {
     } catch (ex) {
       console.log(ex);
     }
+  };
+
+  const handleSubmit = async () => {
+    //
   };
 
   useEffect(() => {
@@ -158,23 +159,10 @@ export default function EditMember() {
             autoComplete="shipping postal-code"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="country"
-            name="country"
-            label="Country"
-            fullWidth
-            autoComplete="shipping country"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAddress" value="yes" />
-            }
-            label="Use this address for payment details"
-          />
+        <Grid className="button_grid" item xs={12}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Desar
+          </Button>
         </Grid>
       </Grid>
     </Paper>
