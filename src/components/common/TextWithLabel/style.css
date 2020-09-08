@@ -1,9 +1,15 @@
 .label {
   font-size: 15px;
-  color: #f7f7f7;
-  background-color: #5c6bc0;
+  margin: 0px 0px 5px 0px;
+  color: #5c6bc0;
+  /* background-color: #5c6bc0; */
   padding: 4px;
   border-radius: 5px;
+  border: #5c6bc0 solid 2px;
+}
+
+.text {
+  margin-top: 5px;
 }
 
 .container {

@@ -14,7 +14,9 @@ export default function TextWithLabel({ label, text }: Props) {
       <Typography className="label" variant="button">
         {label}
       </Typography>
-      <Typography variant="h6">{text}</Typography>
+      <Typography className="text" variant="h6">
+        {text}
+      </Typography>
     </div>
   );
 }
