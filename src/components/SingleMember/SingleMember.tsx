@@ -69,7 +69,7 @@ export default function SingleMember() {
       </h1>
       <Paper className="member-info-container">
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item xs>
             <TextWithLabel
               variant="outlined"
               label="Nom Complet"
@@ -88,7 +88,7 @@ export default function SingleMember() {
               text={fullAddress}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs>
             <TextWithLabel
               variant="outlined"
               label="Número Soci"
