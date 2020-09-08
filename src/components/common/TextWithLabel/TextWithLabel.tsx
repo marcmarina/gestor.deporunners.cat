@@ -11,12 +11,12 @@ interface Props {
 export default function TextWithLabel({ label, text }: Props) {
   return (
     <div className="container">
-      <Typography className="label" variant="button">
-        {label}
-      </Typography>
-      <Typography className="text" variant="h6">
-        {text}
-      </Typography>
+      <div className="label-container">
+        <Typography className="label outlined" variant="button">
+          {label}
+        </Typography>
+      </div>
+      <Typography variant="h6">{text}</Typography>
     </div>
   );
 }
