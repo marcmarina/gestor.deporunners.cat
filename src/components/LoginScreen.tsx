@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useAuth from '../auth/useAuth';
 import { useHistory } from 'react-router-dom';
+import http from '../services/http';
 
 function Copyright() {
   return (
@@ -61,7 +61,7 @@ export default function LoginScreen() {
     try {
       e.preventDefault();
 
-      const { data } = await axios.post('/api/user/login', {
+      const { data } = await http.post('/user/login', {
         email: username,
         password,
       });

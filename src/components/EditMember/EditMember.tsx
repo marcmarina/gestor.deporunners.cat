@@ -10,12 +10,12 @@ import {
   Paper,
   Select,
 } from '@material-ui/core';
-import axios from 'axios';
 
 import { useParams } from 'react-router-dom';
 import { fetchById } from '../../services/member';
 
 import './style.css';
+import http from '../../services/http';
 
 type TParams = {
   id: string;
@@ -44,6 +44,9 @@ export default function EditMember() {
 
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [dni, setDni] = useState();
+  const [numMember, setNumMember] = useState();
   const [streetAddress, setStreetAddress] = useState();
   const [town, setTown] = useState();
   const [postCode, setPostCode] = useState();
@@ -56,6 +59,9 @@ export default function EditMember() {
 
       setTown(data.address.town);
       setFirstName(data.firstName);
+      setEmail(data.email);
+      setDni(data.dni);
+      setNumMember(data.numMember);
       setLastName(data.lastName);
       setStreetAddress(data.address.streetAddress);
       setPostCode(data.address.postCode);
@@ -68,7 +74,7 @@ export default function EditMember() {
 
   const retrieveTowns = async () => {
     try {
-      const { data } = await axios.get('/api/town');
+      const { data } = await http.get('/town');
       setTowns(data);
     } catch (ex) {
       console.log(ex);
@@ -116,6 +122,39 @@ export default function EditMember() {
             fullWidth
             value={lastName}
             autoComplete="family-name"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="email"
+            name="email"
+            label="Email"
+            value={email}
+            fullWidth
+            onChange={(e: any) => setEmail(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <TextField
+            required
+            id="dni"
+            name="dni"
+            label="DNI"
+            value={dni}
+            fullWidth
+            onChange={(e: any) => setDni(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <TextField
+            required
+            id="numMember"
+            name="numMember"
+            label="Numero de Soci"
+            value={numMember}
+            fullWidth
+            onChange={(e: any) => setNumMember(e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -168,3 +207,19 @@ export default function EditMember() {
     </Paper>
   );
 }
+
+/*
+interface Member {
+  firstName: string;
+  lastName: string;
+  numMember: number;
+  email: string;
+  dni: string;
+  telephone: string;
+  address: {
+    postCode: string;
+    streetAddress: string;
+    town: string;
+  };
+}
+*/
