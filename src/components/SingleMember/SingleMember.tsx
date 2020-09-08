@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 
 import TextWithLabel from '../common/TextWithLabel';
 
@@ -19,6 +19,7 @@ interface Member {
   email: string;
   dni: string;
   telephone: string;
+  iban?: string;
   address: {
     postCode: string;
     streetAddress: string;
@@ -53,7 +54,10 @@ export default function SingleMember() {
     telephone,
     numMember,
     address,
+    iban,
   } = member;
+
+  const fakeIban = 'ES12 1234 1234 1234 1234';
 
   const fullAddress = `${address.streetAddress}, ${address.postCode}`;
   const fullName = `${firstName} ${lastName}`;
@@ -64,11 +68,39 @@ export default function SingleMember() {
         {fullName} - {padStart(numMember.toString(), 3, '0')}
       </h1>
       <Paper className="member-info-container">
-        <TextWithLabel label="Nom Complet" text={fullName} />
-        <TextWithLabel label="DNI" text={dni} />
-        <TextWithLabel label="Email" text={email} />
-        <TextWithLabel label="Telefon" text={telephone} />
-        <TextWithLabel label="Adreça" text={fullAddress} />
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={'auto'}>
+            <TextWithLabel
+              variant="outlined"
+              label="Nom Complet"
+              text={fullName}
+            />
+            <TextWithLabel variant="outlined" label="DNI" text={dni} />
+            <TextWithLabel variant="outlined" label="Email" text={email} />
+            <TextWithLabel
+              variant="outlined"
+              label="Telefon"
+              text={telephone}
+            />
+            <TextWithLabel
+              variant="outlined"
+              label="Adreça"
+              text={fullAddress}
+            />
+          </Grid>
+          <Grid item xs={12} sm={'auto'}>
+            <TextWithLabel
+              variant="outlined"
+              label="Número Soci"
+              text={padStart(numMember.toString(), 3, '0')}
+            />
+            <TextWithLabel
+              variant="outlined"
+              label="IBAN"
+              text={iban ? iban : fakeIban}
+            />
+          </Grid>
+        </Grid>
       </Paper>
     </div>
   );
