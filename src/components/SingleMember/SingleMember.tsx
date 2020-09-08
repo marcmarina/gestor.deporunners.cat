@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Paper } from '@material-ui/core';
+import { Button, Paper } from '@material-ui/core';
 
 import TextWithLabel from '../common/TextWithLabel';
 
@@ -61,7 +61,14 @@ export default function SingleMember() {
       <h1>
         {firstName} {lastName} - {padStart(numMember.toString(), 3, '0')}
       </h1>
-      <Paper style={{ padding: 10 }}>
+      <Paper
+        style={{
+          padding: 10,
+          display: 'flex',
+          maxWidth: 'fit-content',
+          flexDirection: 'column',
+        }}
+      >
         <TextWithLabel label="Nom Complet" text={`${firstName} ${lastName}`} />
         <TextWithLabel label="DNI" text={dni} />
         <TextWithLabel label="Email" text={email} />
