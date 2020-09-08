@@ -10,8 +10,10 @@ interface Props {
 
 export default function TextWithLabel({ label, text }: Props) {
   return (
-    <div className="component__container">
-      <Typography className="label__container">{label}</Typography>
+    <div className="container">
+      <Typography className="label" variant="button">
+        {label}
+      </Typography>
       <Typography variant="h6">{text}</Typography>
     </div>
   );
