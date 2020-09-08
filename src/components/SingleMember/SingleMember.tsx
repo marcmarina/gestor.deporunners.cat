@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 import TextWithLabel from '../common/TextWithLabel';
 
@@ -64,12 +64,11 @@ export default function SingleMember() {
         {fullName} - {padStart(numMember.toString(), 3, '0')}
       </h1>
       <Paper className="member-info-container">
-        {/* <TextWithLabel label="Nom Complet" text={fullName} />
+        <TextWithLabel label="Nom Complet" text={fullName} />
         <TextWithLabel label="DNI" text={dni} />
         <TextWithLabel label="Email" text={email} />
         <TextWithLabel label="Telefon" text={telephone} />
-        <TextWithLabel label="Adreça" text={fullAddress} /> */}
-        <Typography>{fullAddress}</Typography>
+        <TextWithLabel label="Adreça" text={fullAddress} />
       </Paper>
     </div>
   );
