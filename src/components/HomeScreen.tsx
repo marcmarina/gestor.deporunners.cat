@@ -18,6 +18,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
+import EditMember from './EditMember';
 
 const drawerWidth = 240;
 
@@ -162,6 +163,7 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Switch>
+            <Route path="/socis/edit/:id" component={EditMember} />
             <Route path="/socis/:id" component={SingleMember} />
             <Route path="/socis" component={MemberTable} />
           </Switch>

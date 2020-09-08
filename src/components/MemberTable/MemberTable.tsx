@@ -105,7 +105,10 @@ export default function SimpleTable() {
                   >
                     <Visibility />
                   </IconButton>
-                  <IconButton className="IconButton EditButton">
+                  <IconButton
+                    className="IconButton EditButton"
+                    onClick={() => push(`/socis/edit/${row._id}`)}
+                  >
                     <Edit />
                   </IconButton>
                   <IconButton
