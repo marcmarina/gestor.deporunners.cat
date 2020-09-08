@@ -16,7 +16,7 @@ import {
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { padStart } from 'lodash';
 
-import { fetchMembers } from '../../services/member';
+import { deleteById, fetchMembers } from '../../services/member';
 import { paginate } from '../../utils/paginate';
 import { useHistory } from 'react-router-dom';
 
@@ -41,7 +41,20 @@ export default function SimpleTable() {
       console.log(ex);
     }
   };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await deleteById(id);
+      if (res.status === 200) {
+        setMembers(members.filter((item: any) => item._id !== id));
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   const { push } = useHistory();
+
   useEffect(() => {
     retrieveData();
   }, []);
@@ -103,7 +116,10 @@ export default function SimpleTable() {
                   <IconButton className="IconButton EditButton">
                     <Edit />
                   </IconButton>
-                  <IconButton className="IconButton DeleteButton">
+                  <IconButton
+                    className="IconButton DeleteButton"
+                    onClick={() => handleDelete(row._id)}
+                  >
                     <Delete />
                   </IconButton>
                 </ButtonGroup>

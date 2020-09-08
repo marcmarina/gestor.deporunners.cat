@@ -17,3 +17,12 @@ export const fetchById = async (id: string) => {
     throw ex;
   }
 };
+
+export const deleteById = async (id: string) => {
+  try {
+    const res = await axios.delete(`/api/member/${id}`);
+    return res;
+  } catch (ex) {
+    throw ex;
+  }
+};
