@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Button, Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 import TextWithLabel from '../common/TextWithLabel';
 
 import { fetchById } from '../../services/member';
+import './style.css';
 
 type TParams = {
   id: string;
@@ -55,25 +56,20 @@ export default function SingleMember() {
   } = member;
 
   const fullAddress = `${address.streetAddress}, ${address.postCode}`;
+  const fullName = `${firstName} ${lastName}`;
 
   return (
     <div>
       <h1>
-        {firstName} {lastName} - {padStart(numMember.toString(), 3, '0')}
+        {fullName} - {padStart(numMember.toString(), 3, '0')}
       </h1>
-      <Paper
-        style={{
-          padding: 10,
-          display: 'flex',
-          maxWidth: 'fit-content',
-          flexDirection: 'column',
-        }}
-      >
-        <TextWithLabel label="Nom Complet" text={`${firstName} ${lastName}`} />
+      <Paper className="member-info-container">
+        {/* <TextWithLabel label="Nom Complet" text={fullName} />
         <TextWithLabel label="DNI" text={dni} />
         <TextWithLabel label="Email" text={email} />
         <TextWithLabel label="Telefon" text={telephone} />
-        <TextWithLabel label="Adreça" text={fullAddress} />
+        <TextWithLabel label="Adreça" text={fullAddress} /> */}
+        <Typography>{fullAddress}</Typography>
       </Paper>
     </div>
   );

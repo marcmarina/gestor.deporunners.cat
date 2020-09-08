@@ -207,19 +207,3 @@ export default function EditMember() {
     </Paper>
   );
 }
-
-/*
-interface Member {
-  firstName: string;
-  lastName: string;
-  numMember: number;
-  email: string;
-  dni: string;
-  telephone: string;
-  address: {
-    postCode: string;
-    streetAddress: string;
-    town: string;
-  };
-}
-*/

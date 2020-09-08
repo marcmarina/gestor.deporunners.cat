@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './listItems';
@@ -27,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -109,7 +108,6 @@ export default function Dashboard() {
   const handleDrawer = () => {
     setOpen(!open);
   };
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -156,8 +154,6 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        {/* <Divider />
-        <List>{secondaryListItems}</List> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -167,17 +163,6 @@ export default function Dashboard() {
             <Route path="/socis/:id" component={SingleMember} />
             <Route path="/socis" component={MemberTable} />
           </Switch>
-          <Grid container spacing={4}>
-            {/* Chart
-            Recent Deposits
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            Recent Orders
-            <Grid item xs={12}>
-              <Paper className={classes.paper}></Paper>
-            </Grid> */}
-          </Grid>
         </Container>
       </main>
     </div>

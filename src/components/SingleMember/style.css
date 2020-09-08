@@ -1,0 +1,6 @@
+.member-info-container {
+  padding: 10px;
+  display: flex;
+  max-width: fit-content;
+  flex-direction: column;
+}
