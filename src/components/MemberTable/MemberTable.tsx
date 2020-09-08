@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,14 +21,7 @@ import { useHistory } from 'react-router-dom';
 
 import './style.css';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
-
 export default function SimpleTable() {
-  const classes = useStyles();
   const [members, setMembers] = useState<any>([]);
   const [page, setPage] = useState(0);
 
