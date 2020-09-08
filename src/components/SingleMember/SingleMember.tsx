@@ -41,7 +41,7 @@ export default function SingleMember() {
 
   useEffect(() => {
     retrieveData(id);
-  }, []);
+  }, [id]);
 
   if (!member) return null;
 

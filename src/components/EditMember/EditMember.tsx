@@ -88,7 +88,7 @@ export default function EditMember() {
   useEffect(() => {
     retrieveTowns();
     retrieveMember(id);
-  }, []);
+  }, [id]);
 
   if (!member || !towns) return null;
 
