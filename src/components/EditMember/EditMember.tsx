@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ReactEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -34,25 +39,31 @@ interface Member {
 }
 
 export default function EditMember() {
-  const handleChange = (e: any) => {
+  const handleTownChange = (e: any) => {
     setTown(e.target.value);
   };
-
   const [member, setMember] = useState<Member>();
   const [towns, setTowns] = useState<any>([]);
 
-  const [firstName, setFirstName] = useState<string>();
-  const [lastName, setLastName] = useState<string>();
-
-  const [town, setTown] = useState('');
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [streetAddress, setStreetAddress] = useState();
+  const [town, setTown] = useState();
+  const [postCode, setPostCode] = useState();
 
   const { id } = useParams<TParams>();
 
   const retrieveMember = async (id: string) => {
     try {
       const { data } = await fetchById(id);
-      setMember(data);
+
       setTown(data.address.town);
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setStreetAddress(data.address.streetAddress);
+      setPostCode(data.address.postCode);
+
+      setMember(data);
     } catch (ex) {
       console.log(ex);
     }
@@ -90,8 +101,9 @@ export default function EditMember() {
             id="firstName"
             name="firstName"
             label="Nom"
-            value={member.firstName}
+            value={firstName}
             fullWidth
+            onChange={(e: any) => setFirstName(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -101,7 +113,7 @@ export default function EditMember() {
             name="lastName"
             label="Cognoms"
             fullWidth
-            value={member.lastName}
+            value={lastName}
             autoComplete="family-name"
           />
         </Grid>
@@ -110,9 +122,9 @@ export default function EditMember() {
             required
             id="address1"
             name="address1"
-            label="Address line 1"
+            label="Adreça"
             fullWidth
-            value={member.address.streetAddress}
+            value={streetAddress}
             autoComplete="shipping address-line1"
           />
         </Grid>
@@ -122,7 +134,7 @@ export default function EditMember() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              onChange={handleChange}
+              onChange={handleTownChange}
               value={town}
             >
               {towns &&
@@ -139,7 +151,9 @@ export default function EditMember() {
             required
             id="zip"
             name="zip"
-            label="Zip / Postal code"
+            label="Codi Postal"
+            value={postCode}
+            onChange={(e: any) => setPostCode(e.target.value)}
             fullWidth
             autoComplete="shipping postal-code"
           />
