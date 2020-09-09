@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './listItems';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
@@ -162,6 +162,7 @@ export default function Dashboard() {
             <Route path="/socis/edit/:id" component={EditMember} />
             <Route path="/socis/:id" component={SingleMember} />
             <Route path="/socis" component={MemberTable} />
+            <Redirect from="/" to="/socis" />
           </Switch>
         </Container>
       </main>
