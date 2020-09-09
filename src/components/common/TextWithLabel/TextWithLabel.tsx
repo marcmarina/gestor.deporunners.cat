@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Tooltip, Typography } from '@material-ui/core';
 import React from 'react';
 
 import './style.css';
@@ -16,14 +16,16 @@ export default function TextWithLabel({
 }: Props) {
   return (
     <div className="container">
-      <div
-        className="label-container"
-        onClick={() => navigator.clipboard.writeText(text)}
-      >
-        <Typography className={`label ${variant}`} variant="button">
-          {label}
-        </Typography>
-      </div>
+      <Tooltip title="Copiar" aria-label="add" placement="left">
+        <div
+          className="label-container"
+          onClick={() => navigator.clipboard.writeText(text)}
+        >
+          <Typography className={`label ${variant}`} variant="button">
+            {label}
+          </Typography>
+        </div>
+      </Tooltip>
       <Typography variant="h6">{text}</Typography>
     </div>
   );
