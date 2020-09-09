@@ -4,6 +4,11 @@
 
 .IconButton {
   color: #f6f6f6;
+  border-radius: 7.5px;
+  border: 0px;
+}
+.IconButton:hover {
+  border: 0px;
 }
 
 .ViewButton {

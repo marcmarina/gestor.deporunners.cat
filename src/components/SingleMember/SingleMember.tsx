@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
 import { Grid, Paper } from '@material-ui/core';
 
@@ -31,11 +31,15 @@ export default function SingleMember() {
 
   const { id } = useParams<TParams>();
 
+  const { replace } = useHistory();
+
   const retrieveData = async (id: string) => {
     try {
       const { data } = await fetchById(id);
-      setMember(data);
+      if (data) setMember(data);
+      else replace('/socis');
     } catch (ex) {
+      replace('/socis');
       console.log(ex);
     }
   };

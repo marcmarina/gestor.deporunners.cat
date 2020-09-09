@@ -7,10 +7,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {
-  IconButton,
   ButtonGroup,
   TableFooter,
   TablePagination,
+  Button,
 } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { padStart } from 'lodash';
@@ -99,24 +99,24 @@ export default function SimpleTable() {
                   aria-label="text primary button group"
                   size="small"
                 >
-                  <IconButton
+                  <Button
                     className="IconButton ViewButton"
                     onClick={() => push(`/socis/${row._id}`)}
                   >
                     <Visibility />
-                  </IconButton>
-                  <IconButton
+                  </Button>
+                  <Button
                     className="IconButton EditButton"
                     onClick={() => push(`/socis/edit/${row._id}`)}
                   >
                     <Edit />
-                  </IconButton>
-                  <IconButton
+                  </Button>
+                  <Button
                     className="IconButton DeleteButton"
                     onClick={() => handleDelete(row._id)}
                   >
                     <Delete />
-                  </IconButton>
+                  </Button>
                 </ButtonGroup>
               </TableCell>
             </TableRow>
