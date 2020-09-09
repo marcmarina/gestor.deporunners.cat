@@ -14,6 +14,7 @@
 
 .label-container {
   margin-bottom: 5px;
+  max-width: fit-content;
 }
 
 .outlined:hover,

@@ -1,5 +1,5 @@
-import { Tooltip, Typography } from '@material-ui/core';
 import React from 'react';
+import { Tooltip, Typography, Zoom } from '@material-ui/core';
 
 import './style.css';
 
@@ -16,7 +16,13 @@ export default function TextWithLabel({
 }: Props) {
   return (
     <div className="container">
-      <Tooltip title="Copiar" aria-label="add" placement="left">
+      <Tooltip
+        title="Copiar"
+        aria-label="add"
+        placement="left"
+        TransitionComponent={Zoom}
+        enterDelay={500}
+      >
         <div
           className="label-container"
           onClick={() => navigator.clipboard.writeText(text)}

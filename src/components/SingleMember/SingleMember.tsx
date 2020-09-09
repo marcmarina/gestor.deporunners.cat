@@ -70,20 +70,32 @@ export default function SingleMember() {
       <Paper className="member-info-container">
         <Grid container spacing={3}>
           <Grid item xs>
-            <TextWithLabel variant="full" label="Nom Complet" text={fullName} />
-            <TextWithLabel variant="full" label="DNI" text={dni} />
-            <TextWithLabel variant="full" label="Email" text={email} />
-            <TextWithLabel variant="full" label="Telefon" text={telephone} />
-            <TextWithLabel variant="full" label="Adreça" text={fullAddress} />
+            <TextWithLabel
+              variant="outlined"
+              label="Nom Complet"
+              text={fullName}
+            />
+            <TextWithLabel variant="outlined" label="DNI" text={dni} />
+            <TextWithLabel variant="outlined" label="Email" text={email} />
+            <TextWithLabel
+              variant="outlined"
+              label="Telefon"
+              text={telephone}
+            />
+            <TextWithLabel
+              variant="outlined"
+              label="Adreça"
+              text={fullAddress}
+            />
           </Grid>
           <Grid item xs>
             <TextWithLabel
-              variant="full"
+              variant="outlined"
               label="Número Soci"
               text={padStart(numMember.toString(), 3, '0')}
             />
             <TextWithLabel
-              variant="full"
+              variant="outlined"
               label="IBAN"
               text={iban ? iban : fakeIban}
             />
