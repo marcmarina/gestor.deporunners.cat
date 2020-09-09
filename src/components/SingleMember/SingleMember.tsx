@@ -70,11 +70,7 @@ export default function SingleMember() {
       <Paper className="member-info-container">
         <Grid container spacing={3}>
           <Grid item xs>
-            <TextWithLabel
-              variant="outlined"
-              label="Nom Complet"
-              text={fullName}
-            />
+            <TextWithLabel variant="full" label="Nom Complet" text={fullName} />
             <TextWithLabel variant="outlined" label="DNI" text={dni} />
             <TextWithLabel variant="outlined" label="Email" text={email} />
             <TextWithLabel
