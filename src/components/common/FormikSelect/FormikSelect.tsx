@@ -18,6 +18,7 @@ interface FormikSelectProps {
   items: FormikSelectItem[];
   label: string;
   required?: boolean;
+  variant?: string;
 }
 
 interface MaterialUISelectFieldProps extends FieldInputProps<string> {
@@ -25,6 +26,7 @@ interface MaterialUISelectFieldProps extends FieldInputProps<string> {
   children: ReactNode;
   label: string;
   required: boolean;
+  variant: 'filled' | 'outlined' | 'standard';
 }
 
 function MaterialUISelectField({
@@ -36,11 +38,21 @@ function MaterialUISelectField({
   onChange,
   onBlur,
   required,
+  variant,
 }: MaterialUISelectFieldProps) {
   return (
-    <FormControl fullWidth>
-      <InputLabel required={required}>{label}</InputLabel>
-      <Select name={name} onChange={onChange} onBlur={onBlur} value={value}>
+    <FormControl fullWidth variant={variant}>
+      <InputLabel htmlFor={name} required={required}>
+        {label}
+      </InputLabel>
+      <Select
+        label={label}
+        name={name}
+        onChange={onChange}
+        onBlur={onBlur}
+        required={required}
+        value={value}
+      >
         {children}
       </Select>
       <FormHelperText>{errorString}</FormHelperText>
@@ -53,6 +65,7 @@ export default function FormikSelect({
   items,
   label,
   required = false,
+  variant = 'standard',
 }: FormikSelectProps) {
   return (
     <div className="FormikSelect">
@@ -62,6 +75,7 @@ export default function FormikSelect({
         label={label}
         errorString={<ErrorMessage name={name} />}
         required={required}
+        variant={variant}
       >
         {items.map(item => (
           <MenuItem key={item.value} value={item.value}>

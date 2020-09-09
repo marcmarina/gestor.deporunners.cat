@@ -9,6 +9,7 @@ interface FormikFieldProps {
   label: string;
   type?: string;
   required?: boolean;
+  variant?: 'filled' | 'outlined' | 'standard';
 }
 
 export default function FormikField({
@@ -16,6 +17,7 @@ export default function FormikField({
   label,
   type = 'text',
   required = false,
+  variant = 'standard',
 }: FormikFieldProps) {
   return (
     <div className="FormikField">
@@ -26,6 +28,7 @@ export default function FormikField({
         label={label}
         name={name}
         fullWidth
+        variant={variant}
         type={type}
         helperText={<ErrorMessage name={name} />}
       />
