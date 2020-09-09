@@ -4,3 +4,31 @@
   max-width: fit-content;
   flex-direction: column;
 }
+
+.button-container {
+  padding: 10px 0px;
+  display: flex;
+  max-width: fit-content;
+}
+
+.button {
+  margin: 0px 10px 0px 0px;
+  color: #f6f6f6;
+  max-width: fit-content;
+}
+
+.edit {
+  background-color: #ffa726;
+}
+
+.edit:hover {
+  background-color: #ff9800;
+}
+
+.delete {
+  background-color: #ef5350;
+}
+
+.delete:hover {
+  background-color: #f44336;
+}

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Grid, Paper } from '@material-ui/core';
+import { Button, Grid, Paper } from '@material-ui/core';
+import EditOutlined from '@material-ui/icons/EditOutlined';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
 import TextWithLabel from '../common/TextWithLabel';
 
 import { fetchById } from '../../services/member';
+
 import './style.css';
 
 type TParams = {
@@ -31,7 +34,7 @@ export default function SingleMember() {
 
   const { id } = useParams<TParams>();
 
-  const { replace } = useHistory();
+  const { replace, push } = useHistory();
 
   const retrieveData = async (id: string) => {
     try {
@@ -42,6 +45,14 @@ export default function SingleMember() {
       replace('/socis');
       console.log(ex);
     }
+  };
+
+  const handleEdit = () => {
+    push(`/socis/edit/${id}`);
+  };
+
+  const handleDelete = () => {
+    // TO-DO
   };
 
   useEffect(() => {
@@ -106,6 +117,24 @@ export default function SingleMember() {
           </Grid>
         </Grid>
       </Paper>
+      <div className="button-container">
+        <Button
+          variant="contained"
+          className="button edit"
+          onClick={handleEdit}
+        >
+          <EditOutlined />
+          Editar
+        </Button>
+        <Button
+          variant="contained"
+          className="button delete"
+          onClick={handleDelete}
+        >
+          <DeleteOutline />
+          Eliminar
+        </Button>
+      </div>
     </div>
   );
 }
