@@ -16,7 +16,10 @@ export default function TextWithLabel({
 }: Props) {
   return (
     <div className="container">
-      <div className="label-container">
+      <div
+        className="label-container"
+        onClick={() => navigator.clipboard.writeText(text)}
+      >
         <Typography className={`label ${variant}`} variant="button">
           {label}
         </Typography>

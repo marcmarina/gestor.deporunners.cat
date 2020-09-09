@@ -8,23 +8,36 @@
   border-radius: 4px;
 }
 
+.label:hover {
+  cursor: pointer;
+}
+
 .label-container {
   margin-bottom: 5px;
 }
 
-.outlined {
-  color: #5c6bc0;
-  border: #5c6bc0 solid 2px;
-  padding: 2px;
-}
-
+.outlined:hover,
 .full {
   color: #f6f6f6;
   background-color: #5c6bc0;
+}
+
+.full:hover,
+.outlined {
+  background-color: #ffffff;
+  color: #5c6bc0;
+  border: #5c6bc0 solid 2px;
+  padding: 2px;
 }
 
 .text {
   color: #5c6bc0;
   margin: 0px;
   padding: 0px;
+}
+
+.text:hover {
+  background-color: #5c6bc0cc;
+  padding: 4px;
+  color: #f6f6f6;
 }
