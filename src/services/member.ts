@@ -1,5 +1,19 @@
 import http from './http';
 
+interface Member {
+  firstName: string;
+  lastName: string;
+  numMember: number;
+  email: string;
+  dni: string;
+  telephone: string;
+  address: {
+    postCode: string;
+    streetAddress: string;
+    town: string;
+  };
+}
+
 export const fetchMembers = async () => {
   try {
     const members = await http.get('/member');
@@ -24,5 +38,14 @@ export const deleteById = async (id: string) => {
     return res;
   } catch (ex) {
     throw ex;
+  }
+};
+
+export const updateById = async (member: Member) => {
+  try {
+    const res = await http.put(`/member`, member);
+    return res;
+  } catch (ex) {
+    console.log(ex);
   }
 };

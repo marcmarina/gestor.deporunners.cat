@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Button, Paper } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 
 import FormikField from '../common/FormikField';
 
-import { fetchById } from '../../services/member';
+import { fetchById, updateById } from '../../services/member';
 
 import './style.css';
 import http from '../../services/http';
@@ -19,6 +19,7 @@ type TParams = {
 };
 
 interface Member {
+  _id: string;
   firstName: string;
   lastName: string;
   numMember: number;
@@ -37,6 +38,7 @@ export default function EditMember() {
   const [towns, setTowns] = useState<any>([]);
 
   const { id } = useParams<TParams>();
+  const { push } = useHistory();
 
   const retrieveMember = async (id: string) => {
     try {
@@ -77,7 +79,12 @@ export default function EditMember() {
   });
 
   const handleSubmit = async (values: Member) => {
-    alert(JSON.stringify(values));
+    try {
+      const res = await updateById(values);
+      if (res?.status === 200) push(`/socis/${member?._id}`);
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
   if (!member || !towns) return null;
