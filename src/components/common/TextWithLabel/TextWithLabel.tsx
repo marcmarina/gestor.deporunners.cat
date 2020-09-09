@@ -6,13 +6,13 @@ import './style.css';
 interface Props {
   label: string;
   text: string;
-  variant: 'full' | 'outlined';
+  variant: 'full' | 'outlined' | 'text';
 }
 
 export default function TextWithLabel({
   label,
   text,
-  variant = 'full',
+  variant = 'text',
 }: Props) {
   return (
     <div className="container">
