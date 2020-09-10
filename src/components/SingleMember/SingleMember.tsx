@@ -82,11 +82,31 @@ export default function SingleMember() {
   const fullName = `${firstName} ${lastName}`;
 
   return (
-    <div>
-      <h1>
-        {fullName} - {padStart(numMember.toString(), 3, '0')}
-      </h1>
-      <Paper className="member-info-container">
+    <div className="member-info-container">
+      <div className="heading">
+        <h1 className="header">
+          {fullName} - {padStart(numMember.toString(), 3, '0')}
+        </h1>
+        <div className="button-container">
+          <Button
+            variant="contained"
+            className="button edit"
+            onClick={handleEdit}
+          >
+            <EditOutlined />
+            Editar
+          </Button>
+          <Button
+            variant="contained"
+            className="button delete"
+            onClick={handleDelete}
+          >
+            <DeleteOutline />
+            Eliminar
+          </Button>
+        </div>
+      </div>
+      <Paper>
         <Grid container spacing={3}>
           <Grid item xs>
             <TextWithLabel
@@ -121,24 +141,6 @@ export default function SingleMember() {
           </Grid>
         </Grid>
       </Paper>
-      <div className="button-container">
-        <Button
-          variant="contained"
-          className="button edit"
-          onClick={handleEdit}
-        >
-          <EditOutlined />
-          Editar
-        </Button>
-        <Button
-          variant="contained"
-          className="button delete"
-          onClick={handleDelete}
-        >
-          <DeleteOutline />
-          Eliminar
-        </Button>
-      </div>
     </div>
   );
 }
