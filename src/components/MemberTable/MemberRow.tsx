@@ -22,7 +22,6 @@ export default function MemberRow({
   handleView,
 }: Props) {
   const { user } = useAuth();
-  if (!user) return null;
 
   return (
     <TableRow key={member._id} className="table__row">
@@ -54,7 +53,7 @@ export default function MemberRow({
           >
             <Edit />
           </Button>
-          {user.role.name === 'Admin' && (
+          {user?.role.name === 'Admin' && (
             <Button
               className="IconButton DeleteButton"
               onClick={() => handleDelete(member._id)}

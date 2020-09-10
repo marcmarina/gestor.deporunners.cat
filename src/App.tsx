@@ -15,11 +15,21 @@ import './App.css';
 
 function App() {
   const [user, setUser] = useState<User>();
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const storedUser = getUser();
-    if (storedUser) setUser(storedUser);
+    restoreToken();
   }, []);
+
+  const restoreToken = async () => {
+    const user = getUser();
+    if (user) {
+      setUser(user);
+    }
+    setIsReady(true);
+  };
+
+  if (!isReady) return null;
 
   return (
     <StylesProvider injectFirst>
