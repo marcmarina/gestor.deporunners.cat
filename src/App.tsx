@@ -6,6 +6,7 @@ import './App.css';
 import AuthContext from './auth/context';
 import { getUser } from './auth/storage';
 import { StylesProvider } from '@material-ui/core';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 function App() {
   const [user, setUser] = useState();
@@ -20,8 +21,7 @@ function App() {
       <AuthContext.Provider value={{ user, setUser }}>
         <Switch>
           <Route path="/login" component={LoginScreen} />
-          {/* <Redirect from="/" to="/login" /> */}
-          <Route path="/" component={HomeScreen} />
+          <ProtectedRoute path="/" component={HomeScreen} />
         </Switch>
       </AuthContext.Provider>
     </StylesProvider>
