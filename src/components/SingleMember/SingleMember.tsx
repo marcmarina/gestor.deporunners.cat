@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import { Button, Grid, Paper } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Paper,
+} from '@material-ui/core';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
 import TextWithLabel from '../common/TextWithLabel';
 
-import { fetchById } from '../../services/member';
+import { deleteById, fetchById } from '../../services/member';
 
 import './style.css';
 
@@ -35,6 +44,7 @@ interface Member {
 
 export default function SingleMember() {
   const [member, setMember] = useState<Member>();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { id } = useParams<TParams>();
 
@@ -56,7 +66,20 @@ export default function SingleMember() {
   };
 
   const handleDelete = () => {
-    // TO-DO
+    setDialogOpen(true);
+  };
+
+  const deleteMember = async () => {
+    try {
+      const { status } = await deleteById(id);
+      if (status === 200) {
+        replace('/socis');
+      } else {
+        alert("No s'ha pogut eliminar el soci");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
   useEffect(() => {
@@ -141,6 +164,28 @@ export default function SingleMember() {
           </Grid>
         </Grid>
       </Paper>
+      <Dialog
+        open={dialogOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Confirmar operació'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Segur que vols eliminar aquest soci? Aquesta acció es irreversible.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary">
+            No
+          </Button>
+          <Button onClick={deleteMember} color="primary" autoFocus>
+            Si
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
