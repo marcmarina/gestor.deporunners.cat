@@ -14,7 +14,7 @@ import User from './interfaces/User';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     const storedUser = getUser();

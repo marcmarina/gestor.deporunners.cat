@@ -22,6 +22,7 @@ export default function MemberRow({
   handleView,
 }: Props) {
   const { user } = useAuth();
+  if (!user) return null;
 
   return (
     <TableRow key={member._id} className="table__row">
