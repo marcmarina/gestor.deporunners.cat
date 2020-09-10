@@ -18,6 +18,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
 import EditMember from './EditMember';
+import ProtectedRoute from './common/ProtectedRoute';
 
 const drawerWidth = 240;
 
@@ -159,9 +160,9 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Switch>
-            <Route path="/socis/edit/:id" component={EditMember} />
-            <Route path="/socis/:id" component={SingleMember} />
-            <Route path="/socis" component={MemberTable} />
+            <ProtectedRoute path="/socis/edit/:id" component={EditMember} />
+            <ProtectedRoute path="/socis/:id" component={SingleMember} />
+            <ProtectedRoute path="/socis" component={MemberTable} />
             <Redirect from="/" to="/socis" />
           </Switch>
         </Container>
