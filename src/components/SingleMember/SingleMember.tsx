@@ -26,6 +26,10 @@ interface Member {
   address: {
     postCode: string;
     streetAddress: string;
+    town: {
+      _id: string;
+      name: string;
+    };
   };
 }
 
@@ -74,7 +78,7 @@ export default function SingleMember() {
 
   const fakeIban = 'ES12 1234 1234 1234 1234';
 
-  const fullAddress = `${address.streetAddress}, ${address.postCode}`;
+  const fullAddress = `${address.streetAddress}, ${address.postCode}, ${address.town.name}`;
   const fullName = `${firstName} ${lastName}`;
 
   return (

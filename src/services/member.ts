@@ -10,7 +10,10 @@ interface Member {
   address: {
     postCode: string;
     streetAddress: string;
-    town: string;
+    town: {
+      _id: string;
+      name: string;
+    };
   };
 }
 

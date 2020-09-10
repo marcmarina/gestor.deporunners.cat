@@ -29,7 +29,10 @@ interface Member {
   address: {
     postCode: string;
     streetAddress: string;
-    town: string;
+    town: {
+      _id: string;
+      name: string;
+    };
   };
 }
 
@@ -165,7 +168,7 @@ export default function EditMember() {
                 <FormikSelect
                   variant="outlined"
                   label="Ciutat"
-                  name="address.town"
+                  name="address.town._id"
                   items={selectItems}
                   required
                 />
