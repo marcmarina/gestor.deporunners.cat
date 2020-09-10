@@ -81,7 +81,7 @@ export default function LoginScreen() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Iniciar Sessió
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -108,10 +108,6 @@ export default function LoginScreen() {
             autoComplete="current-password"
             onChange={({ target }) => setPassword(target.value)}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -120,20 +116,20 @@ export default function LoginScreen() {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Sign In
+            Iniciar Sessió
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Has oblidat la contrasenya?
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
+      {/* <Box mt={8}>
         <Copyright />
-      </Box>
+      </Box> */}
     </Container>
   );
 }
