@@ -6,6 +6,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 
 import { Member } from '../../interfaces/Member';
+import useAuth from '../../auth/useAuth';
 
 interface Props {
   member: Member;
@@ -20,6 +21,8 @@ export default function MemberRow({
   handleEdit,
   handleView,
 }: Props) {
+  const { user } = useAuth();
+
   return (
     <TableRow key={member._id} className="table__row">
       <TableCell align="left">
@@ -50,12 +53,14 @@ export default function MemberRow({
           >
             <Edit />
           </Button>
-          <Button
-            className="IconButton DeleteButton"
-            onClick={() => handleDelete(member._id)}
-          >
-            <Delete />
-          </Button>
+          {user.role.name === 'Admin' && (
+            <Button
+              className="IconButton DeleteButton"
+              onClick={() => handleDelete(member._id)}
+            >
+              <Delete />
+            </Button>
+          )}
         </ButtonGroup>
       </TableCell>
     </TableRow>

@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { StylesProvider } from '@material-ui/core';
+
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
-import './App.css';
-import AuthContext from './auth/context';
-import { getUser } from './auth/storage';
-import { StylesProvider } from '@material-ui/core';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
+import AuthContext from './auth/context';
+import { getUser } from './auth/storage';
+
+import User from './interfaces/User';
+
+import './App.css';
+
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     const storedUser = getUser();
