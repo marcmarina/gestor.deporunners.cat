@@ -6,20 +6,17 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {
-  ButtonGroup,
-  TableFooter,
-  TablePagination,
-  Button,
-} from '@material-ui/core';
-import { Delete, Edit, Visibility } from '@material-ui/icons';
-import { padStart } from 'lodash';
+import { TableFooter, TablePagination } from '@material-ui/core';
+
+import MemberRow from './MemberRow';
 
 import { deleteById, fetchMembers } from '../../services/member';
 import { paginate } from '../../utils/paginate';
 import { useHistory } from 'react-router-dom';
 
 import './style.css';
+
+import { Member } from '../../interfaces/Member';
 
 export default function SimpleTable() {
   const [members, setMembers] = useState<any>([]);
@@ -32,6 +29,14 @@ export default function SimpleTable() {
     } catch (ex) {
       console.log(ex);
     }
+  };
+
+  const handleView = (id: string) => {
+    push(`/socis/${id}`);
+  };
+
+  const handleEdit = (id: string) => {
+    push(`/socis/edit/${id}`);
   };
 
   const handleDelete = async (id: string) => {
@@ -81,45 +86,13 @@ export default function SimpleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {paginate(members, page + 1, rowsPerPage).map((row: any) => (
-            <TableRow key={row._id} className="table__row">
-              <TableCell align="left">
-                {padStart(row.numMember.toString(), 3, '0')}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.firstName} {row.lastName}
-              </TableCell>
-              <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">{row.dni}</TableCell>
-              <TableCell align="left">{row.telephone}</TableCell>
-              <TableCell align="right">
-                <ButtonGroup
-                  color="primary"
-                  variant="outlined"
-                  aria-label="text primary button group"
-                  size="small"
-                >
-                  <Button
-                    className="IconButton ViewButton"
-                    onClick={() => push(`/socis/${row._id}`)}
-                  >
-                    <Visibility />
-                  </Button>
-                  <Button
-                    className="IconButton EditButton"
-                    onClick={() => push(`/socis/edit/${row._id}`)}
-                  >
-                    <Edit />
-                  </Button>
-                  <Button
-                    className="IconButton DeleteButton"
-                    onClick={() => handleDelete(row._id)}
-                  >
-                    <Delete />
-                  </Button>
-                </ButtonGroup>
-              </TableCell>
-            </TableRow>
+          {paginate(members, page + 1, rowsPerPage).map((row: Member) => (
+            <MemberRow
+              member={row}
+              handleView={handleView}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           ))}
         </TableBody>
         <TableFooter>

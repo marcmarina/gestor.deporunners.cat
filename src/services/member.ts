@@ -1,21 +1,6 @@
 import http from './http';
 
-interface Member {
-  firstName: string;
-  lastName: string;
-  numMember: number;
-  email: string;
-  dni: string;
-  telephone: string;
-  address: {
-    postCode: string;
-    streetAddress: string;
-    town: {
-      _id: string;
-      name: string;
-    };
-  };
-}
+import { Member } from '../interfaces/Member';
 
 export const fetchMembers = async () => {
   try {

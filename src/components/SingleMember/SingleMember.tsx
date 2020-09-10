@@ -17,30 +17,13 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import TextWithLabel from '../common/TextWithLabel';
 
 import { deleteById, fetchById } from '../../services/member';
+import { Member } from '../../interfaces/Member';
 
 import './style.css';
 
 type TParams = {
   id: string;
 };
-
-interface Member {
-  firstName: string;
-  lastName: string;
-  numMember: number;
-  email: string;
-  dni: string;
-  telephone: string;
-  iban?: string;
-  address: {
-    postCode: string;
-    streetAddress: string;
-    town: {
-      _id: string;
-      name: string;
-    };
-  };
-}
 
 export default function SingleMember() {
   const [member, setMember] = useState<Member>();

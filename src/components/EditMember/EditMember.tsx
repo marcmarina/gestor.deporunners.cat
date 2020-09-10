@@ -9,6 +9,7 @@ import { Formik, Form } from 'formik';
 import FormikField from '../common/FormikField';
 
 import { fetchById, updateById } from '../../services/member';
+import { Member } from '../../interfaces/Member';
 
 import './style.css';
 import http from '../../services/http';
@@ -17,24 +18,6 @@ import FormikSelect from '../common/FormikSelect';
 type TParams = {
   id: string;
 };
-
-interface Member {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  numMember: number;
-  email: string;
-  dni: string;
-  telephone: string;
-  address: {
-    postCode: string;
-    streetAddress: string;
-    town: {
-      _id: string;
-      name: string;
-    };
-  };
-}
 
 export default function EditMember() {
   const [member, setMember] = useState<Member>();
