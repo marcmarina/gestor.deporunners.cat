@@ -6,7 +6,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { TableFooter, TablePagination } from '@material-ui/core';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TableFooter,
+  TablePagination,
+} from '@material-ui/core';
 
 import MemberRow from './MemberRow';
 
@@ -21,6 +30,8 @@ import { Member } from '../../interfaces/Member';
 export default function SimpleTable() {
   const [members, setMembers] = useState<any>([]);
   const [page, setPage] = useState(0);
+  const [memberId, setMemberId] = useState<string>();
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const retrieveData = async () => {
     try {
@@ -39,11 +50,20 @@ export default function SimpleTable() {
     push(`/socis/edit/${id}`);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
+    setDialogOpen(true);
+    setMemberId(id);
+  };
+
+  const deleteMember = async () => {
     try {
-      const res = await deleteById(id);
-      if (res.status === 200) {
-        setMembers(members.filter((item: any) => item._id !== id));
+      if (memberId) {
+        const res = await deleteById(memberId);
+        if (res.status === 200) {
+          setMembers(members.filter((item: any) => item._id !== memberId));
+          setMemberId(undefined);
+          setDialogOpen(false);
+        }
       }
     } catch (ex) {
       console.log(ex);
@@ -65,48 +85,72 @@ export default function SimpleTable() {
   const rowsPerPage = 10;
 
   return (
-    <TableContainer component={Paper}>
-      <Table className="table" aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Num. Soci</TableCell>
-            <TableCell>Nom Complet</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">DNI</TableCell>
-            <TableCell align="left">Telefon</TableCell>
-            {/* <TableCell align="right"> */}
-            <TablePagination
-              rowsPerPageOptions={[]}
-              count={members.length}
-              page={page}
-              onChangePage={handlePageChange}
-              rowsPerPage={rowsPerPage}
-            />
-            {/* </TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {paginate(members, page + 1, rowsPerPage).map((row: Member) => (
-            <MemberRow
-              member={row}
-              handleView={handleView}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[]}
-              count={members.length}
-              page={page}
-              onChangePage={handlePageChange}
-              rowsPerPage={rowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer component={Paper}>
+        <Table className="table" aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Num. Soci</TableCell>
+              <TableCell>Nom Complet</TableCell>
+              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">DNI</TableCell>
+              <TableCell align="left">Telefon</TableCell>
+              {/* <TableCell align="right"> */}
+              <TablePagination
+                rowsPerPageOptions={[]}
+                count={members.length}
+                page={page}
+                onChangePage={handlePageChange}
+                rowsPerPage={rowsPerPage}
+              />
+              {/* </TableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginate(members, page + 1, rowsPerPage).map((row: Member) => (
+              <MemberRow
+                member={row}
+                handleView={handleView}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[]}
+                count={members.length}
+                page={page}
+                onChangePage={handlePageChange}
+                rowsPerPage={rowsPerPage}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+      <Dialog
+        open={dialogOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Confirmar operació'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Segur que vols eliminar aquest soci? Aquesta acció es irreversible.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary">
+            No
+          </Button>
+          <Button onClick={deleteMember} color="primary" autoFocus>
+            Si
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
