@@ -12,13 +12,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './listItems';
+import SidebarItems from './SidebarItems';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
 import EditMember from './EditMember';
-import ProtectedRoute from './common/ProtectedRoute';
 
 const drawerWidth = 240;
 
@@ -154,7 +153,9 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <SidebarItems />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

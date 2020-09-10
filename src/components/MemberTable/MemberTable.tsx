@@ -109,6 +109,7 @@ export default function SimpleTable() {
           <TableBody>
             {paginate(members, page + 1, rowsPerPage).map((row: Member) => (
               <MemberRow
+                key={row._id}
                 member={row}
                 handleView={handleView}
                 handleEdit={handleEdit}

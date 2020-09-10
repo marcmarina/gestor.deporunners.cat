@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import useAuth from '../auth/useAuth';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import http from '../services/http';
 
 function Copyright() {
@@ -53,7 +53,6 @@ export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const classes = useStyles();
-  const history = useHistory();
 
   const { login, user } = useAuth();
 
@@ -72,7 +71,7 @@ export default function LoginScreen() {
     }
   };
 
-  if (user) history.push('/');
+  if (user) return <Redirect to="/socis" />;
 
   return (
     <Container component="main" maxWidth="xs">
