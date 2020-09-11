@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
 import {
@@ -33,16 +33,19 @@ export default function SingleMember() {
 
   const { replace, push } = useHistory();
 
-  const retrieveData = async (id: string) => {
-    try {
-      const { data } = await fetchById(id);
-      if (data) setMember(data);
-      else replace('/socis');
-    } catch (ex) {
-      replace('/socis');
-      console.log(ex);
-    }
-  };
+  const retrieveData = useCallback(
+    async (id: string) => {
+      try {
+        const { data } = await fetchById(id);
+        if (data) setMember(data);
+        else replace('/socis');
+      } catch (ex) {
+        replace('/socis');
+        console.log(ex);
+      }
+    },
+    [replace]
+  );
 
   const handleEdit = () => {
     push(`/socis/edit/${id}`);
@@ -67,7 +70,7 @@ export default function SingleMember() {
 
   useEffect(() => {
     retrieveData(id);
-  }, [id]);
+  }, [id, retrieveData]);
 
   if (!member) return null;
 
