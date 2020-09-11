@@ -21,14 +21,14 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import MemberRow from './MemberRow';
 
-import { deleteById, fetchMembers } from '../../services/member';
-import { paginate } from '../../utils/paginate';
+import { deleteById, fetchMembers } from 'services/member';
+import { paginate } from 'utils/paginate';
 import { useHistory } from 'react-router-dom';
 
 import './style.css';
 
-import { Member } from '../../interfaces/Member';
-import ConfirmDialog from '../common/ConfirmDialog';
+import { Member } from 'interfaces/Member';
+import ConfirmDialog from 'components/common/ConfirmDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -5,8 +5,8 @@ import { padStart } from 'lodash';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 
-import { Member } from '../../interfaces/Member';
-import useAuth from '../../auth/useAuth';
+import { Member } from 'interfaces/Member';
+import useAuth from 'auth/useAuth';
 
 interface Props {
   member: Member;

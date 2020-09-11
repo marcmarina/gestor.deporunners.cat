@@ -13,9 +13,9 @@ import { Redirect } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import * as Yup from 'yup';
 
-import useAuth from '../../auth/useAuth';
-import http from '../../services/http';
-import FormikField from '../common/FormikField';
+import useAuth from 'auth/useAuth';
+import http from 'services/http';
+import FormikField from 'components/common/FormikField';
 import { Form, Formik, FormikHelpers } from 'formik';
 
 import './style.css';

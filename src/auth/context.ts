@@ -1,5 +1,5 @@
 import React from 'react';
-import User from '../interfaces/User';
+import User from 'interfaces/User';
 
 interface UserContext {
   user: User;

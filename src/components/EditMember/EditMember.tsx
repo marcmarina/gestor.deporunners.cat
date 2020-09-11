@@ -6,14 +6,14 @@ import { useHistory, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 
-import FormikField from '../common/FormikField';
+import FormikField from 'components/common/FormikField';
 
-import { fetchById, updateById } from '../../services/member';
-import { Member } from '../../interfaces/Member';
+import { fetchById, updateById } from 'services/member';
+import { Member } from 'interfaces/Member';
 
 import './style.css';
-import http from '../../services/http';
-import FormikSelect from '../common/FormikSelect';
+import http from 'services/http';
+import FormikSelect from 'components/common/FormikSelect';
 
 type TParams = {
   id: string;

@@ -5,13 +5,13 @@ import { Button, Grid, Paper } from '@material-ui/core';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
-import TextWithLabel from '../common/TextWithLabel';
+import TextWithLabel from 'components/common/TextWithLabel';
 
-import { deleteById, fetchById } from '../../services/member';
-import { Member } from '../../interfaces/Member';
+import { deleteById, fetchById } from 'services/member';
+import { Member } from 'interfaces/Member';
 
 import './style.css';
-import ConfirmDialog from '../common/ConfirmDialog';
+import ConfirmDialog from 'components/common/ConfirmDialog';
 
 type TParams = {
   id: string;
