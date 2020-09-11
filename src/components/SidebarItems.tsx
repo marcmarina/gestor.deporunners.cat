@@ -9,14 +9,11 @@ import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import { NavLink } from 'react-router-dom';
 
 import { Divider } from '@material-ui/core';
-import { ExitToAppOutlined } from '@material-ui/icons';
-
-import useAuth from '../auth/useAuth';
+import LogoutNavButton from './common/LogoutNavButton';
 
 import './sidebar.css';
 
 export default function MainListItems() {
-  const { logout } = useAuth();
   return (
     <div>
       <NavLink to="/socis" className="navbarLink">
@@ -46,12 +43,7 @@ export default function MainListItems() {
         </ListItemIcon>
         <ListItemText primary="Preferències" />
       </ListItem>
-      <ListItem button onClick={() => logout()}>
-        <ListItemIcon>
-          <ExitToAppOutlined style={{ color: '#F44336' }} />
-        </ListItemIcon>
-        <ListItemText primary="Tancar Sessió" style={{ color: '#F44336' }} />
-      </ListItem>
+      <LogoutNavButton />
     </div>
   );
 }
