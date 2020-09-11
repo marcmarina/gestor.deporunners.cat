@@ -33,20 +33,6 @@ export default function SingleMember() {
 
   const { replace, push } = useHistory();
 
-  const retrieveData = useCallback(
-    async (id: string) => {
-      try {
-        const { data } = await fetchById(id);
-        if (data) setMember(data);
-        else replace('/socis');
-      } catch (ex) {
-        replace('/socis');
-        console.log(ex);
-      }
-    },
-    [replace]
-  );
-
   const handleEdit = () => {
     push(`/socis/edit/${id}`);
   };
@@ -68,8 +54,19 @@ export default function SingleMember() {
     }
   };
 
+  const retrieveData = useCallback(async () => {
+    try {
+      const { data } = await fetchById(id);
+      if (data) setMember(data);
+      else replace('/socis');
+    } catch (ex) {
+      replace('/socis');
+      console.log(ex);
+    }
+  }, [id, replace]);
+
   useEffect(() => {
-    retrieveData(id);
+    retrieveData();
   }, [id, retrieveData]);
 
   if (!member) return null;
