@@ -16,12 +16,14 @@ import {
   DialogContentText,
   DialogTitle,
   fade,
+  IconButton,
   InputBase,
   makeStyles,
   TableFooter,
   TablePagination,
   Theme,
 } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import MemberRow from './MemberRow';
 
@@ -45,31 +47,28 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
       marginBottom: 10,
       width: '25%',
-      // [theme.breakpoints.up('sm')]: {
-      //   marginLeft: theme.spacing(3),
-      //   width: 'auto',
-      // },
+      display: 'flex',
     },
     searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: '100%',
-      position: 'absolute',
       pointerEvents: 'none',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      flexGrow: 1,
+      padding: '0px 10px',
     },
-    inputRoot: {
-      color: 'inherit',
+    searchBar: {
+      flexGrow: 2,
+    },
+    clearIcon: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexGrow: 1,
     },
     inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create('width'),
+      padding: '10px',
       width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
     },
   })
 );
@@ -166,15 +165,22 @@ export default function SimpleTable() {
         <div className={classes.searchIcon}>
           <SearchIcon />
         </div>
-        <InputBase
-          placeholder="Cercar..."
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search' }}
-          onChange={handleSearch}
-        />
+        <div className={classes.searchBar}>
+          <InputBase
+            placeholder="Cercar..."
+            classes={{
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+            value={searchFilter ? searchFilter : ''}
+            onChange={handleSearch}
+          />
+        </div>
+        <div className={classes.clearIcon}>
+          <IconButton size="small" onClick={() => setSearchFilter(undefined)}>
+            <ClearIcon />
+          </IconButton>
+        </div>
       </div>
       <TableContainer component={Paper}>
         <Table className="table" aria-label="simple table">
