@@ -96,7 +96,7 @@ export default function EditMember() {
         validationSchema={validationSchema}
       >
         {({ dirty, isValid }) => (
-          <Form>
+          <Form noValidate>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <FormikField

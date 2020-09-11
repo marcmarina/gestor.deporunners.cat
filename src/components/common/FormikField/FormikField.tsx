@@ -30,6 +30,7 @@ export default function FormikField({
         fullWidth
         variant={variant}
         type={type}
+        noValidate
         helperText={<ErrorMessage name={name} />}
       />
     </div>
