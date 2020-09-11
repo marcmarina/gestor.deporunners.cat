@@ -1,16 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  Paper,
-} from '@material-ui/core';
+import { Button, Grid, Paper } from '@material-ui/core';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
@@ -20,6 +11,7 @@ import { deleteById, fetchById } from '../../services/member';
 import { Member } from '../../interfaces/Member';
 
 import './style.css';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 type TParams = {
   id: string;
@@ -147,28 +139,13 @@ export default function SingleMember() {
           </Grid>
         </Grid>
       </Paper>
-      <Dialog
+      <ConfirmDialog
+        text="Segur que vols eliminar aquest soci? Aquesta acció es irreversible."
+        title="Confirmar Operació"
         open={dialogOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {'Confirmar operació'}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Segur que vols eliminar aquest soci? Aquesta acció es irreversible.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} color="primary">
-            No
-          </Button>
-          <Button onClick={deleteMember} color="primary" autoFocus>
-            Si
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleYes={deleteMember}
+        handleNo={() => setDialogOpen(false)}
+      />
     </div>
   );
 }

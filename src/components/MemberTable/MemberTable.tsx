@@ -8,13 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import {
-  Button,
   createStyles,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   fade,
   IconButton,
   InputBase,
@@ -34,6 +28,7 @@ import { useHistory } from 'react-router-dom';
 import './style.css';
 
 import { Member } from '../../interfaces/Member';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -226,28 +221,13 @@ export default function SimpleTable() {
           </TableFooter>
         </Table>
       </TableContainer>
-      <Dialog
+      <ConfirmDialog
+        text="Segur que vols eliminar aquest soci? Aquesta acció es irreversible."
+        title="Confirmar Operació"
         open={dialogOpen}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {'Confirmar operació'}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Segur que vols eliminar aquest soci? Aquesta acció es irreversible.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} color="primary">
-            No
-          </Button>
-          <Button onClick={deleteMember} color="primary" autoFocus>
-            Si
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleYes={deleteMember}
+        handleNo={() => setDialogOpen(false)}
+      />
     </>
   );
 }
