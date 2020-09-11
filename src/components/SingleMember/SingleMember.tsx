@@ -54,7 +54,7 @@ export default function SingleMember() {
     }
   };
 
-  const retrieveData = useCallback(async () => {
+  const retrieveMember = useCallback(async () => {
     try {
       const { data } = await fetchById(id);
       if (data) setMember(data);
@@ -66,8 +66,8 @@ export default function SingleMember() {
   }, [id, replace]);
 
   useEffect(() => {
-    retrieveData();
-  }, [id, retrieveData]);
+    retrieveMember();
+  }, [id, retrieveMember]);
 
   if (!member) return null;
 

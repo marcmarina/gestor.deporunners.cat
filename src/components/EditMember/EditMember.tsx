@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Button, Paper } from '@material-ui/core';
@@ -24,16 +24,18 @@ export default function EditMember() {
   const [towns, setTowns] = useState<any>([]);
 
   const { id } = useParams<TParams>();
-  const { push } = useHistory();
+  const { push, replace } = useHistory();
 
-  const retrieveMember = async (id: string) => {
+  const retrieveMember = useCallback(async () => {
     try {
       const { data } = await fetchById(id);
-      setMember(data);
+      if (data) setMember(data);
+      else replace('/socis');
     } catch (ex) {
+      replace('/socis');
       console.log(ex);
     }
-  };
+  }, [id, replace]);
 
   const retrieveTowns = async () => {
     try {
@@ -46,8 +48,8 @@ export default function EditMember() {
 
   useEffect(() => {
     retrieveTowns();
-    retrieveMember(id);
-  }, [id]);
+    retrieveMember();
+  }, [id, retrieveMember]);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
