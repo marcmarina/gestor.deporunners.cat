@@ -5,16 +5,22 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import {
   Button,
+  createStyles,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  fade,
+  InputBase,
+  makeStyles,
   TableFooter,
   TablePagination,
+  Theme,
 } from '@material-ui/core';
 
 import MemberRow from './MemberRow';
@@ -27,11 +33,55 @@ import './style.css';
 
 import { Member } from '../../interfaces/Member';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade('#aaa', 0.15),
+      '&:hover': {
+        backgroundColor: fade('#aaa', 0.25),
+      },
+      marginRight: theme.spacing(2),
+      marginBottom: 10,
+      width: '25%',
+      // [theme.breakpoints.up('sm')]: {
+      //   marginLeft: theme.spacing(3),
+      //   width: 'auto',
+      // },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+  })
+);
+
 export default function SimpleTable() {
   const [members, setMembers] = useState<any>([]);
   const [page, setPage] = useState(0);
   const [memberId, setMemberId] = useState<string>();
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [searchFilter, setSearchFilter] = useState<string>();
+
+  const classes = useStyles();
 
   const retrieveData = async () => {
     try {
@@ -78,14 +128,54 @@ export default function SimpleTable() {
 
   if (members.length === 0) return null;
 
-  const handlePageChange = (event: unknown, newPage: number) => {
-    setPage(newPage);
+  const handlePageChange = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    page: number
+  ) => {
+    setPage(page);
+  };
+
+  const handleSearch = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearchFilter(event.target.value.toString());
+    setPage(0);
+  };
+
+  const searchMembers = (members: Member[]) => {
+    const filteredMembers = [...members];
+    if (searchFilter) {
+      return filteredMembers.filter(member => {
+        const fullName = member.firstName + ' ' + member.lastName;
+        if (fullName.toLowerCase().includes(searchFilter.toLowerCase())) {
+          return member;
+        } else {
+          return null;
+        }
+      });
+    }
+    return filteredMembers;
   };
 
   const rowsPerPage = 10;
+  const filteredMembers = searchMembers(members);
 
   return (
     <>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Cercar..."
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={handleSearch}
+        />
+      </div>
       <TableContainer component={Paper}>
         <Table className="table" aria-label="simple table">
           <TableHead>
@@ -95,33 +185,33 @@ export default function SimpleTable() {
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">DNI</TableCell>
               <TableCell align="left">Telefon</TableCell>
-              {/* <TableCell align="right"> */}
               <TablePagination
                 rowsPerPageOptions={[]}
-                count={members.length}
+                count={filteredMembers.length}
                 page={page}
                 onChangePage={handlePageChange}
                 rowsPerPage={rowsPerPage}
               />
-              {/* </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginate(members, page + 1, rowsPerPage).map((row: Member) => (
-              <MemberRow
-                key={row._id}
-                member={row}
-                handleView={handleView}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            ))}
+            {paginate(filteredMembers, page + 1, rowsPerPage).map(
+              (row: Member) => (
+                <MemberRow
+                  key={row._id}
+                  member={row}
+                  handleView={handleView}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              )
+            )}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[]}
-                count={members.length}
+                count={filteredMembers.length}
                 page={page}
                 onChangePage={handlePageChange}
                 rowsPerPage={rowsPerPage}
