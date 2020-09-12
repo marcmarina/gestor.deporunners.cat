@@ -42,7 +42,7 @@ export default function MemberRow({ member, handleDelete }: Props) {
             </LinkWithComponent>
           </Button>
           <Button className="IconButton EditButton">
-            <LinkWithComponent to={`/socis/${member._id}`}>
+            <LinkWithComponent to={`/socis/edit/${member._id}`}>
               <Edit />
             </LinkWithComponent>
           </Button>
