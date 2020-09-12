@@ -5,22 +5,17 @@ import { padStart } from 'lodash';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 
+import LinkWithComponent from 'components/common/LinkWithComponent';
+
 import { Member } from 'interfaces/Member';
 import useAuth from 'auth/useAuth';
 
 interface Props {
   member: Member;
   handleDelete: (id: string) => void;
-  handleView: (id: string) => void;
-  handleEdit: (id: string) => void;
 }
 
-export default function MemberRow({
-  member,
-  handleDelete,
-  handleEdit,
-  handleView,
-}: Props) {
+export default function MemberRow({ member, handleDelete }: Props) {
   const { user } = useAuth();
 
   return (
@@ -41,17 +36,15 @@ export default function MemberRow({
           aria-label="text primary button group"
           size="small"
         >
-          <Button
-            className="IconButton ViewButton"
-            onClick={() => handleView(member._id)}
-          >
-            <Visibility />
+          <Button className="IconButton ViewButton">
+            <LinkWithComponent to={`/socis/${member._id}`}>
+              <Visibility />
+            </LinkWithComponent>
           </Button>
-          <Button
-            className="IconButton EditButton"
-            onClick={() => handleEdit(member._id)}
-          >
-            <Edit />
+          <Button className="IconButton EditButton">
+            <LinkWithComponent to={`/socis/${member._id}`}>
+              <Edit />
+            </LinkWithComponent>
           </Button>
           {user?.role.name === 'Admin' && (
             <Button

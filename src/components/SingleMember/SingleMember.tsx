@@ -12,6 +12,7 @@ import { Member } from 'interfaces/Member';
 
 import './style.css';
 import ConfirmDialog from 'components/common/ConfirmDialog';
+import LinkWithComponent from 'components/common/LinkWithComponent';
 
 type TParams = {
   id: string;
@@ -23,11 +24,7 @@ export default function SingleMember() {
 
   const { id } = useParams<TParams>();
 
-  const { replace, push } = useHistory();
-
-  const handleEdit = () => {
-    push(`/socis/edit/${id}`);
-  };
+  const { replace } = useHistory();
 
   const handleDelete = () => {
     setDialogOpen(true);
@@ -64,6 +61,7 @@ export default function SingleMember() {
   if (!member) return null;
 
   const {
+    _id,
     dni,
     email,
     firstName,
@@ -86,14 +84,12 @@ export default function SingleMember() {
           {fullName} - {padStart(numMember.toString(), 3, '0')}
         </h1>
         <div className="button-container">
-          <Button
-            variant="contained"
-            className="button edit"
-            onClick={handleEdit}
-          >
-            <EditOutlined />
-            Editar
-          </Button>
+          <LinkWithComponent to={`/socis/edit/${_id}`}>
+            <Button variant="contained" className="button edit">
+              <EditOutlined />
+              Editar
+            </Button>
+          </LinkWithComponent>
           <Button
             variant="contained"
             className="button delete"

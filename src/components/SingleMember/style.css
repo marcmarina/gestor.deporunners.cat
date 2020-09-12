@@ -24,7 +24,7 @@
 }
 
 .edit {
-  background-color: #ffa726;
+  background-color: var(--edit-color);
 }
 
 .edit:hover {
@@ -32,7 +32,7 @@
 }
 
 .delete {
-  background-color: #ef5350;
+  background-color: var(--delete-color);
 }
 
 .delete:hover {

@@ -1,3 +1,9 @@
+:root {
+  --view-color: #66bb6a;
+  --edit-color:  #ffa726;
+  --delete-color: #ef5350;
+}
+
 .App {
   text-align: center;
 }

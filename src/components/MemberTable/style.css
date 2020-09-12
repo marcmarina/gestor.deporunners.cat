@@ -12,28 +12,28 @@
 }
 
 .ViewButton {
-  background-color: #66bb6a;
+  background-color: var(--view-color);
 }
 
 .ViewButton:hover {
   opacity: 0.7;
-  background-color: #66bb6a;
+  background-color: var(--view-color);
 }
 
-.EditButton {
-  background-color: #ffa726;
+.EditButton {  background-color: var(--edit-color);
+
 }
 
 .EditButton:hover {
-  opacity: 0.7;
-  background-color: #ffa726;
+  opacity: 0.7;  background-color: var(--edit-color);
+
 }
 
 .DeleteButton {
-  background-color: #ef5350;
+  background-color: var(--delete-color);
 }
 
 .DeleteButton:hover {
   opacity: 0.7;
-  background-color: #ef5350;
+  background-color: var(--delete-color);
 }

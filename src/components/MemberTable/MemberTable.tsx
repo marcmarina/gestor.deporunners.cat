@@ -23,7 +23,6 @@ import MemberRow from './MemberRow';
 
 import { deleteById, fetchMembers } from 'services/member';
 import { paginate } from 'utils/paginate';
-import { useHistory } from 'react-router-dom';
 
 import './style.css';
 
@@ -86,14 +85,6 @@ export default function SimpleTable() {
     }
   };
 
-  const handleView = (id: string) => {
-    push(`/socis/${id}`);
-  };
-
-  const handleEdit = (id: string) => {
-    push(`/socis/edit/${id}`);
-  };
-
   const handleDelete = (id: string) => {
     setDialogOpen(true);
     setMemberId(id);
@@ -113,8 +104,6 @@ export default function SimpleTable() {
       console.log(ex);
     }
   };
-
-  const { push } = useHistory();
 
   useEffect(() => {
     retrieveData();
@@ -201,8 +190,6 @@ export default function SimpleTable() {
                 <MemberRow
                   key={row._id}
                   member={row}
-                  handleView={handleView}
-                  handleEdit={handleEdit}
                   handleDelete={handleDelete}
                 />
               )
