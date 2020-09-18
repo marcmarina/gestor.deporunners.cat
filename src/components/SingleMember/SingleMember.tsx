@@ -73,8 +73,6 @@ export default function SingleMember() {
     tshirtSize,
   } = member;
 
-  const fakeIban = 'ES12 1234 1234 1234 1234';
-
   const fullAddress = `${address.streetAddress}, ${address.postCode}, ${address.town.name}`;
   const fullName = `${firstName} ${lastName}`;
 
@@ -119,7 +117,7 @@ export default function SingleMember() {
             <TextWithLabel
               variant="text"
               label="IBAN"
-              text={iban ? iban : fakeIban}
+              text={iban ? iban : 'No definit'}
             />
             <TextWithLabel
               variant="text"
