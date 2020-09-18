@@ -200,7 +200,7 @@ export default function EditMember() {
                 <FormikSelect
                   variant="outlined"
                   label="Talla Samarreta"
-                  name="tshirtSize"
+                  name="tshirtSize._id"
                   items={selectTShirtItems}
                   required
                 />

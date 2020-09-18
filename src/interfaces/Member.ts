@@ -7,6 +7,11 @@ export interface Member {
   dni: string;
   telephone: string;
   iban?: string;
+  tshirtSize: {
+    _id: string;
+    name: string;
+    orderNum: number;
+  };
   address: {
     postCode: string;
     streetAddress: string;

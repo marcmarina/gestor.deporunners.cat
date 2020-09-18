@@ -70,6 +70,7 @@ export default function SingleMember() {
     numMember,
     address,
     iban,
+    tshirtSize,
   } = member;
 
   const fakeIban = 'ES12 1234 1234 1234 1234';
@@ -131,6 +132,11 @@ export default function SingleMember() {
               variant="outlined"
               label="IBAN"
               text={iban ? iban : fakeIban}
+            />
+            <TextWithLabel
+              variant="outlined"
+              label="Talla Samarreta"
+              text={tshirtSize.name}
             />
           </Grid>
         </Grid>
