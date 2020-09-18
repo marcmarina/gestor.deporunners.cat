@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function HomeScreen() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
@@ -136,7 +136,7 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            Gestor
           </Typography>
         </Toolbar>
       </AppBar>
