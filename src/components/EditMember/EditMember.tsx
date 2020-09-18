@@ -22,6 +22,7 @@ type TParams = {
 export default function EditMember() {
   const [member, setMember] = useState<Member>();
   const [towns, setTowns] = useState<any>([]);
+  const [tshirtsizes, setTshirtsizes] = useState<any>([]);
 
   const { id } = useParams<TParams>();
   const { push, replace } = useHistory();
@@ -46,9 +47,19 @@ export default function EditMember() {
     }
   };
 
+  const retireveTshirtSizes = async () => {
+    try {
+      const { data } = await http.get('/tshirtsize');
+      setTshirtsizes(data);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   useEffect(() => {
     retrieveTowns();
     retrieveMember();
+    retireveTshirtSizes();
   }, [id, retrieveMember]);
 
   const validationSchema = Yup.object().shape({
@@ -64,6 +75,10 @@ export default function EditMember() {
     numMember: Yup.number().required(''),
     streetAddress: Yup.string().required(''),
     postCode: Yup.string().required(''),
+    telephone: Yup.string()
+      .required('')
+      .min(9, 'El telefon ha de tenir minim 9 caracters'),
+    iban: Yup.string().required(''),
   });
 
   const handleSubmit = async (values: Member) => {
@@ -78,8 +93,11 @@ export default function EditMember() {
   if (!member || !towns) return null;
 
   const initialValues: Member = { ...member };
-  const selectItems = towns.map((town: any) => {
+  const selectTownItems = towns.map((town: any) => {
     return { label: town.name, value: town._id };
+  });
+  const selectTShirtItems = tshirtsizes.map((tshirtSize: any) => {
+    return { label: tshirtSize.name, value: tshirtSize._id };
   });
 
   return (
@@ -141,7 +159,7 @@ export default function EditMember() {
                   type="number"
                 />
               </Grid>
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={6}>
                 <FormikField
                   variant="outlined"
                   label="Adreça"
@@ -154,7 +172,7 @@ export default function EditMember() {
                   variant="outlined"
                   label="Ciutat"
                   name="address.town._id"
-                  items={selectItems}
+                  items={selectTownItems}
                   required
                 />
               </Grid>
@@ -163,6 +181,31 @@ export default function EditMember() {
                   variant="outlined"
                   label="Codi Postal"
                   name="address.postCode"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormikField
+                  variant="outlined"
+                  label="Telefon"
+                  name="telephone"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormikSelect
+                  variant="outlined"
+                  label="Talla Samarreta"
+                  name="tshirtSize"
+                  items={selectTShirtItems}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormikField
+                  variant="outlined"
+                  label="IBAN"
+                  name="iban"
                   required
                 />
               </Grid>
