@@ -21,8 +21,8 @@ type TParams = {
 
 export default function EditMember() {
   const [member, setMember] = useState<Member>();
-  const [towns, setTowns] = useState<any>([]);
-  const [tshirtsizes, setTshirtsizes] = useState<any>([]);
+  const [towns, setTowns] = useState<any[]>();
+  const [tshirtsizes, setTshirtsizes] = useState<any[]>();
 
   const { id } = useParams<TParams>();
   const { push, replace } = useHistory();
@@ -64,17 +64,21 @@ export default function EditMember() {
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
-      .required('')
+      .required('Obligatori')
       .min(3, 'El nom ha de tenir minim 3 caracters'),
     lastName: Yup.string()
-      .required('')
+      .required('Obligatori')
       .min(3, 'El nom ha de tenir minim 3 caracters'),
-    email: Yup.string().email().required(''),
-    town: Yup.string().required(''),
-    dni: Yup.string().min(4).required(''),
+    email: Yup.string().email().required('Obligatori'),
+    dni: Yup.string().min(4).required('Obligatori'),
     numMember: Yup.number().required(''),
-    streetAddress: Yup.string().required(''),
-    postCode: Yup.string().required(''),
+    address: Yup.object().shape({
+      streetAddress: Yup.string()
+        .required('Obligatori')
+        .min(10, "L'adreça ha de tenir minim 10 caracters"),
+      postCode: Yup.string().required(''),
+      town: Yup.string().required(''),
+    }),
     telephone: Yup.string()
       .required('')
       .min(9, 'El telefon ha de tenir minim 9 caracters'),
@@ -90,7 +94,7 @@ export default function EditMember() {
     }
   };
 
-  if (!member || !towns) return null;
+  if (!member || !towns || !tshirtsizes) return null;
 
   const initialValues: Member = { ...member };
   const selectTownItems = towns.map((town: any) => {
