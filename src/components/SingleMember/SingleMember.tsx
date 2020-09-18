@@ -104,37 +104,25 @@ export default function SingleMember() {
       <Paper>
         <Grid container spacing={3}>
           <Grid item xs>
-            <TextWithLabel
-              variant="outlined"
-              label="Nom Complet"
-              text={fullName}
-            />
-            <TextWithLabel variant="outlined" label="DNI" text={dni} />
-            <TextWithLabel variant="outlined" label="Email" text={email} />
-            <TextWithLabel
-              variant="outlined"
-              label="Telefon"
-              text={telephone}
-            />
-            <TextWithLabel
-              variant="outlined"
-              label="Adreça"
-              text={fullAddress}
-            />
+            <TextWithLabel variant="text" label="Nom Complet" text={fullName} />
+            <TextWithLabel variant="text" label="DNI" text={dni} />
+            <TextWithLabel variant="text" label="Email" text={email} />
+            <TextWithLabel variant="text" label="Telefon" text={telephone} />
+            <TextWithLabel variant="text" label="Adreça" text={fullAddress} />
           </Grid>
           <Grid item xs>
             <TextWithLabel
-              variant="outlined"
+              variant="text"
               label="Número Soci"
               text={padStart(numMember.toString(), 3, '0')}
             />
             <TextWithLabel
-              variant="outlined"
+              variant="text"
               label="IBAN"
               text={iban ? iban : fakeIban}
             />
             <TextWithLabel
-              variant="outlined"
+              variant="text"
               label="Talla Samarreta"
               text={tshirtSize.name}
             />
