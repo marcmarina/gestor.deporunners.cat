@@ -37,13 +37,15 @@ export default function MainListItems() {
         <ListItemText primary="Events" />
       </ListItem>
       <Divider />
-      <ListItem button>
-        <ListItemIcon>
-          <SettingsRoundedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Preferències" />
-      </ListItem>
-      <LogoutNavButton />
+      <NavLink to="/preferencies" className="navbarLink">
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Preferències" />
+        </ListItem>
+        <LogoutNavButton />
+      </NavLink>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function TextWithLabel({
   variant = 'text',
 }: Props) {
   return (
-    <div className="container">
+    <div className="component-container">
       <Tooltip
         title="Copiar"
         aria-label="add"
