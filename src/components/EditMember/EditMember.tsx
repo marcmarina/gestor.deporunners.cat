@@ -171,7 +171,7 @@ export default function EditMember() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={3}>
                 <FormikSelect
                   variant="outlined"
                   label="Ciutat"
@@ -180,7 +180,7 @@ export default function EditMember() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={3}>
                 <FormikField
                   variant="outlined"
                   label="Codi Postal"

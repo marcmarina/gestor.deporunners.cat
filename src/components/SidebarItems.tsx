@@ -12,8 +12,10 @@ import { Divider } from '@material-ui/core';
 import LogoutNavButton from './common/LogoutNavButton';
 
 import './sidebar.css';
+import useAuth from 'auth/useAuth';
 
 export default function MainListItems() {
+  const { user } = useAuth();
   return (
     <div>
       <NavLink to="/socis" className="navbarLink">
@@ -24,12 +26,14 @@ export default function MainListItems() {
           <ListItemText primary="Socis" />
         </ListItem>
       </NavLink>
-      <ListItem button>
-        <ListItemIcon>
-          <AccountCircleRoundedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Usuaris" />
-      </ListItem>
+      {user?.role.name === 'Admin' && (
+        <ListItem button>
+          <ListItemIcon>
+            <AccountCircleRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Usuaris" />
+        </ListItem>
+      )}
       <ListItem button>
         <ListItemIcon>
           <EventRoundedIcon />

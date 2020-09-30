@@ -1,6 +1,5 @@
 import React from 'react';
 
-import useAuth from 'auth/useAuth';
 import { Grid, Paper } from '@material-ui/core';
 
 import ChangePasswordForm from './ChangePasswordForm';
