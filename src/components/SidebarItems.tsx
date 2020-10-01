@@ -9,7 +9,7 @@ import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import { NavLink } from 'react-router-dom';
 
 import { Divider } from '@material-ui/core';
-import LogoutNavButton from './common/LogoutNavButton';
+import LogoutNavButton from './LogoutNavButton';
 
 import './sidebar.css';
 import useAuth from 'auth/useAuth';
@@ -34,12 +34,14 @@ export default function MainListItems() {
           <ListItemText primary="Usuaris" />
         </ListItem>
       )}
-      <ListItem button>
-        <ListItemIcon>
-          <EventRoundedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Events" />
-      </ListItem>
+      <NavLink to="/events" className="navbarLink">
+        <ListItem button>
+          <ListItemIcon>
+            <EventRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Events" />
+        </ListItem>
+      </NavLink>
       <Divider />
       <NavLink to="/preferencies" className="navbarLink">
         <ListItem button>
@@ -48,8 +50,8 @@ export default function MainListItems() {
           </ListItemIcon>
           <ListItemText primary="Preferències" />
         </ListItem>
-        <LogoutNavButton />
       </NavLink>
+      <LogoutNavButton />
     </div>
   );
 }

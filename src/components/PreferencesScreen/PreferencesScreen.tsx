@@ -8,7 +8,7 @@ import './style.css';
 
 export default function PreferencesScreen() {
   return (
-    <div className="component-container">
+    <div>
       <h1>Prefèrencies</h1>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
