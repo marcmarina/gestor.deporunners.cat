@@ -1,14 +1,14 @@
 import { Button, Grid } from '@material-ui/core';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import http from 'services/http';
 
+import http from 'services/http';
 import EventCard from './EventCard';
 import NewEvent from './NewEvent';
 
 import './style.css';
 
-export default function HomeScreen() {
+export default function EventsScreen() {
   const [events, setEvents] = useState<any[]>();
   const [open, setOpen] = useState(false);
 
@@ -44,12 +44,13 @@ export default function HomeScreen() {
             <EventCard
               title={event.name}
               description={event.description}
-              dateTime={dayjs(event.dateTime).toDate().toLocaleString('es')}
+              dateTime={dayjs(event.dateTime).toDate().toLocaleString()}
+              coordinates={event.coordinates}
             />
           </Grid>
         ))}
       </Grid>
-      <NewEvent open={open} handleClose={() => setOpen(false)} />
+      <NewEvent open={open} setOpen={setOpen} onFinishSubmit={retrieveData} />
     </div>
   );
 }

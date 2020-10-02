@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import {
   Dialog,
@@ -6,11 +6,14 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Grid,
 } from '@material-ui/core';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { DateTimePicker } from '@material-ui/pickers';
 import * as Yup from 'yup';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import FormikField from 'components/common/FormikField';
+import http from 'services/http';
 
 interface FormValues {
   name: string;
@@ -34,12 +37,21 @@ const validationSchema = Yup.object().shape({
 
 interface Props {
   open: boolean;
-  handleClose: () => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onFinishSubmit: () => void;
 }
 
-export default function NewEvent({ open, handleClose }: Props) {
-  const handleSubmit = () => {
-    //
+export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const { status } = await http.post('/event', values);
+      if (status === 201) {
+        setOpen(false);
+        onFinishSubmit();
+      }
+    } catch (ex) {
+      console.log(ex.response.error);
+    }
   };
 
   return (
@@ -48,36 +60,66 @@ export default function NewEvent({ open, handleClose }: Props) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
-      </DialogTitle>
-      <DialogContent>
-        <Formik
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-          initialValues={initialValues}
-        >
-          {({ values, setFieldValue }) => (
-            <Form>
-              <DateTimePicker
-                autoOk
-                ampm={false}
-                disablePast
-                value={values['dateTime']}
-                onChange={date => setFieldValue('dateTime', date)}
-                label="Dia i hora"
-                fullWidth
-              />
-            </Form>
-          )}
-        </Formik>
-      </DialogContent>
-      <DialogActions>
-        <Button color="secondary" onClick={handleClose}>
-          Tancar
-        </Button>
-        <Button color="primary">Crear</Button>
-      </DialogActions>
+      <DialogTitle id="alert-dialog-title">Nou Event</DialogTitle>
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        initialValues={initialValues}
+      >
+        {({ values, setFieldValue }) => (
+          <Form noValidate>
+            <DialogContent>
+              <Grid container spacing={2}>
+                <Grid item sm={6}>
+                  <FormikField
+                    label="Nom"
+                    name="name"
+                    required
+                    variant="standard"
+                  />
+                </Grid>
+                <Grid item sm={6}>
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    disablePast
+                    value={values['dateTime']}
+                    onChange={date => setFieldValue('dateTime', date)}
+                    label="Dia i hora"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item sm={12}>
+                  <FormikField
+                    label="Descripció"
+                    name="description"
+                    required
+                    type="text"
+                    variant="standard"
+                  />
+                </Grid>
+                <Grid item sm={6}>
+                  <FormikField
+                    label="Coordenades"
+                    name="coordinates"
+                    required
+                    type="text"
+                    variant="standard"
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button color="secondary" onClick={() => setOpen(false)}>
+                Tancar
+              </Button>
+              <Button type="submit" color="primary">
+                Crear
+              </Button>
+            </DialogActions>
+          </Form>
+        )}
+      </Formik>
     </Dialog>
   );
 }

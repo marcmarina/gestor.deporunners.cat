@@ -6,8 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import EditIcon from '@material-ui/icons/Edit';
+import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({ root: { maxWidth: 345 } })
@@ -17,12 +17,14 @@ interface Props {
   title: string;
   description: string;
   dateTime: string;
+  coordinates: string;
 }
 
 export default function RecipeReviewCard({
   title,
   description,
   dateTime,
+  coordinates,
 }: Props) {
   const classes = useStyles();
 
@@ -36,10 +38,14 @@ export default function RecipeReviewCard({
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <EditIcon />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton
+          href={`http://www.google.com/maps/place/${coordinates}`}
+          target="__blank"
+          aria-label="share"
+        >
+          <MapIcon />
         </IconButton>
       </CardActions>
     </Card>
