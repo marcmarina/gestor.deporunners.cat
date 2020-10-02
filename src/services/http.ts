@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const instance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    'api-token': process.env.REACT_APP_API_TOKEN,
+  },
+});
 
 // instance.interceptors.response.use(null, error => {
 //   const expectedError =
