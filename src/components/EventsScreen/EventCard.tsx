@@ -18,6 +18,7 @@ interface Props {
   description: string;
   dateTime: string;
   coordinates: string;
+  onClickEdit: () => void;
 }
 
 export default function RecipeReviewCard({
@@ -25,6 +26,7 @@ export default function RecipeReviewCard({
   description,
   dateTime,
   coordinates,
+  onClickEdit,
 }: Props) {
   const classes = useStyles();
 
@@ -37,7 +39,7 @@ export default function RecipeReviewCard({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={onClickEdit}>
           <EditIcon />
         </IconButton>
         <IconButton

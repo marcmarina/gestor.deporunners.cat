@@ -4,13 +4,15 @@ import React, { useEffect, useState } from 'react';
 
 import http from 'services/http';
 import EventCard from './EventCard';
-import NewEvent from './NewEvent';
+import EventForm from './EventForm';
+import Event from 'interfaces/Event';
 
 import './style.css';
 
 export default function EventsScreen() {
   const [events, setEvents] = useState<any[]>();
   const [open, setOpen] = useState(false);
+  const [event, setEvent] = useState<Event>();
 
   const retrieveData = async () => {
     try {
@@ -33,7 +35,10 @@ export default function EventsScreen() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setEvent(undefined);
+            setOpen(true);
+          }}
         >
           Nou Event
         </Button>
@@ -46,11 +51,20 @@ export default function EventsScreen() {
               description={event.description}
               dateTime={dayjs(event.dateTime).toDate().toLocaleString()}
               coordinates={event.coordinates}
+              onClickEdit={() => {
+                setEvent(event);
+                setOpen(true);
+              }}
             />
           </Grid>
         ))}
       </Grid>
-      <NewEvent open={open} setOpen={setOpen} onFinishSubmit={retrieveData} />
+      <EventForm
+        open={open}
+        setOpen={setOpen}
+        onFinishSubmit={retrieveData}
+        event={event}
+      />
     </div>
   );
 }

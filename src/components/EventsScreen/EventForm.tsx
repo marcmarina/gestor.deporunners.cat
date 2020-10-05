@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
-
 import {
   Dialog,
   DialogTitle,
@@ -11,48 +10,82 @@ import {
 import { Form, Formik } from 'formik';
 import { DateTimePicker } from '@material-ui/pickers';
 import * as Yup from 'yup';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import FormikField from 'components/common/FormikField';
 import http from 'services/http';
+import Event from 'interfaces/Event';
 
 interface FormValues {
   name: string;
   description: string;
-  dateTime?: MaterialUiPickersDate;
+  dateTime?: Date;
   coordinates: string;
 }
-
-const initialValues: FormValues = {
-  name: '',
-  description: '',
-  coordinates: '',
-};
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Obligatori').min(5, 'Minim 5 caracters'),
   description: Yup.string().required('Obligatori').min(5, 'Minim 5 caracters'),
-  dateTime: Yup.date().required('Obligatori'),
-  coordinates: Yup.string().required('Obligatori'),
+  dateTime: Yup.date()
+    .required('Obligatori')
+    .test('future', 'La data ha de ser al futur', function (v) {
+      if (v) {
+        return new Date() < v;
+      }
+      return false;
+    }),
+  coordinates: Yup.string()
+    .required('Obligatori')
+    .test('valid', 'Les coordenades no son valides', function (v) {
+      if (v) {
+        const [lat, long] = v.replace(/,/g, '').split(' ');
+        if (!lat || !long) return false;
+        if (parseFloat(lat) > 90 || parseFloat(lat) < -90) {
+          return false;
+        }
+        if (parseFloat(long) > 180 || parseFloat(long) < -180) {
+          return false;
+        }
+        return true;
+      }
+      return false;
+    }),
 });
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  event?: Event;
   onFinishSubmit: () => void;
 }
 
-export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
+export default function EventForm({
+  open,
+  setOpen,
+  event,
+  onFinishSubmit,
+}: Props) {
   const handleSubmit = async (values: FormValues) => {
     try {
-      const { status } = await http.post('/event', values);
+      const { status } = event
+        ? await http.put('/event', values)
+        : await http.post('/event', values);
       if (status === 201) {
         setOpen(false);
         onFinishSubmit();
       }
     } catch (ex) {
-      console.log(ex.response.error);
+      console.log(ex.response);
     }
   };
+
+  let initialValues: FormValues = {
+    name: '',
+    description: '',
+    coordinates: '',
+    dateTime: new Date(),
+  };
+  if (event) {
+    initialValues = { ...event };
+  }
 
   return (
     <Dialog
@@ -66,7 +99,7 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, errors, touched, dirty, isValid }) => (
           <Form noValidate>
             <DialogContent>
               <Grid container spacing={2}>
@@ -76,6 +109,7 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
                     name="name"
                     required
                     variant="standard"
+                    error={touched.name && errors.name ? true : false}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -83,10 +117,13 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
                     autoOk
                     ampm={false}
                     disablePast
-                    value={values['dateTime']}
+                    value={values.dateTime}
                     onChange={date => setFieldValue('dateTime', date)}
                     label="Dia i hora"
                     fullWidth
+                    required
+                    error={touched.dateTime && errors.dateTime ? true : false}
+                    helperText={touched.dateTime && errors.dateTime}
                   />
                 </Grid>
                 <Grid item sm={12}>
@@ -96,6 +133,9 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
                     required
                     type="text"
                     variant="standard"
+                    error={
+                      touched.description && errors.description ? true : false
+                    }
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -105,6 +145,9 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
                     required
                     type="text"
                     variant="standard"
+                    error={
+                      touched.coordinates && errors.coordinates ? true : false
+                    }
                   />
                 </Grid>
               </Grid>
@@ -113,7 +156,11 @@ export default function NewEvent({ open, setOpen, onFinishSubmit }: Props) {
               <Button color="secondary" onClick={() => setOpen(false)}>
                 Tancar
               </Button>
-              <Button type="submit" color="primary">
+              <Button
+                // disabled={!dirty || !isValid}
+                type="submit"
+                color="primary"
+              >
                 Crear
               </Button>
             </DialogActions>
