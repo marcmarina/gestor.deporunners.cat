@@ -161,7 +161,7 @@ export default function EventForm({
                 type="submit"
                 color="primary"
               >
-                Crear
+                {event ? 'Desar' : 'Crear'}
               </Button>
             </DialogActions>
           </Form>
