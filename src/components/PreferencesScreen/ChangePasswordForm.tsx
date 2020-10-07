@@ -41,12 +41,13 @@ export default function ChangePasswordForm() {
       await http.patch(`/user/changePassword/${user?._id}`, values);
       resetForm();
     } catch (ex) {
+      resetForm();
       console.log(ex.response);
     }
   };
   return (
     <div style={{ padding: 15 }}>
-      <Typography variant="h6" style={{ marginBottom: 5 }}>
+      <Typography variant="h6" style={{ marginBottom: 10 }}>
         Canviar Contrasenya
       </Typography>
       <Formik

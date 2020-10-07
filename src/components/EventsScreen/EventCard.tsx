@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,7 +10,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({ root: { maxWidth: 345 } })
+  createStyles({
+    root: {
+      maxWidth: 345,
+    },
+    text: {
+      cursor: 'pointer',
+      maxLines: 3,
+    },
+  })
 );
 
 interface Props {
@@ -28,13 +36,21 @@ export default function RecipeReviewCard({
   coordinates,
   onClickEdit,
 }: Props) {
+  const [wrap, setWrap] = useState(true);
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardHeader title={title} subheader={dateTime} />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography
+          className={classes.text}
+          variant="body2"
+          color="textSecondary"
+          noWrap={wrap}
+          component="p"
+          onClick={() => setWrap(!wrap)}
+        >
           {description}
         </Typography>
       </CardContent>
