@@ -92,6 +92,7 @@ export default function EventForm({
       open={open}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      onClose={() => setOpen(false)}
     >
       <DialogTitle id="alert-dialog-title">Nou Event</DialogTitle>
       <Formik

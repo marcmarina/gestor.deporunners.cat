@@ -7,12 +7,29 @@ interface Props {
   label: string;
   text: string;
   variant: 'full' | 'outlined' | 'text';
+  textVariant?:
+    | 'button'
+    | 'caption'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'inherit'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'overline'
+    | 'srOnly';
 }
 
 export default function TextWithLabel({
   label,
   text,
   variant = 'text',
+  textVariant = 'body1',
 }: Props) {
   return (
     <div className="component-container">
@@ -32,7 +49,7 @@ export default function TextWithLabel({
           </Typography>
         </div>
       </Tooltip>
-      <Typography variant="h6">{text}</Typography>
+      <Typography variant={textVariant}>{text}</Typography>
     </div>
   );
 }

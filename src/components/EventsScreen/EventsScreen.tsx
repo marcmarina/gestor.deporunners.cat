@@ -1,5 +1,4 @@
 import { Button, Grid } from '@material-ui/core';
-import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
 import http from 'services/http';
@@ -47,10 +46,7 @@ export default function EventsScreen() {
         {events.map(event => (
           <Grid item xs={12} sm={4} key={event._id}>
             <EventCard
-              title={event.name}
-              description={event.description}
-              dateTime={dayjs(event.dateTime).toDate().toLocaleString()}
-              coordinates={event.coordinates}
+              event={event}
               onClickEdit={() => {
                 setEvent(event);
                 setOpen(true);
