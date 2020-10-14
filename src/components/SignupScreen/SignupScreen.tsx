@@ -233,7 +233,8 @@ export default function SignupScreen() {
                     required
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={2}></Grid>
+                <Grid item xs={12} sm={5}>
                   <div
                     style={{
                       padding: 8.5,
@@ -259,7 +260,7 @@ export default function SignupScreen() {
                     />
                   </div>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={3}>
                   <Button
                     type="submit"
                     fullWidth
@@ -267,9 +268,10 @@ export default function SignupScreen() {
                     color="primary"
                     disabled={!dirty || !isValid || isSubmitting}
                   >
-                    Sign Up
+                    Realitzar inscripció
                   </Button>
                 </Grid>
+                <Grid item xs={12} sm={2}></Grid>
               </Grid>
             </Form>
           )}
