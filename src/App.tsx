@@ -12,6 +12,11 @@ import { getUser } from './auth/storage';
 import User from './interfaces/User';
 
 import './App.css';
+import SignupScreen from 'components/SignupScreen';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY || '');
 
 function App() {
   const [user, setUser] = useState<User>();
@@ -36,6 +41,9 @@ function App() {
       <AuthContext.Provider value={{ user, setUser }}>
         <Switch>
           <Route path="/login" component={LoginScreen} />
+          <Elements stripe={stripePromise}>
+            <Route path="/inscripcio" component={SignupScreen} />
+          </Elements>
           <ProtectedRoute path="/" component={HomeScreen} />
         </Switch>
       </AuthContext.Provider>
