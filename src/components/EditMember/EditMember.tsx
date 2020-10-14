@@ -14,6 +14,7 @@ import { Member } from 'interfaces/Member';
 import './style.css';
 import http from 'services/http';
 import FormikSelect from 'components/common/FormikSelect';
+import Town from 'interfaces/Town';
 
 type TParams = {
   id: string;
@@ -21,8 +22,7 @@ type TParams = {
 
 export default function EditMember() {
   const [member, setMember] = useState<Member>();
-  const [towns, setTowns] = useState<any[]>();
-  const [tshirtsizes, setTshirtsizes] = useState<any[]>();
+  const [towns, setTowns] = useState<Town[]>();
 
   const { id } = useParams<TParams>();
   const { push, replace } = useHistory();
@@ -47,19 +47,9 @@ export default function EditMember() {
     }
   };
 
-  const retireveTshirtSizes = async () => {
-    try {
-      const { data } = await http.get('/tshirtsize');
-      setTshirtsizes(data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
   useEffect(() => {
     retrieveTowns();
     retrieveMember();
-    retireveTshirtSizes();
   }, [id, retrieveMember]);
 
   const validationSchema = Yup.object().shape({
@@ -94,14 +84,11 @@ export default function EditMember() {
     }
   };
 
-  if (!member || !towns || !tshirtsizes) return null;
+  if (!member || !towns) return null;
 
   const initialValues: Member = { ...member };
-  const selectTownItems = towns.map((town: any) => {
+  const selectTownItems = towns.map((town: Town) => {
     return { label: town.name, value: town._id };
-  });
-  const selectTShirtItems = tshirtsizes.map((tshirtSize: any) => {
-    return { label: tshirtSize.name, value: tshirtSize._id };
   });
 
   return (
@@ -193,15 +180,6 @@ export default function EditMember() {
                   variant="outlined"
                   label="Telefon"
                   name="telephone"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormikSelect
-                  variant="outlined"
-                  label="Talla Samarreta"
-                  name="tshirtSize._id"
-                  items={selectTShirtItems}
                   required
                 />
               </Grid>

@@ -38,15 +38,15 @@ function App() {
 
   return (
     <StylesProvider injectFirst>
-      <AuthContext.Provider value={{ user, setUser }}>
-        <Switch>
-          <Route path="/login" component={LoginScreen} />
-          <Elements stripe={stripePromise}>
+      <Elements stripe={stripePromise}>
+        <AuthContext.Provider value={{ user, setUser }}>
+          <Switch>
+            <Route path="/login" component={LoginScreen} />
             <Route path="/inscripcio" component={SignupScreen} />
-          </Elements>
-          <ProtectedRoute path="/" component={HomeScreen} />
-        </Switch>
-      </AuthContext.Provider>
+            <ProtectedRoute path="/" component={HomeScreen} />
+          </Switch>
+        </AuthContext.Provider>
+      </Elements>
     </StylesProvider>
   );
 }

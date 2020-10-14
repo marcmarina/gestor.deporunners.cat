@@ -70,7 +70,6 @@ export default function SingleMember() {
     numMember,
     address,
     iban,
-    tshirtSize,
   } = member;
 
   const fullAddress = `${address.streetAddress}, ${address.postCode}, ${address.town.name}`;
@@ -145,12 +144,6 @@ export default function SingleMember() {
               textVariant="h6"
               label="IBAN"
               text={iban ? iban : 'No definit'}
-            />
-            <TextWithLabel
-              variant="text"
-              textVariant="h6"
-              label="Talla Samarreta"
-              text={tshirtSize.name}
             />
           </Grid>
         </Grid>
