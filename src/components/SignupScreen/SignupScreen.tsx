@@ -103,6 +103,7 @@ export default function SignupScreen() {
             card: card,
             billing_details: {
               name: `${values.firstName} ${values.lastName}`,
+              email: values.email,
             },
           },
         }
