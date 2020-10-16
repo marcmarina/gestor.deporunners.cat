@@ -110,7 +110,6 @@ export default function EventForm({
                     name="name"
                     required
                     variant="standard"
-                    error={touched.name && errors.name ? true : false}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -134,9 +133,6 @@ export default function EventForm({
                     required
                     type="text"
                     variant="standard"
-                    error={
-                      touched.description && errors.description ? true : false
-                    }
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -146,9 +142,6 @@ export default function EventForm({
                     required
                     type="text"
                     variant="standard"
-                    error={
-                      touched.coordinates && errors.coordinates ? true : false
-                    }
                   />
                 </Grid>
               </Grid>

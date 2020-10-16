@@ -1,6 +1,7 @@
 import React from 'react';
-import { ErrorMessage, Field } from 'formik';
+import { ErrorMessage, Field, useFormikContext } from 'formik';
 import TextField from '@material-ui/core/TextField';
+import getObject from 'lodash/get';
 
 import './FormikField.css';
 
@@ -19,8 +20,10 @@ export default function FormikField({
   type = 'text',
   required = false,
   variant = 'standard',
-  error = false,
 }: FormikFieldProps) {
+  const { errors, touched } = useFormikContext<any>();
+  const error =
+    getObject(touched, name) && getObject(errors, name) ? true : false;
   return (
     <div className="FormikField">
       <Field
