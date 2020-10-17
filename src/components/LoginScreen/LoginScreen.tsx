@@ -80,11 +80,15 @@ export default function LoginScreen() {
     { setFieldValue }: FormikHelpers<FormValues>
   ) => {
     try {
-      const { data } = await http.post('/user/login', {
+      const { data, headers } = await http.post('/user/login', {
         email,
         password,
       });
-      login(data);
+
+      const refreshToken = headers['x-refresh-token'];
+      console.log(headers);
+
+      login(data, refreshToken);
     } catch (ex) {
       if (ex.response.status === 400) {
         setOpen(true);

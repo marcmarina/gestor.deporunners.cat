@@ -103,6 +103,7 @@ export default function SignupForm() {
       console.log(ex);
     }
   };
+
   const retrieveTowns = async () => {
     try {
       const { data } = await http.get('/town');
