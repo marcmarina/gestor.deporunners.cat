@@ -12,8 +12,8 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
   config.headers = {
     ...config.headers,
-    'x-refresh-token': `${getRefreshToken()}`,
     'x-auth-token': `${getToken()}`,
+    'x-refresh-token': `${getRefreshToken()}`,
   };
   return config;
 });
