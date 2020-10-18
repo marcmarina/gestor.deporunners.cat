@@ -86,8 +86,6 @@ export default function LoginScreen() {
       });
 
       const refreshToken = headers['x-refresh-token'];
-      console.log(headers);
-
       login(data, refreshToken);
     } catch (ex) {
       if (ex.response.status === 400) {
