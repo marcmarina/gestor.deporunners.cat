@@ -15,6 +15,7 @@ import User from 'interfaces/User';
 import './App.css';
 import SignupScreen from 'components/SignupScreen';
 import http from 'services/http';
+import { getRefreshToken, getToken } from 'auth/storage';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY || '');
 
@@ -28,8 +29,10 @@ function App() {
 
   const restoreUser = async () => {
     try {
-      const { data } = await http.get('/user/self');
-      setUser(data);
+      if (getToken() && getRefreshToken()) {
+        const { data } = await http.get('/user/self');
+        setUser(data);
+      }
     } catch (ex) {
       console.log(ex);
     }

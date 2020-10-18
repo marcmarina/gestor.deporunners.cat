@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import jwtDecode from 'jwt-decode';
+import http from 'services/http';
 
 import AuthContext from './context';
 import {
@@ -8,17 +8,18 @@ import {
   storeRefreshToken,
   storeToken,
 } from './storage';
-import User from '../interfaces/User';
 
 export default function useAuth() {
   const { user, setUser } = useContext(AuthContext);
 
-  const login = (authToken: any, refreshToken: any) => {
-    const storedUser: User = jwtDecode(authToken);
-    if (storedUser) {
-      if (setUser) setUser(storedUser);
-      storeToken(authToken);
-      storeRefreshToken(refreshToken);
+  const login = async (authToken: any, refreshToken: any) => {
+    storeToken(authToken);
+    storeRefreshToken(refreshToken);
+    try {
+      const { data } = await http.get('/user/self');
+      if (setUser) setUser(data);
+    } catch (ex) {
+      console.log(ex);
     }
   };
 
