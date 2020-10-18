@@ -6,6 +6,7 @@ import { Elements } from '@stripe/react-stripe-js';
 
 import LoginScreen from 'components/LoginScreen';
 import HomeScreen from 'components/HomeScreen';
+import PrivacyScreen from 'components/PrivacyScreen';
 import ProtectedRoute from 'components/common/ProtectedRoute';
 
 import AuthContext from 'auth/context';
@@ -48,6 +49,7 @@ function App() {
           <Switch>
             <Route path="/login" component={LoginScreen} />
             <Route path="/inscripcio" component={SignupScreen} />
+            <Route path="/privacy" component={PrivacyScreen} />
             <ProtectedRoute path="/" component={HomeScreen} />
           </Switch>
         </AuthContext.Provider>

@@ -69,7 +69,7 @@ export default function SignupForm() {
         return;
       }
 
-      const createMember = await http.post('/member', {
+      await http.post('/member', {
         ...values,
       });
 
@@ -95,7 +95,6 @@ export default function SignupForm() {
           result.paymentIntent &&
           result.paymentIntent.status === 'succeeded'
         ) {
-          http.post(`/member/signup/${createMember.data._id}/email`);
           history.push('/inscripcio');
         }
       }
