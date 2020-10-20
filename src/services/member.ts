@@ -1,8 +1,9 @@
 import http from './http';
 
 import { Member } from '../interfaces/Member';
+import { AxiosResponse } from 'axios';
 
-export const fetchMembers = async () => {
+export const fetchMembers = async (): Promise<AxiosResponse<Member[]>> => {
   try {
     const members = await http.get('/member');
     return members;
