@@ -37,7 +37,7 @@ class MemberTable extends Component<any, MemberTableState> {
     this.retrieveData();
   };
 
-  async retrieveData() {
+  retrieveData = async () => {
     try {
       const fetchedMembers = await fetchMembers();
       if (fetchedMembers.data)
@@ -47,7 +47,7 @@ class MemberTable extends Component<any, MemberTableState> {
     } catch (ex) {
       console.log(ex);
     }
-  }
+  };
 
   handleSearch = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
