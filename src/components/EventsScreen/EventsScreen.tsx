@@ -9,7 +9,7 @@ import Event from 'interfaces/Event';
 import './style.css';
 
 export default function EventsScreen() {
-  const [events, setEvents] = useState<any[]>();
+  const [events, setEvents] = useState<Event[]>();
   const [open, setOpen] = useState(false);
   const [event, setEvent] = useState<Event>();
 
@@ -35,16 +35,16 @@ export default function EventsScreen() {
           variant="contained"
           color="primary"
           onClick={() => {
-            setEvent(undefined);
             setOpen(true);
+            setEvent(undefined);
           }}
         >
           Nou Event
         </Button>
       </div>
-      <Grid container spacing={3}>
+      <Grid container spacing={4}>
         {events.map(event => (
-          <Grid item xs={12} sm={4} key={event._id}>
+          <Grid item sm={12} md={6} lg={3} key={event._id}>
             <EventCard
               event={event}
               onClickEdit={() => {
