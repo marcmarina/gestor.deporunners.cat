@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import MapIcon from '@material-ui/icons/Map';
 import InfoIcon from '@material-ui/icons/Info';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import dayjs from 'dayjs';
 
@@ -35,17 +36,27 @@ export default function EventCard({ event, onClickEdit }: Props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton onClick={onClickEdit}>
-          <EditIcon />
-        </IconButton>
         <IconButton
           href={`http://www.google.com/maps/place/${coordinates}`}
           target="__blank"
+          style={{ color: 'green' }}
         >
           <MapIcon />
         </IconButton>
-        <IconButton onClick={() => setShowDialog(true)}>
+        <IconButton color="primary" onClick={() => setShowDialog(true)}>
           <InfoIcon />
+        </IconButton>
+        <IconButton
+          onClick={onClickEdit}
+          style={{ color: 'orange', marginLeft: 'auto' }}
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          style={{ color: 'tomato' }}
+          onClick={() => setShowDialog(true)}
+        >
+          <DeleteIcon />
         </IconButton>
       </CardActions>
       <EventDialog event={event} open={showDialog} setOpen={setShowDialog} />
