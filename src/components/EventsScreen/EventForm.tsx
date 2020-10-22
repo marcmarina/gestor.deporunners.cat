@@ -94,7 +94,9 @@ export default function EventForm({
       aria-describedby="alert-dialog-description"
       onClose={() => setOpen(false)}
     >
-      <DialogTitle id="alert-dialog-title">Nou Event</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        {event ? 'Editar Event' : 'Nou Event'}
+      </DialogTitle>
       <Formik
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
