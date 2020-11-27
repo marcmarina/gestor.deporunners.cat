@@ -20,6 +20,7 @@ import SingleMember from './SingleMember';
 import EditMember from './EditMember';
 import PreferencesScreen from './PreferencesScreen';
 import EventsScreen from './EventsScreen';
+import ClothingScreen from './ClothingScreen';
 
 const drawerWidth = 240;
 
@@ -168,6 +169,7 @@ export default function HomeScreen() {
             <Route path="/socis" component={MemberTable} />
             <Route path="/preferencies" component={PreferencesScreen} />
             <Route path="/events" component={EventsScreen} />
+            <Route path="/roba" component={ClothingScreen} />
             <Redirect from="/" to="/socis" />
           </Switch>
         </Container>

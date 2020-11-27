@@ -3,6 +3,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EventRoundedIcon from '@material-ui/icons/EventRounded';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
@@ -40,6 +41,14 @@ export default function MainListItems() {
             <EventRoundedIcon />
           </ListItemIcon>
           <ListItemText primary="Events" />
+        </ListItem>
+      </NavLink>
+      <NavLink to="/roba" className="navbarLink">
+        <ListItem button>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Roba" />
         </ListItem>
       </NavLink>
       <Divider />
