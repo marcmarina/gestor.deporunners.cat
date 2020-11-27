@@ -1,5 +1,5 @@
 # Deporunners - Website
-This is one of two front-end apps for this project. The other two are [app][app] and [API][api].
+This is one of two front-end apps for this project. The other two are the [app][app] and [API][api].
 
 ## Setup
 Requirements:
