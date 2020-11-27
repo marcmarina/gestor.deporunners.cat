@@ -15,6 +15,8 @@ import dayjs from 'dayjs';
 import EventDialog from './EventDialog';
 
 import Event from 'interfaces/Event';
+import ConfirmDialog from 'components/common/ConfirmDialog';
+import http from 'services/http';
 
 interface Props {
   event: Event;
@@ -23,8 +25,19 @@ interface Props {
 
 export default function EventCard({ event, onClickEdit }: Props) {
   const [showDialog, setShowDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  const { name, description, dateTime, coordinates } = event;
+  const { _id, name, description, dateTime, coordinates } = event;
+
+  const deleteEvent = async () => {
+    try {
+      const res = await http.delete(`/event/${_id}`);
+      setShowDialog(false);
+      setShowDeleteDialog(false);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
 
   const formattedTime = dayjs(dateTime).format('DD/MM/YYYY HH:MM');
   return (
@@ -54,12 +67,19 @@ export default function EventCard({ event, onClickEdit }: Props) {
         </IconButton>
         <IconButton
           style={{ color: 'tomato' }}
-          onClick={() => setShowDialog(true)}
+          onClick={() => setShowDeleteDialog(true)}
         >
           <DeleteIcon />
         </IconButton>
       </CardActions>
       <EventDialog event={event} open={showDialog} setOpen={setShowDialog} />
+      <ConfirmDialog
+        text="Segur que vols eliminar aquest event? Aquesta acció es irreversible."
+        title="Confirmar Operació"
+        open={showDeleteDialog}
+        handleYes={deleteEvent}
+        handleNo={() => setShowDeleteDialog(false)}
+      />
     </Card>
   );
 }

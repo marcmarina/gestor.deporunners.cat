@@ -1,3 +1,7 @@
+.table__row {
+  transition: 250ms;
+}
+
 .table__row:hover {
   background-color: #f5f5f5;
 }
@@ -6,7 +10,9 @@
   color: #f6f6f6;
   border-radius: 7.5px;
   border: 0px;
+  transition: 250ms;
 }
+
 .IconButton:hover {
   border: 0px;
 }
@@ -20,13 +26,13 @@
   background-color: var(--view-color);
 }
 
-.EditButton {  background-color: var(--edit-color);
-
+.EditButton {
+  background-color: var(--edit-color);
 }
 
 .EditButton:hover {
-  opacity: 0.7;  background-color: var(--edit-color);
-
+  opacity: 0.7;
+  background-color: var(--edit-color);
 }
 
 .DeleteButton {

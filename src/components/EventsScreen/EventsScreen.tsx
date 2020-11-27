@@ -1,5 +1,5 @@
-import { Button, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { Button, Grid } from '@material-ui/core';
 
 import http from 'services/http';
 import EventCard from './EventCard';

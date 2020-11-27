@@ -26,6 +26,7 @@ export default function ConfirmDialog({
   return (
     <Dialog
       open={open}
+      onClose={handleNo}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
