@@ -11,15 +11,15 @@ import { TableFooter, TablePagination } from '@material-ui/core';
 import MemberRow from './MemberRow';
 import SearchBar from './SearchBar';
 
-import { fetchMembers } from 'services/member';
 import { paginate } from 'utils/paginate';
 
 import './style.css';
 
 import { Member } from 'interfaces/Member';
+import { connect } from 'react-redux';
+import { fetchMembers } from 'redux/members/memberActions';
 
 interface MemberTableState {
-  members: Member[];
   searchFilter?: string;
   page: number;
   dialogOpen: boolean;
@@ -27,26 +27,13 @@ interface MemberTableState {
 
 class MemberTable extends Component<any, MemberTableState> {
   state = {
-    members: [],
     searchFilter: '',
     page: 0,
     dialogOpen: false,
   };
 
   componentDidMount = () => {
-    this.retrieveData();
-  };
-
-  retrieveData = async () => {
-    try {
-      const fetchedMembers = await fetchMembers();
-      if (fetchedMembers.data)
-        this.setState({
-          members: fetchedMembers.data,
-        });
-    } catch (ex) {
-      console.log(ex);
-    }
+    this.props.dispatch(fetchMembers());
   };
 
   handleSearch = (
@@ -83,9 +70,10 @@ class MemberTable extends Component<any, MemberTableState> {
   };
 
   render() {
-    const { members, searchFilter, page } = this.state;
+    const { searchFilter, page } = this.state;
+    const { members } = this.props;
 
-    if (members.length === 0) return null;
+    if (members && members.length === 0) return null;
 
     const rowsPerPage = 10;
     const filteredMembers = this.searchMembers(members);
@@ -118,11 +106,7 @@ class MemberTable extends Component<any, MemberTableState> {
             <TableBody>
               {paginate(filteredMembers, page + 1, rowsPerPage).map(
                 (row: Member) => (
-                  <MemberRow
-                    key={row._id}
-                    member={row}
-                    onDelete={this.retrieveData}
-                  />
+                  <MemberRow key={row._id} member={row} onDelete={() => {}} />
                 )
               )}
             </TableBody>
@@ -144,4 +128,12 @@ class MemberTable extends Component<any, MemberTableState> {
   }
 }
 
-export default MemberTable;
+function mapState(state) {
+  return {
+    members: state.member.items,
+    error: state.member.error,
+    loading: state.emloading,
+  };
+}
+
+export default connect(mapState)(MemberTable);

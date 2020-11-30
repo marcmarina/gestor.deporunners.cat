@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -52,7 +52,7 @@ const validationSchema = Yup.object().shape({
 
 interface Props {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: (value: boolean) => void;
   event?: Event;
   onFinishSubmit: () => void;
 }
