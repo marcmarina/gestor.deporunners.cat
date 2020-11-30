@@ -59,6 +59,7 @@ export default function EventsScreen() {
         open={open}
         setOpen={setOpen}
         onFinishSubmit={retrieveData}
+        clothing={singleClothing}
       />
     </div>
   );

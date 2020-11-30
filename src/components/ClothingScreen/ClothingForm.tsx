@@ -30,14 +30,13 @@ interface FormValues {
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Obligatori').min(5, 'Minim 5 caracters'),
   ref: Yup.string().required('Obligatori').min(5, 'Minim 5 caracters'),
-  image: Yup.mixed()
-    .required()
-    .test(
-      'fileType',
-      'Unsupported File Format',
-      value =>
+  image: Yup.mixed().test('fileType', 'Unsupported File Format', value => {
+    if (value)
+      return (
         value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
-    ),
+      );
+    else return true;
+  }),
   price: Yup.number(),
 });
 
@@ -58,11 +57,13 @@ export default function ClothingForm({
 
   const handleSubmit = async (values: FormValues) => {
     const cloth = {
+      _id: clothing?._id,
       name: values.name,
       ref: values.ref,
       sizes: values.sizes,
       price: values.price,
     };
+
     try {
       const res = clothing
         ? await http.put('/clothing', cloth)
@@ -71,11 +72,15 @@ export default function ClothingForm({
         if (values.image) {
           const data = new FormData();
           data.append('image', values.image);
-          await http.put(`/clothing/${res.data._id}/image`, data, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-            },
-          });
+          await http.put(
+            `/clothing/${res.data._id || clothing?._id}/image`,
+            data,
+            {
+              headers: {
+                'Content-Type': `multipart/form-data`,
+              },
+            }
+          );
         }
         setOpen(false);
         onFinishSubmit();
@@ -92,6 +97,14 @@ export default function ClothingForm({
     ref: '',
     sizes: [],
   };
+
+  if (clothing) {
+    initialValues = {
+      ...clothing,
+      sizes: clothing.sizes.map(i => i._id),
+      image: null,
+    };
+  }
 
   const retrieveSizes = async () => {
     try {
@@ -185,21 +198,17 @@ export default function ClothingForm({
                           )}
                           onChange={() => {
                             if (values.sizes.includes(size._id)) {
-                              console.log('REMOVE!');
                               setFieldValue(
                                 'sizes',
                                 values.sizes.filter(i => i !== size._id)
                               );
                             } else {
-                              console.log('ADD!');
                               setFieldValue('sizes', [
                                 ...values.sizes,
                                 size._id,
                               ]);
                             }
-                            console.log(values.sizes);
                           }}
-                          name="antoine"
                         />
                       }
                       label={size.name}
