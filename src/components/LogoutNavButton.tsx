@@ -27,6 +27,7 @@ export default function LogoutNavButton() {
       </ListItem>
       <Dialog
         open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
