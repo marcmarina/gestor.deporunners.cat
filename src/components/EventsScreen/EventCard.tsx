@@ -31,7 +31,7 @@ export default function EventCard({ event, onClickEdit }: Props) {
 
   const deleteEvent = async () => {
     try {
-      const res = await http.delete(`/event/${_id}`);
+      await http.delete(`/event/${_id}`);
       setShowDialog(false);
       setShowDeleteDialog(false);
     } catch (ex) {
