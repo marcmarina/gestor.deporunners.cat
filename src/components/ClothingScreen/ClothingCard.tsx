@@ -11,7 +11,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import Clothing from 'interfaces/Clothing';
-import src from '*.bmp';
 
 interface Props {
   clothing: Clothing;
@@ -24,10 +23,12 @@ export default function ClothingCard({ clothing, onClickEdit }: Props) {
   return (
     <Card>
       <CardHeader title={name} subheader={ref} />
-      <CardContent>
-        <img src={`${process.env.REACT_APP_API_URL}/${image}`} />
-      </CardContent>
-      <CardActions disableSpacing></CardActions>
+      <img
+        className="item-image"
+        alt="Product"
+        src={`${process.env.REACT_APP_API_URL}/${image}`}
+      />
+      {/* <CardActions disableSpacing></CardActions> */}
     </Card>
   );
 }

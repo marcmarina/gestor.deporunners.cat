@@ -154,6 +154,27 @@ export default function ClothingForm({
                   />
                 </Grid>
                 <Grid item sm={6}>
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    fullWidth
+                    style={{ height: '100%' }}
+                    color="primary"
+                  >
+                    Penjar Foto
+                    <input
+                      id="file"
+                      name="file"
+                      type="file"
+                      hidden
+                      onChange={event => {
+                        if (event.currentTarget.files)
+                          setFieldValue('image', event.currentTarget.files[0]);
+                      }}
+                    />
+                  </Button>
+                </Grid>
+                <Grid item sm={12}>
                   {sizes.map(size => (
                     <FormControlLabel
                       control={
@@ -184,27 +205,6 @@ export default function ClothingForm({
                       label={size.name}
                     />
                   ))}
-                </Grid>
-                <Grid item sm={6}>
-                  <Button
-                    variant="outlined"
-                    component="label"
-                    fullWidth
-                    style={{ height: '100%' }}
-                    color="primary"
-                  >
-                    Penjar Foto
-                    <input
-                      id="file"
-                      name="file"
-                      type="file"
-                      hidden
-                      onChange={event => {
-                        if (event.currentTarget.files)
-                          setFieldValue('image', event.currentTarget.files[0]);
-                      }}
-                    />
-                  </Button>
                 </Grid>
               </Grid>
             </DialogContent>
