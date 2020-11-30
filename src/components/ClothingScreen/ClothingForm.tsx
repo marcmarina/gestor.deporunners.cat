@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,14 +6,18 @@ import {
   DialogActions,
   Button,
   Grid,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import FormData from 'form-data';
+import getObject from 'lodash/get';
 
 import FormikField from 'components/common/FormikField';
 import http from 'services/http';
 import Clothing from 'interfaces/Clothing';
+import TShirtSize from 'interfaces/TShirtSize';
 
 interface FormValues {
   name?: string;
@@ -50,6 +54,8 @@ export default function ClothingForm({
   clothing,
   onFinishSubmit,
 }: Props) {
+  const [sizes, setSizes] = useState<TShirtSize[]>();
+
   const handleSubmit = async (values: FormValues) => {
     const cloth = {
       name: values.name,
@@ -84,8 +90,23 @@ export default function ClothingForm({
     price: '',
     image: null,
     ref: '',
-    sizes: ['5fc4d08ad5b17742880bfb66'],
+    sizes: [],
   };
+
+  const retrieveSizes = async () => {
+    try {
+      const res = await http.get('/tshirtsize');
+      setSizes(res.data);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  useEffect(() => {
+    retrieveSizes();
+  }, []);
+
+  if (!sizes) return null;
 
   return (
     <Dialog
@@ -131,6 +152,38 @@ export default function ClothingForm({
                     type="number"
                     variant="standard"
                   />
+                </Grid>
+                <Grid item sm={6}>
+                  {sizes.map(size => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={getObject(values, 'sizes').includes(
+                            size._id
+                          )}
+                          onChange={() => {
+                            if (values.sizes.includes(size._id)) {
+                              console.log('REMOVE!');
+                              setFieldValue(
+                                'sizes',
+                                values.sizes.filter(i => i !== size._id)
+                              );
+                            } else {
+                              console.log('ADD!');
+                              setFieldValue('sizes', [
+                                ...values.sizes,
+                                size._id,
+                              ]);
+                            }
+                            console.log(values.sizes);
+                          }}
+                          name="antoine"
+                        />
+                      }
+                      label={size.name}
+                    />
+                  ))}
                 </Grid>
                 <Grid item sm={6}>
                   <Button
