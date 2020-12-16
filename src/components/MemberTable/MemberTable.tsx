@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { TableFooter, TablePagination } from '@material-ui/core';
+import { Button, TableFooter, TablePagination } from '@material-ui/core';
 
 import MemberRow from './MemberRow';
 import SearchBar from './SearchBar';
@@ -17,6 +17,8 @@ import { paginate } from 'utils/paginate';
 import './style.css';
 
 import { Member } from 'interfaces/Member';
+import fileDownload from 'js-file-download';
+import http from 'services/http';
 
 interface MemberTableState {
   members: Member[];
@@ -82,6 +84,13 @@ class MemberTable extends Component<any, MemberTableState> {
     return filteredMembers;
   };
 
+  getExcelFile = async () => {
+    const res = await http.get('/member/excel', {
+      responseType: 'blob',
+    });
+    fileDownload(res.data, 'Socis.xlsx');
+  };
+
   render() {
     const { members, searchFilter, page } = this.state;
 
@@ -97,6 +106,9 @@ class MemberTable extends Component<any, MemberTableState> {
           onChange={this.handleSearch}
           reset={() => this.setState({ searchFilter: undefined })}
         />
+        <Button onClick={this.getExcelFile} color="primary">
+          Descarregar Excel
+        </Button>
         <TableContainer component={Paper}>
           <Table className="table" aria-label="simple table">
             <TableHead>
