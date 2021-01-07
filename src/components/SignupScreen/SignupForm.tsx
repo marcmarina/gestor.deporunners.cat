@@ -69,7 +69,7 @@ export default function SignupForm() {
         return;
       }
 
-      await http.post('/member', {
+      const res = await http.post('/member', {
         ...values,
       });
 
@@ -81,8 +81,8 @@ export default function SignupForm() {
           payment_method: {
             card: card,
             billing_details: {
-              name: `${values.firstName} ${values.lastName}`,
-              email: values.email,
+              name: `${res.data.firstName} ${res.data.lastName}`,
+              email: res.data.email,
             },
           },
         }
@@ -90,11 +90,13 @@ export default function SignupForm() {
 
       if (result.error) {
         console.log(result.error.message);
+        await http.delete(`/member/signup/failure/${res.data._id}`);
       } else {
         if (
           result.paymentIntent &&
           result.paymentIntent.status === 'succeeded'
         ) {
+          await http.post(`/member/signup/success/${res.data._id}`);
           history.push('/inscripcio');
         }
       }
