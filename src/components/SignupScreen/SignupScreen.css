@@ -7,3 +7,11 @@
 .signup-form {
   margin-top: 30px;
 }
+
+.advantages-table {
+  vertical-align: top;
+}
+
+.advantages-table td {
+  padding: 5px;
+}

@@ -48,7 +48,11 @@ const validationSchema = Yup.object().shape({
   iban: Yup.string().required('Obligatori'),
 });
 
-export default function SignupForm() {
+interface Props {
+  onFinishSubmit: () => void;
+}
+
+export default function SignupForm({ onFinishSubmit }: Props) {
   const [towns, setTowns] = useState<Town[]>();
   const [stripeComplete, setStripeComplete] = useState(false);
 
@@ -97,6 +101,7 @@ export default function SignupForm() {
           result.paymentIntent.status === 'succeeded'
         ) {
           await http.post(`/member/signup/success/${res.data._id}`);
+          onFinishSubmit();
           history.push('/inscripcio');
         }
       }
@@ -204,8 +209,7 @@ export default function SignupForm() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={2}></Grid>
-              <Grid item xs={12} sm={5}>
+              <Grid item xs={12} sm={9}>
                 <div className="card-element">
                   <CardElement
                     onChange={event => setStripeComplete(event.complete)}
@@ -236,7 +240,7 @@ export default function SignupForm() {
                     !dirty || !isValid || isSubmitting || !stripeComplete
                   }
                 >
-                  Realitzar inscripció
+                  Pagar
                 </Button>
               </Grid>
               <Grid item xs={12} sm={2}></Grid>

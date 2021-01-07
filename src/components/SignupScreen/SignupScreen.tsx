@@ -12,7 +12,6 @@ import {
   Step,
   StepLabel,
   Stepper,
-  Toolbar,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -52,30 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <h1>Step 1</h1>;
-    case 1:
-      return <SignupForm />;
-    case 2:
-      return <h1>Step 3</h1>;
-
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
-function getStepButtonText(step: number) {
-  switch (step) {
-    case 0:
-      return 'Següent';
-    case 1:
-      return 'Pagar inscripció';
-  }
-}
-
-const steps = ['Avantatges', 'Dades Personals', 'Finalitzar Inscripció'];
+const steps = ['Informació', 'Dades Personals', 'Finalitzar Inscripció'];
 
 export default function SignupScreen() {
   const classes = useStyles();
@@ -91,63 +67,119 @@ export default function SignupScreen() {
   };
 
   return (
-    <React.Fragment>
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Anterior
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 2
-                      ? 'Fer pagament'
-                      : 'Següent'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        </Paper>
-      </main>
-    </React.Fragment>
+    <main className={classes.layout}>
+      <Paper className={classes.paper}>
+        <Typography component="h1" variant="h4" align="center">
+          Inscripció a C.E. Deporunners
+        </Typography>
+        <Stepper activeStep={activeStep} className={classes.stepper}>
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+        <div hidden={activeStep !== 0}>
+          <Information />
+        </div>
+        <div hidden={activeStep !== 1}>
+          <SignupForm onFinishSubmit={handleNext} />
+        </div>
+        <div hidden={activeStep !== 2}>
+          <Last />
+        </div>
+
+        <div className={classes.buttons}>
+          {activeStep === 0 && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              className={classes.button}
+            >
+              {activeStep === steps.length - 2 ? 'Fer pagament' : 'Següent'}
+            </Button>
+          )}
+          {activeStep === 1 && (
+            <Button onClick={handleBack} className={classes.button}>
+              Anterior
+            </Button>
+          )}
+        </div>
+      </Paper>
+    </main>
+  );
+}
+
+function Information() {
+  return (
+    <div>
+      <h2 className="header">Benvingut/da a Deporunners!</h2>
+      <p>
+        A partir d'avui, no només formes part d’un club de Trail, formes part
+        d’una comunitat de persones amb les mateixes inquietuds i aficions!
+        <br />
+        <br />
+        Us proposem un nou espai, on fer activitats grupals setmanals, entrenos,
+        curses, xerrades o testejar nous materials esportius. Un lloc de
+        confluència esportiva, on gaudir del medi natural i la muntanya, sigui
+        el nexe de connexió entre tots nosaltres!
+        <br />
+        <br />
+        Quins avantatges tindràs al ser soci/a de Deporunners?
+      </p>
+      <h3>Quota anual: 40€</h3>
+      <table>
+        <tbody className="advantages-table">
+          <tr>
+            <td>
+              <strong>Avantatges generals:</strong>
+              <ul>
+                <li>Pistes gratis amb carnet</li>
+                <li>Quota Aqua Sports 39€ mes</li>
+                <li>Perruqueria i estètica Doina 10% descompte en tot</li>
+                <li>Prova esforç 20€ descompte a CRF Vilanova</li>
+                <li>Calserra 10% descompte</li>
+                <li>Fisionova 10%</li>
+                <li>Sorteigs aris i descomptes a Curses de Muntanya</li>
+              </ul>
+            </td>
+            <td>
+              <strong>Avantatges primer any:</strong>
+              <ul>
+                <li>Entrega de la Samarreta tècnica oficial del Club.</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Last() {
+  return (
+    <div>
+      <p>
+        Ja ens ha arribat el pagament i ara rebràs un correu amb el llistat
+        d'avantatges que has vist abans i informació sobre el teu compte. Si no
+        el trobes, busca a la carpeta de Spam.
+        <br />
+        <br />
+        Aqui tens l'enllaç per descarregar l'aplicació a la plataforma que
+        necessitis.
+      </p>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.cedeporunners.deporunners"
+        target="__blank"
+      >
+        <img
+          alt="Google Play Logo"
+          src="https://webstockreview.net/images/google-play-store-png.png"
+          height="120"
+        />
+      </a>
+    </div>
   );
 }
