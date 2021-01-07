@@ -6,6 +6,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Form, Formik, FormikValues } from 'formik';
 
 import Town from 'interfaces/Town';
+import TShirtSize from 'interfaces/TShirtSize';
 import FormikField from 'components/common/FormikField';
 import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
@@ -46,6 +47,7 @@ const validationSchema = Yup.object().shape({
     .required('Obligatori')
     .min(9, 'El telefon ha de tenir minim 9 caracters'),
   iban: Yup.string().required('Obligatori'),
+  tshirtSize: Yup.string().required('Obligatori'),
 });
 
 interface Props {
@@ -54,6 +56,7 @@ interface Props {
 
 export default function SignupForm({ onFinishSubmit }: Props) {
   const [towns, setTowns] = useState<Town[]>();
+  const [tshirtSizes, setTshirtSizes] = useState<TShirtSize[]>();
   const [stripeComplete, setStripeComplete] = useState(false);
 
   const stripe = useStripe();
@@ -119,12 +122,26 @@ export default function SignupForm({ onFinishSubmit }: Props) {
     }
   };
 
+  const retrieveTshirtSizes = async () => {
+    try {
+      const { data } = await http.get('/tshirtSize');
+      setTshirtSizes(data);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   useEffect(() => {
     retrieveTowns();
+    retrieveTshirtSizes();
   }, []);
-  if (!towns) return null;
+
+  if (!towns || !tshirtSizes) return null;
   const selectTownItems = towns.map((town: Town) => {
     return { label: town.name, value: town._id };
+  });
+  const selectTshirtSizes = tshirtSizes.map((size: TShirtSize) => {
+    return { label: size.name, value: size._id };
   });
   return (
     <Formik
@@ -168,7 +185,7 @@ export default function SignupForm({ onFinishSubmit }: Props) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <FormikField
                   variant="outlined"
                   label="Adreça"
@@ -185,11 +202,20 @@ export default function SignupForm({ onFinishSubmit }: Props) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <FormikField
                   variant="outlined"
                   label="Codi Postal"
                   name="address.postCode"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <FormikSelect
+                  variant="outlined"
+                  label="Talla Samarreta"
+                  name="tshirtSize"
+                  items={selectTshirtSizes}
                   required
                 />
               </Grid>

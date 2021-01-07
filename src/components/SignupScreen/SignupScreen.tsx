@@ -5,14 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SignupForm from './SignupForm';
 
 import './SignupScreen.css';
-import {
-  AppBar,
-  Button,
-  Paper,
-  Step,
-  StepLabel,
-  Stepper,
-} from '@material-ui/core';
+import { Button, Paper, Step, StepLabel, Stepper } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -129,7 +122,7 @@ function Information() {
         <br />
         Quins avantatges tindràs al ser soci/a de Deporunners?
       </p>
-      <h3>Quota anual: 40€</h3>
+
       <table>
         <tbody className="advantages-table">
           <tr>
@@ -154,6 +147,7 @@ function Information() {
           </tr>
         </tbody>
       </table>
+      <h3>Quota anual: 40€</h3>
     </div>
   );
 }
