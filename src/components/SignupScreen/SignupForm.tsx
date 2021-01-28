@@ -10,7 +10,6 @@ import TShirtSize from 'interfaces/TShirtSize';
 import FormikField from 'components/common/FormikField';
 import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
-import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   firstName: '',
@@ -25,6 +24,7 @@ const initialValues = {
   telephone: '',
   iban: '',
   creditCard: {},
+  tshirtSize: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -62,8 +62,6 @@ export default function SignupForm({ onFinishSubmit }: Props) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const history = useHistory();
-
   const handleSubmit = async (values: FormikValues) => {
     try {
       if (!stripe || !elements) {
@@ -82,9 +80,10 @@ export default function SignupForm({ onFinishSubmit }: Props) {
 
       const getSecret = await http.get('/member/signup/secret');
 
-      const result = await stripe.confirmCardPayment(
-        getSecret.data.clientSecret,
-        {
+      let result: any;
+
+      try {
+        result = await stripe.confirmCardPayment(getSecret.data.clientSecret, {
           payment_method: {
             card: card,
             billing_details: {
@@ -92,8 +91,11 @@ export default function SignupForm({ onFinishSubmit }: Props) {
               email: res.data.email,
             },
           },
-        }
-      );
+        });
+      } catch (ex) {
+        await http.delete(`/member/signup/failure/${res.data._id}`);
+        throw ex;
+      }
 
       if (result.error) {
         console.log(result.error.message);
@@ -105,7 +107,6 @@ export default function SignupForm({ onFinishSubmit }: Props) {
         ) {
           await http.post(`/member/signup/success/${res.data._id}`);
           onFinishSubmit();
-          history.push('/inscripcio');
         }
       }
     } catch (ex) {
