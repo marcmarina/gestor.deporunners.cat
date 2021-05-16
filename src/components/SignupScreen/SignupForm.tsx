@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import * as Yup from 'yup';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Form, Formik, FormikValues } from 'formik';
+import { CardElement } from '@stripe/react-stripe-js';
+import { Form, Formik } from 'formik';
 
 import Town from 'interfaces/Town';
 import TShirtSize from 'interfaces/TShirtSize';
@@ -12,17 +12,17 @@ import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  dni: '',
+  firstName: 'Marc',
+  lastName: 'Marina',
+  email: 'marc.marina.miravitlles@gmail.com',
+  dni: '42424242',
   address: {
-    streetAddress: '',
+    streetAddress: 'Sample Street',
     town: '',
-    postCode: '',
+    postCode: '424242',
   },
-  telephone: '',
-  iban: '',
+  telephone: '648439648',
+  iban: '42424242242',
   tshirtSize: '',
 };
 
@@ -50,65 +50,18 @@ const validationSchema = Yup.object().shape({
 });
 
 interface Props {
-  onFinishSubmit: () => void;
+  onSubmit: (values: any) => void;
 }
 
-export default function SignupForm({ onFinishSubmit }: Props) {
+export default function SignupForm({ onSubmit }: Props) {
   const [towns, setTowns] = useState<Town[]>();
   const [tshirtSizes, setTshirtSizes] = useState<TShirtSize[]>();
   const [stripeComplete, setStripeComplete] = useState(false);
 
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handleSubmit = async (values: FormikValues) => {
-    try {
-      if (!stripe || !elements) {
-        return;
-      }
-
-      const card = elements.getElement(CardElement);
-
-      if (!card) {
-        return;
-      }
-
-      const memberRes = await http.post('/member', {
-        member: values,
-      });
-
-      const paymentMethod = await stripe.createPaymentMethod({
-        card,
-        type: 'card',
-      });
-
-      const response = await http.post('/member/signup/pay', {
-        memberId: memberRes.data.member.stripeId,
-        payment_method_id: paymentMethod.paymentMethod?.id,
-      });
-
-      const handlePaymentResponse = async (response: any, memberRes: any) => {
-        if (response.requires_action) {
-          console.log('REQUIRES ACTION');
-          const { paymentIntent } = await stripe.handleCardAction(
-            response.payment_client_secret
-          );
-
-          const serverResponse = await http.post('/member/signup/pay', {
-            payment_intent_id: paymentIntent?.id,
-          });
-
-          handlePaymentResponse(serverResponse, memberRes);
-        } else {
-          console.log('SUCCESS!');
-        }
-      };
-
-      handlePaymentResponse(response.data, memberRes);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  useEffect(() => {
+    retrieveTowns();
+    retrieveTshirtSizes();
+  }, []);
 
   const retrieveTowns = async () => {
     try {
@@ -128,11 +81,6 @@ export default function SignupForm({ onFinishSubmit }: Props) {
     }
   };
 
-  useEffect(() => {
-    retrieveTowns();
-    retrieveTshirtSizes();
-  }, []);
-
   if (!towns || !tshirtSizes) return null;
   const selectTownItems = towns.map((town: Town) => {
     return { label: town.name, value: town._id };
@@ -143,7 +91,7 @@ export default function SignupForm({ onFinishSubmit }: Props) {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
       {({ isValid, dirty, isSubmitting }) => {
@@ -259,9 +207,7 @@ export default function SignupForm({ onFinishSubmit }: Props) {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  disabled={
-                    !dirty || !isValid || isSubmitting || !stripeComplete
-                  }
+                  disabled={!stripeComplete || isSubmitting}
                 >
                   Pagar
                 </Button>

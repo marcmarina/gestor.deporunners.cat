@@ -6,6 +6,10 @@ import SignupForm from './SignupForm';
 
 import './SignupScreen.css';
 import { Button, Paper, Step, StepLabel, Stepper } from '@material-ui/core';
+import { useMachine } from '@xstate/react';
+import { paymentMachine } from './payment-state-machine';
+import http from 'services/http';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -51,6 +55,50 @@ export default function SignupScreen() {
 
   const [activeStep, setActiveStep] = useState(0);
 
+  const [state, send] = useMachine(paymentMachine, {
+    devTools: true,
+    services: {
+      executePayment: (_, event) =>
+        http.post('/member/signup/pay', {
+          ...event,
+        }),
+      createUser: (_, event) =>
+        http.post('/member', {
+          member: 'member' in event ? event.member : null,
+        }),
+    },
+  });
+
+  const { clientSecret, memberId } = state.context;
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  if (!stripe || !elements) return null;
+
+  const firstPayment = async () => {
+    const card = elements.getElement(CardElement);
+
+    if (card) {
+      const { paymentMethod } = await stripe.createPaymentMethod({
+        card,
+        type: 'card',
+      });
+      send('CONFIRM_PAYMENT', {
+        memberId,
+        payment_method_id: paymentMethod?.id,
+      });
+    }
+  };
+
+  const cardAction = async () => {
+    const { paymentIntent } = await stripe.handleCardAction(clientSecret);
+
+    send('CONFIRM_PAYMENT', {
+      payment_intent_id: paymentIntent?.id,
+    });
+  };
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -58,6 +106,16 @@ export default function SignupScreen() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  if (state.matches('requiresAction')) {
+    cardAction();
+  }
+
+  if (state.matches('paymentPending')) {
+    firstPayment();
+  }
+
+  if (state.matches('paymentConfirmation')) return <Last />;
 
   return (
     <main className={classes.layout}>
@@ -77,10 +135,13 @@ export default function SignupScreen() {
           <Information />
         </div>
         <div hidden={activeStep !== 1}>
-          <SignupForm onFinishSubmit={handleNext} />
-        </div>
-        <div hidden={activeStep !== 2}>
-          <Last />
+          <SignupForm
+            onSubmit={values =>
+              send('CONFIRM_USER', {
+                member: values,
+              })
+            }
+          />
         </div>
 
         <div className={classes.buttons}>
