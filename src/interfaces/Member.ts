@@ -1,3 +1,5 @@
+import TShirtSize from './TShirtSize';
+
 export interface Member {
   _id: string;
   firstName: string;
@@ -15,4 +17,5 @@ export interface Member {
       name: string;
     };
   };
+  tshirtSize: TShirtSize;
 }

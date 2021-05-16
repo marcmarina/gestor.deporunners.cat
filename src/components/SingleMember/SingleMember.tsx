@@ -70,6 +70,7 @@ export default function SingleMember() {
     numMember,
     address,
     iban,
+    tshirtSize,
   } = member;
 
   const fullAddress = `${address.streetAddress}, ${address.postCode}, ${address.town.name}`;
@@ -133,6 +134,12 @@ export default function SingleMember() {
             />
           </Grid>
           <Grid item xs>
+            <TextWithLabel
+              variant="text"
+              textVariant="h6"
+              label="Talla Samarreta"
+              text={tshirtSize.name}
+            />
             <TextWithLabel
               variant="text"
               textVariant="h6"

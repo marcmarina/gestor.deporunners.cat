@@ -6,10 +6,10 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Form, Formik, FormikValues } from 'formik';
 
 import Town from 'interfaces/Town';
+import TShirtSize from 'interfaces/TShirtSize';
 import FormikField from 'components/common/FormikField';
 import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
-import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   firstName: '',
@@ -23,7 +23,7 @@ const initialValues = {
   },
   telephone: '',
   iban: '',
-  creditCard: {},
+  tshirtSize: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -46,16 +46,20 @@ const validationSchema = Yup.object().shape({
     .required('Obligatori')
     .min(9, 'El telefon ha de tenir minim 9 caracters'),
   iban: Yup.string().required('Obligatori'),
+  tshirtSize: Yup.string().required('Obligatori'),
 });
 
-export default function SignupForm() {
+interface Props {
+  onFinishSubmit: () => void;
+}
+
+export default function SignupForm({ onFinishSubmit }: Props) {
   const [towns, setTowns] = useState<Town[]>();
+  const [tshirtSizes, setTshirtSizes] = useState<TShirtSize[]>();
   const [stripeComplete, setStripeComplete] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
-
-  const history = useHistory();
 
   const handleSubmit = async (values: FormikValues) => {
     try {
@@ -69,35 +73,38 @@ export default function SignupForm() {
         return;
       }
 
-      await http.post('/member', {
-        ...values,
+      const memberRes = await http.post('/member', {
+        member: values,
       });
 
-      const getSecret = await http.get('/member/signup/secret');
+      const paymentMethod = await stripe.createPaymentMethod({
+        card,
+        type: 'card',
+      });
 
-      const result = await stripe.confirmCardPayment(
-        getSecret.data.clientSecret,
-        {
-          payment_method: {
-            card: card,
-            billing_details: {
-              name: `${values.firstName} ${values.lastName}`,
-              email: values.email,
-            },
-          },
-        }
-      );
+      const response = await http.post('/member/signup/pay', {
+        memberId: memberRes.data.member.stripeId,
+        payment_method_id: paymentMethod.paymentMethod?.id,
+      });
 
-      if (result.error) {
-        console.log(result.error.message);
-      } else {
-        if (
-          result.paymentIntent &&
-          result.paymentIntent.status === 'succeeded'
-        ) {
-          history.push('/inscripcio');
+      const handlePaymentResponse = async (response: any, memberRes: any) => {
+        if (response.requires_action) {
+          console.log('REQUIRES ACTION');
+          const { paymentIntent } = await stripe.handleCardAction(
+            response.payment_client_secret
+          );
+
+          const serverResponse = await http.post('/member/signup/pay', {
+            payment_intent_id: paymentIntent?.id,
+          });
+
+          handlePaymentResponse(serverResponse, memberRes);
+        } else {
+          console.log('SUCCESS!');
         }
-      }
+      };
+
+      handlePaymentResponse(response.data, memberRes);
     } catch (ex) {
       console.log(ex);
     }
@@ -112,12 +119,26 @@ export default function SignupForm() {
     }
   };
 
+  const retrieveTshirtSizes = async () => {
+    try {
+      const { data } = await http.get('/tshirtSize');
+      setTshirtSizes(data);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   useEffect(() => {
     retrieveTowns();
+    retrieveTshirtSizes();
   }, []);
-  if (!towns) return null;
+
+  if (!towns || !tshirtSizes) return null;
   const selectTownItems = towns.map((town: Town) => {
     return { label: town.name, value: town._id };
+  });
+  const selectTshirtSizes = tshirtSizes.map((size: TShirtSize) => {
+    return { label: size.name, value: size._id };
   });
   return (
     <Formik
@@ -161,7 +182,7 @@ export default function SignupForm() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <FormikField
                   variant="outlined"
                   label="Adreça"
@@ -178,11 +199,20 @@ export default function SignupForm() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <FormikField
                   variant="outlined"
                   label="Codi Postal"
                   name="address.postCode"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <FormikSelect
+                  variant="outlined"
+                  label="Talla Samarreta"
+                  name="tshirtSize"
+                  items={selectTshirtSizes}
                   required
                 />
               </Grid>
@@ -202,8 +232,7 @@ export default function SignupForm() {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={2}></Grid>
-              <Grid item xs={12} sm={5}>
+              <Grid item xs={12} sm={9}>
                 <div className="card-element">
                   <CardElement
                     onChange={event => setStripeComplete(event.complete)}
@@ -234,7 +263,7 @@ export default function SignupForm() {
                     !dirty || !isValid || isSubmitting || !stripeComplete
                   }
                 >
-                  Realitzar inscripció
+                  Pagar
                 </Button>
               </Grid>
               <Grid item xs={12} sm={2}></Grid>
