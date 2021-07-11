@@ -1,21 +1,26 @@
-export type PromiseHandlingResult<T = any> = {
-  data: T | null;
-  error: Error | null;
-};
+export type PromiseHandlingResult<T = any> =
+  | {
+      result: T;
+      error: null;
+    }
+  | {
+      result: null;
+      error: Error;
+    };
 
 export async function promiseHandling<T>(
   promise: Promise<T>
 ): Promise<PromiseHandlingResult<T>> {
   try {
-    const data = await promise;
+    const result = await promise;
 
     return {
-      data,
+      result,
       error: null,
     };
   } catch (error) {
     return {
-      data: null,
+      result: null,
       error,
     };
   }
