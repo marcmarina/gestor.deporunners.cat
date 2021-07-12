@@ -12,14 +12,14 @@ import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
 
 const initialValues = {
-  firstName: 'Marc',
-  lastName: 'Marina',
-  email: 'marc.marina.miravitlles@gmail.com',
-  dni: '42424242',
+  firstName: '',
+  lastName: '',
+  email: '',
+  dni: '',
   address: {
-    streetAddress: 'Sample Street',
+    streetAddress: '',
     town: '',
-    postCode: '424242',
+    postCode: '',
   },
   telephone: '',
   iban: '',
