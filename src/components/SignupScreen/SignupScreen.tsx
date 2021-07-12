@@ -115,7 +115,14 @@ export default function SignupScreen() {
     firstPayment();
   }
 
-  if (state.matches('paymentConfirmation')) return <Last />;
+  if (state.matches('paymentConfirmation'))
+    return (
+      <main className={classes.layout}>
+        <Paper className={classes.paper}>
+          <Last />
+        </Paper>
+      </main>
+    );
 
   return (
     <main className={classes.layout}>
