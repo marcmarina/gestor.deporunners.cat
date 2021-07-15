@@ -202,7 +202,7 @@ function Information() {
                 <li>Perruqueria i estètica Doina 10% descompte en tot</li>
                 <li>Prova esforç 20€ descompte a CRF Vilanova</li>
                 <li>Calserra 10% descompte</li>
-                <li>Fisionova 10%</li>
+                <li>Fisiolab 10%</li>
                 <li>Sorteigs aris i descomptes a Curses de Muntanya</li>
               </ul>
             </td>
