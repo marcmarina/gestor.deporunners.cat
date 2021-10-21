@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   Button,
   Dialog,
@@ -11,12 +11,13 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import ExitToAppOutlined from '@material-ui/icons/ExitToAppOutlined';
-
-import useAuth from 'auth/useAuth';
+import React, { useState } from 'react';
 
 export default function LogoutNavButton() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { logout } = useAuth();
+
+  const { logout } = useAuth0();
+
   return (
     <>
       <ListItem button onClick={() => setDialogOpen(true)}>
@@ -43,7 +44,15 @@ export default function LogoutNavButton() {
           <Button onClick={() => setDialogOpen(false)} color="primary">
             No
           </Button>
-          <Button onClick={() => logout()} color="primary" autoFocus>
+          <Button
+            onClick={() =>
+              logout({
+                returnTo: window.location.origin,
+              })
+            }
+            color="primary"
+            autoFocus
+          >
             Si
           </Button>
         </DialogActions>
