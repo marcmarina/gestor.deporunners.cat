@@ -18,7 +18,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
 import EditMember from './EditMember';
-import PreferencesScreen from './PreferencesScreen';
 import EventsScreen from './EventsScreen';
 
 const drawerWidth = 240;
@@ -166,7 +165,6 @@ export default function HomeScreen() {
             <Route path="/socis/edit/:id" component={EditMember} />
             <Route path="/socis/:id" component={SingleMember} />
             <Route path="/socis" component={MemberTable} />
-            <Route path="/preferencies" component={PreferencesScreen} />
             <Route path="/events" component={EventsScreen} />
             <Redirect from="/" to="/socis" />
           </Switch>

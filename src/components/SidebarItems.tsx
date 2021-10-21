@@ -5,10 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import EventRoundedIcon from '@material-ui/icons/EventRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import { NavLink } from 'react-router-dom';
 
-import { Divider } from '@material-ui/core';
 import LogoutNavButton from './LogoutNavButton';
 
 import './sidebar.css';
@@ -40,15 +38,6 @@ export default function MainListItems() {
             <EventRoundedIcon />
           </ListItemIcon>
           <ListItemText primary="Events" />
-        </ListItem>
-      </NavLink>
-      <Divider />
-      <NavLink to="/preferencies" className="navbarLink">
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsRoundedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Preferències" />
         </ListItem>
       </NavLink>
       <LogoutNavButton />
