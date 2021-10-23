@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import { Button, ButtonGroup } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { padStart } from 'lodash';
-import { Button, ButtonGroup } from '@material-ui/core';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
-
-import LinkWithComponent from 'components/common/LinkWithComponent';
-
-import { Member } from 'interfaces/Member';
-import useAuth from 'auth/useAuth';
+import useRoles from 'auth/useRoles';
 import ConfirmDialog from 'components/common/ConfirmDialog';
+import LinkWithComponent from 'components/common/LinkWithComponent';
+import { Member } from 'interfaces/Member';
+import { padStart } from 'lodash';
+import React, { useState } from 'react';
 import { deleteById } from 'services/member';
 
 interface Props {
@@ -18,7 +16,7 @@ interface Props {
 }
 
 export default function MemberRow({ member, onDelete }: Props) {
-  const { user } = useAuth();
+  const { hasRole } = useRoles();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const deleteMember = async () => {
@@ -62,7 +60,7 @@ export default function MemberRow({ member, onDelete }: Props) {
                 <Edit />
               </LinkWithComponent>
             </Button>
-            {user?.role.name === 'Admin' && (
+            {hasRole('Administrator') && (
               <Button
                 className="IconButton DeleteButton"
                 onClick={() => setDialogOpen(true)}

@@ -6,14 +6,14 @@ import EventRoundedIcon from '@material-ui/icons/EventRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import { NavLink } from 'react-router-dom';
-
+import useRoles from '../auth/useRoles';
 import LogoutNavButton from './LogoutNavButton';
 
 import './sidebar.css';
-import useAuth from 'auth/useAuth';
 
 export default function MainListItems() {
-  const { user } = useAuth();
+  const { hasRole } = useRoles();
+
   return (
     <div>
       <NavLink to="/socis" className="navbarLink">
@@ -24,7 +24,7 @@ export default function MainListItems() {
           <ListItemText primary="Socis" />
         </ListItem>
       </NavLink>
-      {user?.role.name === 'Admin' && (
+      {hasRole('Administrator') && (
         <ListItem button>
           <ListItemIcon>
             <AccountCircleRoundedIcon />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { StylesProvider } from '@material-ui/core';
 import { loadStripe } from '@stripe/stripe-js';
@@ -12,11 +12,18 @@ import ProtectedRoute from 'components/common/ProtectedRoute';
 import './App.css';
 import SignupScreen from 'components/SignupScreen';
 import { useAuth0 } from '@auth0/auth0-react';
+import { storeToken } from 'auth/storage';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY || '');
 
 function App() {
-  const { isLoading } = useAuth0();
+  const { isLoading, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    getAccessTokenSilently().then(token => {
+      storeToken(token);
+    });
+  }, [getAccessTokenSilently]);
 
   if (isLoading) {
     return null;
