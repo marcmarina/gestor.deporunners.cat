@@ -88,7 +88,7 @@ export default function LoginScreen() {
       const refreshToken = headers['x-refresh-token'];
       login(data, refreshToken);
     } catch (ex) {
-      if (ex.response.status === 400) {
+      if (ex.response.status === 401) {
         setOpen(true);
         setFieldValue('password', '');
       }
