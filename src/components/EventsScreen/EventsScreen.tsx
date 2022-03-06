@@ -49,7 +49,7 @@ class EventsScreen extends Component<any, EventsScreenState> {
           </Button>
         </div>
         <Grid container spacing={4}>
-          {events.map(event => (
+          {events.map((event) => (
             <Grid item sm={12} md={6} lg={3} key={event._id}>
               <EventCard
                 event={event}

@@ -11,7 +11,7 @@ import { paymentMachine } from './payment-state-machine';
 import http from 'services/http';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
   },
@@ -131,7 +131,7 @@ export default function SignupScreen() {
           Inscripció a C.E. Deporunners
         </Typography>
         <Stepper activeStep={activeStep} className={classes.stepper}>
-          {steps.map(label => (
+          {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
             </Step>
@@ -143,7 +143,7 @@ export default function SignupScreen() {
         </div>
         <div hidden={activeStep !== 1}>
           <SignupForm
-            onSubmit={values =>
+            onSubmit={(values) =>
               send('CONFIRM_USER', {
                 member: values,
               })

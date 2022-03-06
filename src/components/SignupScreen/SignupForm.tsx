@@ -184,7 +184,7 @@ export default function SignupForm({ onSubmit }: Props) {
               <Grid item xs={12} sm={9}>
                 <div className="card-element">
                   <CardElement
-                    onChange={event => setStripeComplete(event.complete)}
+                    onChange={(event) => setStripeComplete(event.complete)}
                     options={{
                       style: {
                         base: {

@@ -8,18 +8,18 @@ export const fetchEventsBegin = () => ({
   type: FETCH_EVENTS_BEGIN,
 });
 
-export const fetchEventsSuccess = events => ({
+export const fetchEventsSuccess = (events) => ({
   type: FETCH_EVENTS_SUCCESS,
   payload: { events },
 });
 
-export const fetchEventsFailure = error => ({
+export const fetchEventsFailure = (error) => ({
   type: FETCH_EVENTS_FAILURE,
   payload: { error },
 });
 
 export function fetchEvents() {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(fetchEventsBegin());
     try {
       const res = await http.get('/event');

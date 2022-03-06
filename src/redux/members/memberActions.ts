@@ -8,18 +8,18 @@ export const fetchMembersBegin = () => ({
   type: FETCH_MEMBERS_BEGIN,
 });
 
-export const fetchMembersSuccess = members => ({
+export const fetchMembersSuccess = (members) => ({
   type: FETCH_MEMBERS_SUCCESS,
   payload: { members },
 });
 
-export const fetchMembersFailure = error => ({
+export const fetchMembersFailure = (error) => ({
   type: FETCH_MEMBERS_FAILURE,
   payload: { error },
 });
 
 export function fetchMembers() {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(fetchMembersBegin());
 
     try {

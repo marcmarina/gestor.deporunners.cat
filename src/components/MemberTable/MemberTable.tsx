@@ -57,7 +57,7 @@ class MemberTable extends Component<any, MemberTableState> {
   searchMembers = (members: Member[]) => {
     const filteredMembers = [...members];
     if (this.state.searchFilter) {
-      return filteredMembers.filter(member => {
+      return filteredMembers.filter((member) => {
         const fullName = member.firstName + ' ' + member.lastName;
         if (
           fullName.toLowerCase().includes(this.state.searchFilter.toLowerCase())

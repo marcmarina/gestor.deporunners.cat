@@ -120,7 +120,7 @@ export default function EventForm({
                     ampm={false}
                     disablePast
                     value={values.dateTime}
-                    onChange={date => setFieldValue('dateTime', date)}
+                    onChange={(date) => setFieldValue('dateTime', date)}
                     label="Dia i hora"
                     fullWidth
                     required

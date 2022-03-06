@@ -9,7 +9,7 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use((config) => {
   config.headers = {
     ...config.headers,
     'x-auth-token': `${getToken()}`,
@@ -18,7 +18,7 @@ instance.interceptors.request.use(config => {
   return config;
 });
 
-instance.interceptors.response.use(config => {
+instance.interceptors.response.use((config) => {
   const returnedToken = config.headers['x-auth-token'];
   if (returnedToken && returnedToken !== getToken()) {
     storeToken(returnedToken);

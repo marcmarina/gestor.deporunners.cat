@@ -77,7 +77,7 @@ export default function FormikSelect({
         required={required}
         variant={variant}
       >
-        {items.map(item => (
+        {items.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             {item.label}
           </MenuItem>
