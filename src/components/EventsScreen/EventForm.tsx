@@ -13,6 +13,8 @@ import * as Yup from 'yup';
 import FormikField from 'components/common/FormikField';
 import http from 'services/http';
 import Event from 'interfaces/Event';
+import { coordinateValidator } from 'utils/coordinate-validator';
+import dayjs from 'dayjs';
 
 interface FormValues {
   name: string;
@@ -34,20 +36,7 @@ const validationSchema = Yup.object().shape({
     }),
   coordinates: Yup.string()
     .required('Obligatori')
-    .test('valid', 'Les coordenades no son valides', function (v) {
-      if (v) {
-        const [lat, long] = v.replace(/,/g, '').split(' ');
-        if (!lat || !long) return false;
-        if (parseFloat(lat) > 90 || parseFloat(lat) < -90) {
-          return false;
-        }
-        if (parseFloat(long) > 180 || parseFloat(long) < -180) {
-          return false;
-        }
-        return true;
-      }
-      return false;
-    }),
+    .test('valid', 'Les coordenades no son valides', coordinateValidator),
 });
 
 interface Props {
@@ -77,15 +66,14 @@ export default function EventForm({
     }
   };
 
-  let initialValues: FormValues = {
+  const isEdit = !!event;
+
+  const initialValues: FormValues = event ?? {
     name: '',
     description: '',
     coordinates: '',
-    dateTime: new Date(),
+    dateTime: dayjs().add(1, 'hours').toDate(),
   };
-  if (event) {
-    initialValues = { ...event };
-  }
 
   return (
     <Dialog
@@ -95,14 +83,14 @@ export default function EventForm({
       onClose={() => setOpen(false)}
     >
       <DialogTitle id="alert-dialog-title">
-        {event ? 'Editar Event' : 'Nou Event'}
+        {isEdit ? 'Editar Event' : 'Nou Event'}
       </DialogTitle>
       <Formik
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        {({ values, setFieldValue, errors, touched, dirty, isValid }) => (
+        {({ values, setFieldValue, errors, touched }) => (
           <Form noValidate>
             <DialogContent>
               <Grid container spacing={2}>
@@ -152,12 +140,8 @@ export default function EventForm({
               <Button color="secondary" onClick={() => setOpen(false)}>
                 Tancar
               </Button>
-              <Button
-                // disabled={!dirty || !isValid}
-                type="submit"
-                color="primary"
-              >
-                {event ? 'Desar' : 'Crear'}
+              <Button type="submit" color="primary">
+                {isEdit ? 'Desar' : 'Crear'}
               </Button>
             </DialogActions>
           </Form>
