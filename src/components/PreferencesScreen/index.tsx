@@ -1,2 +1,1 @@
-import PreferencesScreen from './PreferencesScreen';
-export default PreferencesScreen;
+export { default } from './PreferencesScreen';

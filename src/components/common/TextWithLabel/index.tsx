@@ -1,2 +1,1 @@
-import TextWithLabel from './TextWithLabel';
-export default TextWithLabel;
+export { default } from './TextWithLabel';

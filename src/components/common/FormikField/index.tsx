@@ -1,2 +1,1 @@
-import FormikField from './FormikField';
-export default FormikField;
+export { default } from './FormikField';

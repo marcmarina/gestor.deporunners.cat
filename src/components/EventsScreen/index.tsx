@@ -1,2 +1,1 @@
-import EventsScreen from './EventsScreen';
-export default EventsScreen;
+export { default } from './EventsScreen';

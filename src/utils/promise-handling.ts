@@ -21,7 +21,7 @@ export async function promiseHandling<T>(
   } catch (error) {
     return {
       result: null,
-      error,
+      error: error as Error,
     };
   }
 }

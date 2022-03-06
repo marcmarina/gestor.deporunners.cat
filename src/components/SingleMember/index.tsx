@@ -1,2 +1,1 @@
-import SingleMember from './SingleMember';
-export default SingleMember;
+export { default } from './SingleMember';

@@ -1,2 +1,1 @@
-import MemberTable from './MemberTable';
-export default MemberTable;
+export { default } from './MemberTable';

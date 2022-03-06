@@ -1,2 +1,1 @@
-import FormikSelect from './FormikSelect';
-export default FormikSelect;
+export { default } from './FormikSelect';

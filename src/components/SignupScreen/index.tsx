@@ -1,2 +1,1 @@
-import SignupScreen from './SignupScreen';
-export default SignupScreen;
+export { default } from './SignupScreen';
