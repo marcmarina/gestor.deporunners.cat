@@ -5,7 +5,7 @@ import { getRefreshToken, getToken, storeToken } from 'auth/storage';
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    'x-api-token': process.env.REACT_APP_API_TOKEN,
+    'x-api-token': process.env.REACT_APP_API_TOKEN ?? '',
   },
 });
 
