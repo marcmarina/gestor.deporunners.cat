@@ -95,7 +95,7 @@ export default function SignupForm({ onSubmit }: Props) {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ isValid, dirty, isSubmitting }) => {
+      {({ isSubmitting }) => {
         return (
           <Form noValidate className="signup-form">
             <Grid container spacing={2}>

@@ -6,8 +6,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import './FormikSelect.css';
-
 export interface FormikSelectItem {
   label: string;
   value: string;
@@ -68,21 +66,19 @@ export default function FormikSelect({
   variant = 'standard',
 }: FormikSelectProps) {
   return (
-    <div className="FormikSelect">
-      <Field
-        name={name}
-        as={MaterialUISelectField}
-        label={label}
-        errorString={<ErrorMessage name={name} />}
-        required={required}
-        variant={variant}
-      >
-        {items.map((item) => (
-          <MenuItem key={item.value} value={item.value}>
-            {item.label}
-          </MenuItem>
-        ))}
-      </Field>
-    </div>
+    <Field
+      name={name}
+      as={MaterialUISelectField}
+      label={label}
+      errorString={<ErrorMessage name={name} />}
+      required={required}
+      variant={variant}
+    >
+      {items.map((item) => (
+        <MenuItem key={item.value} value={item.value}>
+          {item.label}
+        </MenuItem>
+      ))}
+    </Field>
   );
 }
