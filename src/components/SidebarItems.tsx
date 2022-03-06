@@ -12,10 +12,10 @@ import { Divider } from '@material-ui/core';
 import LogoutNavButton from './LogoutNavButton';
 
 import './sidebar.css';
-import useAuth from 'auth/useAuth';
+import { useAuthContext } from 'auth/AuthContext';
 
 export default function MainListItems() {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   return (
     <div>
       <NavLink to="/socis" className="navbarLink">

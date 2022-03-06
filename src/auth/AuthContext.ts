@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 import http from 'services/http';
 
-import AuthContext from './context';
+import React from 'react';
+
+import User from 'interfaces/User';
 import {
   removeRefreshToken,
   removeToken,
@@ -9,10 +11,15 @@ import {
   storeToken,
 } from './storage';
 
-export default function useAuth() {
+interface UserContext {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+}
+
+export function useAuthContext() {
   const { user, setUser } = useContext(AuthContext);
 
-  const login = async (authToken: any, refreshToken: any) => {
+  const login = async ({ authToken, refreshToken }) => {
     storeToken(authToken);
     storeRefreshToken(refreshToken);
     try {
@@ -31,3 +38,7 @@ export default function useAuth() {
 
   return { user, setUser, login, logout };
 }
+
+const AuthContext = React.createContext<Partial<UserContext>>({});
+
+export default AuthContext;

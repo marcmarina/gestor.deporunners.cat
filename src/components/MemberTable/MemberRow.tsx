@@ -8,7 +8,7 @@ import { Delete, Edit, Visibility } from '@material-ui/icons';
 import LinkWithComponent from 'components/common/LinkWithComponent';
 
 import { Member } from 'interfaces/Member';
-import useAuth from 'auth/useAuth';
+import { useAuthContext } from 'auth/AuthContext';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import { deleteById } from 'services/member';
 
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function MemberRow({ member, onDelete }: Props) {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const deleteMember = async () => {

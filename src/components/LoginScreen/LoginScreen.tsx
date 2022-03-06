@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import * as Yup from 'yup';
 
-import useAuth from 'auth/useAuth';
+import { useAuthContext } from 'auth/AuthContext';
 import http from 'services/http';
 import FormikField from 'components/common/FormikField';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -73,20 +73,20 @@ export default function LoginScreen() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
-  const { login, user } = useAuth();
+  const { login, user } = useAuthContext();
 
   const handleSubmit = async (
     { email, password }: FormValues,
     { setFieldValue }: FormikHelpers<FormValues>
   ) => {
     try {
-      const { data, headers } = await http.post('/user/login', {
+      const { data: authToken, headers } = await http.post('/user/login', {
         email,
         password,
       });
 
       const refreshToken = headers['x-refresh-token'];
-      login(data, refreshToken);
+      login({ authToken, refreshToken });
     } catch (ex) {
       if (ex.response.status === 401) {
         setOpen(true);

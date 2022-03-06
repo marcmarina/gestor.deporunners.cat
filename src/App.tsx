@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { StylesProvider } from '@material-ui/core';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 
 import LoginScreen from 'components/LoginScreen';
 import HomeScreen from 'components/HomeScreen';
 import PrivacyScreen from 'components/PrivacyScreen';
 import ProtectedRoute from 'components/common/ProtectedRoute';
 
-import AuthContext from 'auth/context';
+import AuthContext from 'auth/AuthContext';
 
 import User from 'interfaces/User';
 
@@ -17,8 +15,7 @@ import './App.css';
 import SignupScreen from 'components/SignupScreen';
 import http from 'services/http';
 import { getRefreshToken, getToken } from 'auth/storage';
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY || '');
+import StripeProvider from 'stripe/StripeProvider';
 
 function App() {
   const [user, setUser] = useState<User>();
@@ -44,16 +41,16 @@ function App() {
 
   return (
     <StylesProvider injectFirst>
-      <Elements stripe={stripePromise}>
-        <AuthContext.Provider value={{ user, setUser }}>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <StripeProvider>
           <Switch>
             <Route path="/login" component={LoginScreen} />
             <Route path="/inscripcio" component={SignupScreen} />
             <Route path="/privacy" component={PrivacyScreen} />
             <ProtectedRoute path="/" component={HomeScreen} />
           </Switch>
-        </AuthContext.Provider>
-      </Elements>
+        </StripeProvider>
+      </AuthContext.Provider>
     </StylesProvider>
   );
 }

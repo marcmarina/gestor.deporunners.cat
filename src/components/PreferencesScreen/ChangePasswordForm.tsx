@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import FormikField from 'components/common/FormikField';
 import { Button, Grid, Typography } from '@material-ui/core';
 import http from 'services/http';
-import useAuth from 'auth/useAuth';
+import { useAuthContext } from 'auth/AuthContext';
 
 const initialValues = {
   oldPassword: '',
@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ChangePasswordForm() {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
 
   const handleSubmit = async (
     values: FormValues,
