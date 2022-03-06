@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { http } from 'services';
+import axios from 'axios';
 
 export const useQuery = (path: string) => {
   const [data, setData] = useState<any>({});
@@ -11,8 +12,8 @@ export const useQuery = (path: string) => {
       const res = await http.get(path);
       setData(res.data);
     } catch (err) {
-      if (error.response) {
-        setError(err.response.data);
+      if (axios.isAxiosError(err)) {
+        setError(err?.response?.data);
       } else {
         setError(error);
       }
