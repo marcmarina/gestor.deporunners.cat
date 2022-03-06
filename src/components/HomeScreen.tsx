@@ -17,7 +17,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import MemberTable from './MemberTable';
 import SingleMember from './SingleMember';
-import EditMember from './EditMember';
+import { EditMember } from './EditMember';
 import PreferencesScreen from './PreferencesScreen';
 import EventsScreen from './EventsScreen';
 

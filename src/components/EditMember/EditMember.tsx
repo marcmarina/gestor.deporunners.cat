@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Button, Paper } from '@material-ui/core';
@@ -8,72 +8,62 @@ import { Formik, Form } from 'formik';
 
 import FormikField from 'components/common/FormikField';
 
-import { fetchById, updateById } from 'services/member';
+import { updateById } from 'services/member';
 import { Member } from 'interfaces/Member';
 
 import './style.css';
-import http from 'services/http';
 import FormikSelect from 'components/common/FormikSelect';
 import Town from 'interfaces/Town';
+import styled from 'styled-components';
+import { useQuery } from 'hooks';
 
 type TParams = {
   id: string;
 };
 
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .required('Obligatori')
+    .min(3, 'El nom ha de tenir minim 3 caracters'),
+  lastName: Yup.string()
+    .required('Obligatori')
+    .min(3, 'El nom ha de tenir minim 3 caracters'),
+  email: Yup.string().email().required('Obligatori'),
+  dni: Yup.string().min(4).required('Obligatori'),
+  numMember: Yup.number().required(''),
+  address: Yup.object().shape({
+    streetAddress: Yup.string()
+      .required('Obligatori')
+      .min(10, "L'adreça ha de tenir minim 10 caracters"),
+    postCode: Yup.string().required(''),
+    town: Yup.string().required(''),
+  }),
+  telephone: Yup.string()
+    .required('')
+    .min(9, 'El telefon ha de tenir minim 9 caracters'),
+  iban: Yup.string().required(''),
+});
+
 export default function EditMember() {
-  const [member, setMember] = useState<Member>();
-  const [towns, setTowns] = useState<Town[]>();
-
   const { id } = useParams<TParams>();
-  const { push, replace } = useHistory();
+  const { push } = useHistory();
 
-  const retrieveMember = useCallback(async () => {
-    try {
-      const { data } = await fetchById(id);
-      if (data) setMember(data);
-      else replace('/socis');
-    } catch (ex) {
-      replace('/socis');
-      console.log(ex);
-    }
-  }, [id, replace]);
+  const {
+    data: towns,
+    loading: townsLoading,
+    error: townsError,
+  } = useQuery('/town');
 
-  const retrieveTowns = async () => {
-    try {
-      const { data } = await http.get('/town');
-      setTowns(data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  const {
+    data: member,
+    loading: memberLoading,
+    error: memberError,
+  } = useQuery(`/member/${id}`);
 
-  useEffect(() => {
-    retrieveTowns();
-    retrieveMember();
-  }, [id, retrieveMember]);
+  if (townsLoading || memberLoading) return null;
 
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .required('Obligatori')
-      .min(3, 'El nom ha de tenir minim 3 caracters'),
-    lastName: Yup.string()
-      .required('Obligatori')
-      .min(3, 'El nom ha de tenir minim 3 caracters'),
-    email: Yup.string().email().required('Obligatori'),
-    dni: Yup.string().min(4).required('Obligatori'),
-    numMember: Yup.number().required(''),
-    address: Yup.object().shape({
-      streetAddress: Yup.string()
-        .required('Obligatori')
-        .min(10, "L'adreça ha de tenir minim 10 caracters"),
-      postCode: Yup.string().required(''),
-      town: Yup.string().required(''),
-    }),
-    telephone: Yup.string()
-      .required('')
-      .min(9, 'El telefon ha de tenir minim 9 caracters'),
-    iban: Yup.string().required(''),
-  });
+  if (memberError) throw new Error(memberError);
+  if (townsError) throw new Error(townsError);
 
   const handleSubmit = async (values: Member) => {
     try {
@@ -83,8 +73,6 @@ export default function EditMember() {
       console.log(ex);
     }
   };
-
-  if (!member || !towns) return null;
 
   const initialValues: Member = { ...member };
   const selectTownItems = towns.map((town: Town) => {
@@ -106,7 +94,7 @@ export default function EditMember() {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        {({ dirty, isValid }) => (
+        {({ isValid }) => (
           <Form noValidate>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
@@ -191,7 +179,7 @@ export default function EditMember() {
                   required
                 />
               </Grid>
-              <Grid className="button_grid" item xs={12}>
+              <ButtonGrid className="button_grid" item xs={12}>
                 <Button
                   disabled={!isValid}
                   type="submit"
@@ -200,7 +188,7 @@ export default function EditMember() {
                 >
                   Desar
                 </Button>
-              </Grid>
+              </ButtonGrid>
             </Grid>
           </Form>
         )}
@@ -208,3 +196,10 @@ export default function EditMember() {
     </Paper>
   );
 }
+
+const ButtonGrid = styled(Grid)`
+  .button_grid {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+`;

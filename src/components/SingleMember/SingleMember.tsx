@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { padStart } from 'lodash';
 import { Button, Grid, Paper } from '@material-ui/core';
@@ -7,24 +7,23 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
 import TextWithLabel from 'components/common/TextWithLabel';
 
-import { deleteById, fetchById } from 'services/member';
-import { Member } from 'interfaces/Member';
+import { deleteById } from 'services/member';
 
 import './style.css';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import LinkWithComponent from 'components/common/LinkWithComponent';
+import { useQuery } from 'hooks';
 
 type TParams = {
   id: string;
 };
 
 export default function SingleMember() {
-  const [member, setMember] = useState<Member>();
+  const { id } = useParams<TParams>();
+  const { replace } = useHistory();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { id } = useParams<TParams>();
-
-  const { replace } = useHistory();
+  const { data: member, loading, error } = useQuery(`/member/${id}`);
 
   const handleDelete = () => {
     setDialogOpen(true);
@@ -43,22 +42,9 @@ export default function SingleMember() {
     }
   };
 
-  const retrieveMember = useCallback(async () => {
-    try {
-      const { data } = await fetchById(id);
-      if (data) setMember(data);
-      else replace('/socis');
-    } catch (ex) {
-      replace('/socis');
-      console.log(ex);
-    }
-  }, [id, replace]);
+  if (loading) return null;
 
-  useEffect(() => {
-    retrieveMember();
-  }, [id, retrieveMember]);
-
-  if (!member) return null;
+  if (error) throw new Error(error);
 
   const {
     _id,
