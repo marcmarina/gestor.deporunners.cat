@@ -12,21 +12,32 @@ import DayJSUtils from '@date-io/dayjs';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 import rootReducer from 'redux/rootReducer';
+import { Grommet } from 'grommet';
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
 
+const theme = {
+  global: {
+    font: {
+      family: 'Roboto',
+    },
+  },
+};
+
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <React.StrictMode>
-        <MuiPickersUtilsProvider utils={DayJSUtils}>
-          <App />
-        </MuiPickersUtilsProvider>
-      </React.StrictMode>
-    </BrowserRouter>
-  </Provider>,
+  <Grommet plain>
+    <Provider store={store}>
+      <BrowserRouter>
+        <React.StrictMode>
+          <MuiPickersUtilsProvider utils={DayJSUtils}>
+            <App />
+          </MuiPickersUtilsProvider>
+        </React.StrictMode>
+      </BrowserRouter>
+    </Provider>
+  </Grommet>,
   document.getElementById('root')
 );

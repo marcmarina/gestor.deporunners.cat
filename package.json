@@ -34,6 +34,8 @@
     "dayjs": "^1.9.1",
     "form-data": "^3.0.0",
     "formik": "^2.1.5",
+    "grommet": "^2.21.0",
+    "grommet-icons": "^4.7.0",
     "http-proxy-middleware": "^1.0.5",
     "js-file-download": "^0.4.12",
     "jwt-decode": "^2.2.0",
