@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import * as Yup from 'yup';
@@ -10,6 +10,7 @@ import TShirtSize from 'interfaces/TShirtSize';
 import FormikField from 'components/common/FormikField';
 import FormikSelect from 'components/common/FormikSelect';
 import http from 'services/http';
+import { useQuery } from 'react-query';
 
 const initialValues = {
   firstName: '',
@@ -55,40 +56,27 @@ interface Props {
 }
 
 export default function SignupForm({ onSubmit }: Props) {
-  const [towns, setTowns] = useState<Town[]>();
-  const [tshirtSizes, setTshirtSizes] = useState<TShirtSize[]>();
   const [stripeComplete, setStripeComplete] = useState(false);
 
-  useEffect(() => {
-    retrieveTowns();
-    retrieveTshirtSizes();
-  }, []);
+  const { data: towns, isLoading: townsLoading } = useQuery(
+    'towns',
+    async () => (await http.get('/town')).data
+  );
 
-  const retrieveTowns = async () => {
-    try {
-      const { data } = await http.get('/town');
-      setTowns(data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  const { data: tshirtSizes, isLoading: tshirtSizesLoading } = useQuery(
+    'tshirtSizes',
+    async () => (await http.get('/tshirtSize')).data
+  );
 
-  const retrieveTshirtSizes = async () => {
-    try {
-      const { data } = await http.get('/tshirtSize');
-      setTshirtSizes(data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  if (townsLoading || tshirtSizesLoading) return null;
 
-  if (!towns || !tshirtSizes) return null;
   const selectTownItems = towns.map((town: Town) => {
     return { label: town.name, value: town._id };
   });
   const selectTshirtSizes = tshirtSizes.map((size: TShirtSize) => {
     return { label: size.name, value: size._id };
   });
+
   return (
     <Formik
       initialValues={initialValues}

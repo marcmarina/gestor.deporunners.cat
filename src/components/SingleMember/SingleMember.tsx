@@ -12,7 +12,8 @@ import { deleteById } from 'services/member';
 import './style.css';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import LinkWithComponent from 'components/common/LinkWithComponent';
-import { useQuery } from 'hooks';
+import { useQuery, useQueryClient } from 'react-query';
+import { http } from 'services';
 
 type TParams = {
   id: string;
@@ -21,9 +22,14 @@ type TParams = {
 export default function SingleMember() {
   const { id } = useParams<TParams>();
   const { replace } = useHistory();
+  const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { data: member, loading, error } = useQuery(`/member/${id}`);
+  const {
+    data: member,
+    isLoading,
+    error,
+  } = useQuery('member', async () => (await http.get(`/member/${id}`)).data);
 
   const handleDelete = () => {
     setDialogOpen(true);
@@ -34,6 +40,7 @@ export default function SingleMember() {
       const { status } = await deleteById(id);
       if (status === 200) {
         replace('/socis');
+        queryClient.invalidateQueries('members');
       } else {
         alert("No s'ha pogut eliminar el soci");
       }
@@ -42,9 +49,9 @@ export default function SingleMember() {
     }
   };
 
-  if (loading) return null;
+  if (isLoading) return null;
 
-  if (error) throw new Error(error);
+  if (error) throw error;
 
   const {
     _id,

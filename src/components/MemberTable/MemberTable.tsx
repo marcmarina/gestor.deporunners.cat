@@ -18,7 +18,7 @@ import './style.css';
 
 import { Member } from 'interfaces/Member';
 import fileDownload from 'js-file-download';
-import http from 'services/http';
+import { http } from 'services';
 
 export default function MemberTable() {
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
@@ -45,9 +45,8 @@ export default function MemberTable() {
   };
 
   const searchMembers = (members: Member[]) => {
-    const filteredMembers = [...members];
     if (searchFilter) {
-      return filteredMembers.filter((member) => {
+      return members.filter((member) => {
         const fullName = member.firstName + ' ' + member.lastName;
         if (fullName.toLowerCase().includes(searchFilter.toLowerCase())) {
           return member;
@@ -56,7 +55,7 @@ export default function MemberTable() {
         }
       });
     }
-    return filteredMembers;
+    return members;
   };
 
   const getExcelFile = async () => {

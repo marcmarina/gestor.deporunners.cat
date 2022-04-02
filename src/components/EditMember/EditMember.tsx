@@ -15,7 +15,8 @@ import './style.css';
 import FormikSelect from 'components/common/FormikSelect';
 import Town from 'interfaces/Town';
 import styled from 'styled-components';
-import { useQuery } from 'hooks';
+import { useQuery, useQueryClient } from 'react-query';
+import { http } from 'services';
 
 type TParams = {
   id: string;
@@ -48,27 +49,30 @@ export default function EditMember() {
   const { id } = useParams<TParams>();
   const { push } = useHistory();
 
-  const {
-    data: towns,
-    loading: townsLoading,
-    error: townsError,
-  } = useQuery('/town');
+  const queryClient = useQueryClient();
 
   const {
     data: member,
-    loading: memberLoading,
+    isLoading: memberLoading,
     error: memberError,
-  } = useQuery(`/member/${id}`);
+  } = useQuery('member', async () => (await http.get(`/member/${id}`)).data);
+
+  const {
+    data: towns,
+    isLoading: townsLoading,
+    error: townsError,
+  } = useQuery('towns', async () => (await http.get(`/town`)).data);
 
   if (townsLoading || memberLoading) return null;
 
-  if (memberError) throw new Error(memberError);
-  if (townsError) throw new Error(townsError);
+  if (memberError) throw memberError;
+  if (townsError) throw townsError;
 
   const handleSubmit = async (values: Member) => {
     try {
       const res = await updateById(values);
       if (res?.status === 200) push(`/socis/${member?._id}`);
+      queryClient.invalidateQueries(['member', 'members']);
     } catch (ex) {
       console.log(ex);
     }
