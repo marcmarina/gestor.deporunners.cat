@@ -11,7 +11,7 @@ import http from 'services/http';
 
 export default function EventsScreen() {
   const [open, setOpen] = useState(false);
-  const [event, setEvent] = useState<any>();
+  const [event, setEvent] = useState<Event | undefined>();
   const queryClient = useQueryClient();
 
   const { data: events, isLoading: eventsLoading } = useQuery(
