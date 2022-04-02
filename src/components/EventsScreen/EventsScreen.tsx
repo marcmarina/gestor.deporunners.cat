@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Button, Grid } from '@material-ui/core';
 
 import EventCard from './EventCard';
@@ -6,73 +6,54 @@ import EventForm from './EventForm';
 import Event from 'interfaces/Event';
 
 import './style.css';
-import { fetchEvents } from 'redux/events/eventActions';
-import { connect } from 'react-redux';
+import { useQuery, useQueryClient } from 'react-query';
+import http from 'services/http';
 
-interface EventsScreenState {
-  open: boolean;
-  event?: Event[];
-}
-class EventsScreen extends Component<any, EventsScreenState> {
-  state = {
-    open: false,
-    event: undefined,
-  };
+export default function EventsScreen() {
+  const [open, setOpen] = useState(false);
+  const [event, setEvent] = useState<any>();
+  const queryClient = useQueryClient();
 
-  setOpen = (value: boolean) => {
-    this.setState({ open: value });
-  };
+  const { data: events, isLoading: eventsLoading } = useQuery(
+    'events',
+    async () => (await http.get('/event')).data
+  );
 
-  componentDidMount() {
-    this.props.dispatch(fetchEvents());
-  }
+  if (eventsLoading) return null;
 
-  render() {
-    const { events } = this.props;
-
-    if (!events) return null;
-
-    return (
-      <div>
-        <div className="events-header">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              this.setState({
-                open: true,
-                event: undefined,
-              })
-            }
-          >
-            Nou Event
-          </Button>
-        </div>
-        <Grid container spacing={4}>
-          {events.map((event) => (
-            <Grid item sm={12} md={6} lg={3} key={event._id}>
-              <EventCard
-                event={event}
-                onClickEdit={() => this.setState({ open: true, event: event })}
-              />
-            </Grid>
-          ))}
-        </Grid>
-        <EventForm
-          open={this.state.open}
-          setOpen={this.setOpen}
-          event={this.state.event}
-          onFinishSubmit={() => this.props.dispatch(fetchEvents())}
-        />
+  return (
+    <div>
+      <div className="events-header">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setOpen(true);
+            setEvent(undefined);
+          }}
+        >
+          Nou Event
+        </Button>
       </div>
-    );
-  }
+      <Grid container spacing={4}>
+        {events.map((event) => (
+          <Grid item sm={12} md={6} lg={3} key={event._id}>
+            <EventCard
+              event={event}
+              onClickEdit={() => {
+                setOpen(true);
+                setEvent(event);
+              }}
+            />
+          </Grid>
+        ))}
+      </Grid>
+      <EventForm
+        open={open}
+        setOpen={setOpen}
+        event={event}
+        onFinishSubmit={() => queryClient.invalidateQueries('events')}
+      />
+    </div>
+  );
 }
-
-function mapState(state) {
-  return {
-    events: state.event.items,
-  };
-}
-
-export default connect(mapState)(EventsScreen);

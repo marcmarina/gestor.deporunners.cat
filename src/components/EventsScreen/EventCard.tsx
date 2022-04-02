@@ -17,6 +17,7 @@ import EventDialog from './EventDialog';
 import Event from 'interfaces/Event';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import http from 'services/http';
+import { useQueryClient } from 'react-query';
 
 interface Props {
   event: Event;
@@ -27,11 +28,14 @@ export default function EventCard({ event, onClickEdit }: Props) {
   const [showDialog, setShowDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const { _id, name, description, dateTime, coordinates } = event;
 
   const deleteEvent = async () => {
     try {
       await http.delete(`/event/${_id}`);
+      queryClient.invalidateQueries('events');
       setShowDialog(false);
       setShowDeleteDialog(false);
     } catch (ex) {

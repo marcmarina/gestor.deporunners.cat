@@ -15,6 +15,7 @@ import http from 'services/http';
 import Event from 'interfaces/Event';
 import { coordinateValidator } from 'utils/coordinate-validator';
 import dayjs from 'dayjs';
+import { useQueryClient } from 'react-query';
 
 interface FormValues {
   name: string;
