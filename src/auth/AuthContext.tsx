@@ -14,7 +14,6 @@ import { useQuery, useQueryClient } from 'react-query';
 
 interface UserContext {
   user: User;
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
 export function useAuthContext() {
