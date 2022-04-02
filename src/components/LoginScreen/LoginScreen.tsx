@@ -20,6 +20,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 
 import './style.css';
 import { Box } from '@material-ui/core';
+import { useQueryString } from 'hooks';
 
 function Copyright() {
   return (
@@ -72,6 +73,7 @@ const initialValues: FormValues = {
 export default function LoginScreen() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const { nextPage } = useQueryString();
 
   const { login, user } = useAuthContext();
 
@@ -95,7 +97,7 @@ export default function LoginScreen() {
     }
   };
 
-  if (user) return <Redirect to="/socis" />;
+  if (user) return <Redirect to={nextPage ?? '/socis'} />;
 
   return (
     <Container component="main" maxWidth="xs">
