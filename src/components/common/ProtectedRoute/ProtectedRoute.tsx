@@ -11,7 +11,12 @@ export default function ProtectedRoute({
   const { user } = useAuthContext();
   const { pathname } = useLocation();
 
-  if (!user) return <Redirect to={`/login?nextPage=${pathname}`} />;
+  const hasNextPage = pathname !== '/';
+
+  if (!user)
+    return (
+      <Redirect to={`/login${hasNextPage ? `?nextPage=${pathname}` : ''}`} />
+    );
 
   return <Route {...rest} path={path} component={Component} />;
 }

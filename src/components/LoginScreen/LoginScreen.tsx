@@ -97,7 +97,7 @@ export default function LoginScreen() {
     }
   };
 
-  if (user) return <Redirect to={nextPage ?? '/socis'} />;
+  if (user) return <Redirect to={nextPage ?? '/'} />;
 
   return (
     <Container component="main" maxWidth="xs">
