@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useEffect, useState } from 'react';
+import React, { useContext, createContext } from 'react';
 
 import User from 'interfaces/User';
 import {
@@ -10,6 +10,7 @@ import {
   storeToken,
 } from './storage';
 import { http } from 'services';
+import { useQuery, useQueryClient } from 'react-query';
 
 interface UserContext {
   user: User;
@@ -17,56 +18,44 @@ interface UserContext {
 }
 
 export function useAuthContext() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
-  const login = async ({ authToken, refreshToken }) => {
+  const login = ({ authToken, refreshToken }) => {
     storeToken(authToken);
     storeRefreshToken(refreshToken);
-    try {
-      const { data } = await http.get('/user/self');
-      if (setUser) setUser(data);
-    } catch (ex) {
-      console.log(ex);
-    }
+    queryClient.invalidateQueries('authentication');
   };
 
   const logout = () => {
     removeToken();
     removeRefreshToken();
-    if (setUser) setUser(undefined);
+    queryClient.invalidateQueries('authentication');
   };
 
-  return { user, setUser, login, logout };
+  return {
+    user,
+    login,
+    logout,
+  };
 }
 
 const AuthContext = createContext<Partial<UserContext>>({});
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState<User>();
-  const [loading, setLoading] = useState(true);
+  const { data: user, isLoading } = useQuery('authentication', async () => {
+    if (getToken() && getRefreshToken()) {
+      const { data } = await http.get('/user/self');
 
-  useEffect(() => {
-    restoreUser();
-  }, []);
-
-  const restoreUser = async () => {
-    try {
-      if (getToken() && getRefreshToken()) {
-        const { data } = await http.get('/user/self');
-        setUser(data);
-      }
-    } catch (ex) {
-      console.log(ex);
-    } finally {
-      setLoading(false);
+      return data;
+    } else {
+      return undefined;
     }
-  };
+  });
 
-  if (loading) return null;
+  if (isLoading) return null;
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };
