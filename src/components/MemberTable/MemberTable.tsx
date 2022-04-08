@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import MemberRow from './MemberRow';
 import SearchBar from './SearchBar';
 
-import { paginate } from 'utils/paginate';
+import { paginate } from 'utils';
 
 import './style.css';
 

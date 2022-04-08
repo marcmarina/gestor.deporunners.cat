@@ -1,4 +1,4 @@
-export function coordinateValidator(v) {
+export default function coordinateValidator(v) {
   if (v) {
     const [lat, long] = v.replace(/,/g, '').split(' ');
     if (!lat || !long) return false;

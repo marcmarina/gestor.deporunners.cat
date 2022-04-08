@@ -8,7 +8,7 @@ import { Formik, Form } from 'formik';
 
 import FormikField from 'components/common/FormikField';
 
-import { updateById } from 'services/member';
+import { memberService } from 'services';
 import { Member } from 'interfaces/Member';
 
 import './style.css';
@@ -70,7 +70,7 @@ export default function EditMember() {
 
   const handleSubmit = async (values: Member) => {
     try {
-      const res = await updateById(values);
+      const res = await memberService.updateById(values);
       if (res?.status === 200) push(`/socis/${member?._id}`);
       queryClient.invalidateQueries(['member', 'members']);
     } catch (ex) {

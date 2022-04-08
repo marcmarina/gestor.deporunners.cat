@@ -22,19 +22,11 @@ export const fetchById = async (id: string) => {
 };
 
 export const deleteById = async (id: string) => {
-  try {
-    const res = await http.delete(`/member/${id}`);
-    return res;
-  } catch (ex) {
-    throw ex;
-  }
+  const res = await http.delete(`/member/${id}`);
+  return res;
 };
 
 export const updateById = async (member: Member) => {
-  try {
-    const res = await http.put(`/member`, member);
-    return res;
-  } catch (ex) {
-    console.log(ex);
-  }
+  const res = await http.put(`/member`, member);
+  return res;
 };

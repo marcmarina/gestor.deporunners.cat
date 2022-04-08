@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function paginate(
+export default function paginate(
   items: Array<any>,
   pageNumber: number,
   pageSize: number

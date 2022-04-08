@@ -13,8 +13,8 @@ import * as Yup from 'yup';
 import FormikField from 'components/common/FormikField';
 import http from 'services/http';
 import Event from 'interfaces/Event';
-import { coordinateValidator } from 'utils/coordinate-validator';
 import dayjs from 'dayjs';
+import { coordinateValidator } from 'utils';
 
 interface FormValues {
   name: string;
