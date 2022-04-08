@@ -10,7 +10,7 @@ import { AuthContextProvider } from 'auth';
 
 import './App.css';
 import SignupScreen from 'components/SignupScreen';
-import StripeProvider from 'stripe/StripeProvider';
+import { StripeProvider } from 'stripe';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
