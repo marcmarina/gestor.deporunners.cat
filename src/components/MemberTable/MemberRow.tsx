@@ -11,6 +11,7 @@ import { Member } from 'interfaces/Member';
 import { useAuthContext } from 'auth';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import { http } from 'services';
+import { useMutation } from 'react-query';
 
 interface Props {
   member: Member;
@@ -21,17 +22,12 @@ export default function MemberRow({ member, onDelete }: Props) {
   const { user } = useAuthContext();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const deleteMember = async () => {
-    try {
-      const res = await http.delete(`/member/${member._id}`);
-      if (res.status === 200) {
-        setDialogOpen(false);
-        onDelete();
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  const deleteMember = useMutation(() => http.delete(`/member/${member._id}`), {
+    onSuccess: () => {
+      onDelete();
+      setDialogOpen(false);
+    },
+  });
 
   return (
     <>
@@ -77,7 +73,7 @@ export default function MemberRow({ member, onDelete }: Props) {
         text="Segur que vols eliminar aquest soci? Aquesta acció es irreversible."
         title="Confirmar Operació"
         open={dialogOpen}
-        handleYes={deleteMember}
+        handleYes={deleteMember.mutate}
         handleNo={() => setDialogOpen(false)}
       />
     </>

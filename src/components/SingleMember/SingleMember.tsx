@@ -10,7 +10,7 @@ import TextWithLabel from 'components/common/TextWithLabel';
 import './style.css';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import LinkWithComponent from 'components/common/LinkWithComponent';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { http } from 'services';
 
 type TParams = {
@@ -29,27 +29,20 @@ export default function SingleMember() {
     error,
   } = useQuery('member', async () => (await http.get(`/member/${id}`)).data);
 
+  const deleteMember = useMutation(() => http.delete(`/member/${member._id}`), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('members');
+      replace('/socis');
+    },
+  });
+
   const handleDelete = () => {
     setDialogOpen(true);
   };
 
-  const deleteMember = async () => {
-    try {
-      const { status } = await http.delete(`/member/${id}`);
-      if (status === 200) {
-        replace('/socis');
-        queryClient.invalidateQueries('members');
-      } else {
-        alert("No s'ha pogut eliminar el soci");
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  if (error) console.log(error);
 
   if (isLoading) return null;
-
-  if (error) throw error;
 
   const {
     _id,
@@ -150,7 +143,7 @@ export default function SingleMember() {
         text="Segur que vols eliminar aquest soci? Aquesta acció es irreversible."
         title="Confirmar Operació"
         open={dialogOpen}
-        handleYes={deleteMember}
+        handleYes={deleteMember.mutate}
         handleNo={() => setDialogOpen(false)}
       />
     </div>

@@ -12,8 +12,8 @@ interface Props {
   title?: string;
   text: string;
   open: boolean;
-  handleYes: () => void;
-  handleNo: () => void;
+  handleYes: any;
+  handleNo: any;
 }
 
 export default function ConfirmDialog({
