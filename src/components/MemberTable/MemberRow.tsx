@@ -8,7 +8,7 @@ import { Delete, Edit, Visibility } from '@material-ui/icons';
 import LinkWithComponent from 'components/common/LinkWithComponent';
 
 import { Member } from 'interfaces/Member';
-import { useAuthContext } from 'auth/AuthContext';
+import { useAuthContext } from 'auth';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import { deleteById } from 'services/member';
 

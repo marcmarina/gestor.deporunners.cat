@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import * as Yup from 'yup';
 
-import { useAuthContext } from 'auth/AuthContext';
+import { useAuthContext } from 'auth';
 import http from 'services/http';
 import FormikField from 'components/common/FormikField';
 import { Form, Formik, FormikHelpers } from 'formik';

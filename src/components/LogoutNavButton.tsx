@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import ExitToAppOutlined from '@material-ui/icons/ExitToAppOutlined';
 
-import { useAuthContext } from 'auth/AuthContext';
+import { useAuthContext } from 'auth';
 
 export default function LogoutNavButton() {
   const [dialogOpen, setDialogOpen] = useState(false);

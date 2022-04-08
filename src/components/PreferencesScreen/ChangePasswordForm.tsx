@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import FormikField from 'components/common/FormikField';
 import { Button, Grid, Typography } from '@material-ui/core';
 import http from 'services/http';
-import { useAuthContext } from 'auth/AuthContext';
+import { useAuthContext } from 'auth';
 
 const initialValues = {
   oldPassword: '',

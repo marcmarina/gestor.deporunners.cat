@@ -12,7 +12,7 @@ import { Divider } from '@material-ui/core';
 import LogoutNavButton from './LogoutNavButton';
 
 import './sidebar.css';
-import { useAuthContext } from 'auth/AuthContext';
+import { useAuthContext } from 'auth';
 
 export default function MainListItems() {
   const { user } = useAuthContext();

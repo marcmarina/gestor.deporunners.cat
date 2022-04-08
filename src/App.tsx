@@ -6,7 +6,7 @@ import LoginScreen from 'components/LoginScreen';
 import HomeScreen from 'components/HomeScreen';
 import PrivacyScreen from 'components/PrivacyScreen';
 import ProtectedRoute from 'components/common/ProtectedRoute';
-import { AuthContextProvider } from 'auth/AuthContext';
+import { AuthContextProvider } from 'auth';
 
 import './App.css';
 import SignupScreen from 'components/SignupScreen';
