@@ -10,7 +10,7 @@ import LinkWithComponent from 'components/common/LinkWithComponent';
 import { Member } from 'interfaces/Member';
 import { useAuthContext } from 'auth';
 import ConfirmDialog from 'components/common/ConfirmDialog';
-import { memberService } from 'services';
+import { http } from 'services';
 
 interface Props {
   member: Member;
@@ -23,7 +23,7 @@ export default function MemberRow({ member, onDelete }: Props) {
 
   const deleteMember = async () => {
     try {
-      const res = await memberService.deleteById(member._id);
+      const res = await http.delete(`/member/${member._id}`);
       if (res.status === 200) {
         setDialogOpen(false);
         onDelete();

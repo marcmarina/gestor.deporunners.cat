@@ -7,8 +7,6 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
 import TextWithLabel from 'components/common/TextWithLabel';
 
-import { deleteById } from 'services/member';
-
 import './style.css';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import LinkWithComponent from 'components/common/LinkWithComponent';
@@ -37,7 +35,7 @@ export default function SingleMember() {
 
   const deleteMember = async () => {
     try {
-      const { status } = await deleteById(id);
+      const { status } = await http.delete(`/member/${id}`);
       if (status === 200) {
         replace('/socis');
         queryClient.invalidateQueries('members');
