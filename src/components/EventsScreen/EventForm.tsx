@@ -15,6 +15,7 @@ import http from 'services/http';
 import Event from 'interfaces/Event';
 import dayjs from 'dayjs';
 import { coordinateValidator } from 'utils';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface FormValues {
   name: string;
@@ -43,30 +44,28 @@ interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
   event?: Event;
-  onFinishSubmit: () => void;
 }
 
-export default function EventForm({
-  open,
-  setOpen,
-  event,
-  onFinishSubmit,
-}: Props) {
+export default function EventForm({ open, setOpen, event }: Props) {
+  const isEdit = !!event;
+  const queryClient = useQueryClient();
+
+  const eventMutation = useMutation((values: any) =>
+    isEdit ? http.put('/event', values) : http.post('/event', values)
+  );
+
   const handleSubmit = async (values: FormValues) => {
     try {
-      const { status } = event
-        ? await http.put('/event', values)
-        : await http.post('/event', values);
+      const { status } = await eventMutation.mutateAsync(values);
+
       if (status === 201) {
         setOpen(false);
-        onFinishSubmit();
+        queryClient.invalidateQueries('events');
       }
     } catch (ex) {
       console.log(ex.response);
     }
   };
-
-  const isEdit = !!event;
 
   const initialValues: FormValues = event ?? {
     name: '',
@@ -90,7 +89,7 @@ export default function EventForm({
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        {({ values, setFieldValue, errors, touched }) => (
+        {({ values, setFieldValue, errors, touched, isSubmitting }) => (
           <Form noValidate>
             <DialogContent>
               <Grid container spacing={2}>
@@ -140,7 +139,7 @@ export default function EventForm({
               <Button color="secondary" onClick={() => setOpen(false)}>
                 Tancar
               </Button>
-              <Button type="submit" color="primary">
+              <Button type="submit" color="primary" disabled={isSubmitting}>
                 {isEdit ? 'Desar' : 'Crear'}
               </Button>
             </DialogActions>

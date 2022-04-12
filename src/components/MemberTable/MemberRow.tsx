@@ -11,21 +11,24 @@ import { Member } from 'interfaces/Member';
 import { useAuthContext } from 'auth';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import { http } from 'services';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
   member: Member;
-  onDelete: () => void;
 }
 
-export default function MemberRow({ member, onDelete }: Props) {
+export default function MemberRow({ member }: Props) {
   const { user } = useAuthContext();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const deleteMember = useMutation(() => http.delete(`/member/${member._id}`), {
     onSuccess: () => {
-      onDelete();
+      queryClient.invalidateQueries('members');
       setDialogOpen(false);
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 

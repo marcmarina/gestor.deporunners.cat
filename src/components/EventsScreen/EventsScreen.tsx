@@ -6,17 +6,20 @@ import EventForm from './EventForm';
 import Event from 'interfaces/Event';
 
 import './style.css';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import http from 'services/http';
 
 export default function EventsScreen() {
   const [open, setOpen] = useState(false);
   const [event, setEvent] = useState<Event | undefined>();
-  const queryClient = useQueryClient();
 
   const { data: events, isLoading: eventsLoading } = useQuery(
     'events',
-    async () => (await http.get('/event')).data
+    async () => {
+      const res = await http.get('/event');
+
+      return res.data;
+    }
   );
 
   if (eventsLoading) return null;
@@ -48,12 +51,7 @@ export default function EventsScreen() {
           </Grid>
         ))}
       </Grid>
-      <EventForm
-        open={open}
-        setOpen={setOpen}
-        event={event}
-        onFinishSubmit={() => queryClient.invalidateQueries('events')}
-      />
+      <EventForm open={open} setOpen={setOpen} event={event} />
     </div>
   );
 }

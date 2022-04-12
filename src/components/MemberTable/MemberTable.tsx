@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Button, TableFooter, TablePagination } from '@material-ui/core';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 import MemberRow from './MemberRow';
 import SearchBar from './SearchBar';
@@ -23,7 +23,6 @@ import { http } from 'services';
 export default function MemberTable() {
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
   const [page, setPage] = useState(0);
-  const queryClient = useQueryClient();
 
   const { data: members, isLoading: loadingMembers } = useQuery(
     'members',
@@ -101,11 +100,7 @@ export default function MemberTable() {
           <TableBody>
             {paginate(filteredMembers, page + 1, rowsPerPage).map(
               (row: Member) => (
-                <MemberRow
-                  key={row._id}
-                  member={row}
-                  onDelete={() => queryClient.invalidateQueries('members')}
-                />
+                <MemberRow key={row._id} member={row} />
               )
             )}
           </TableBody>

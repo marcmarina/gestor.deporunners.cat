@@ -6,6 +6,7 @@ import FormikField from 'components/common/FormikField';
 import { Button, Grid, Typography } from '@material-ui/core';
 import http from 'services/http';
 import { useAuthContext } from 'auth';
+import { useMutation } from 'react-query';
 
 const initialValues = {
   oldPassword: '',
@@ -33,16 +34,20 @@ const validationSchema = Yup.object().shape({
 export default function ChangePasswordForm() {
   const { user } = useAuthContext();
 
+  const changePasswordMutation = useMutation((values: any) =>
+    http.patch(`/user/changePassword/${user?._id}`, values)
+  );
+
   const handleSubmit = async (
     values: FormValues,
     { resetForm }: FormikHelpers<FormValues>
   ) => {
     try {
-      await http.patch(`/user/changePassword/${user?._id}`, values);
-      resetForm();
+      await changePasswordMutation.mutateAsync(values);
     } catch (ex) {
-      resetForm();
       console.log(ex.response);
+    } finally {
+      resetForm();
     }
   };
   return (

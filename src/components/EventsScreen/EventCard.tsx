@@ -17,7 +17,7 @@ import EventDialog from './EventDialog';
 import Event from 'interfaces/Event';
 import ConfirmDialog from 'components/common/ConfirmDialog';
 import http from 'services/http';
-import { useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
   event: Event;
@@ -32,16 +32,16 @@ export default function EventCard({ event, onClickEdit }: Props) {
 
   const { _id, name, description, dateTime, coordinates } = event;
 
-  const deleteEvent = async () => {
-    try {
-      await http.delete(`/event/${_id}`);
+  const deleteEvent = useMutation(() => http.delete(`/event/${_id}`), {
+    onSuccess: () => {
       queryClient.invalidateQueries('events');
       setShowDialog(false);
       setShowDeleteDialog(false);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const formattedTime = dayjs(dateTime).format('DD/MM/YYYY HH:MM');
   return (
@@ -81,7 +81,7 @@ export default function EventCard({ event, onClickEdit }: Props) {
         text="Segur que vols eliminar aquest event? Aquesta acció es irreversible."
         title="Confirmar Operació"
         open={showDeleteDialog}
-        handleYes={deleteEvent}
+        handleYes={deleteEvent.mutate}
         handleNo={() => setShowDeleteDialog(false)}
       />
     </Card>
