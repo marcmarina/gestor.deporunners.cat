@@ -14,7 +14,7 @@ import './style.css';
 import FormikSelect from 'components/common/FormikSelect';
 import Town from 'interfaces/Town';
 import styled from 'styled-components';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { http } from 'services';
 
 type TParams = {
@@ -50,6 +50,15 @@ export default function EditMember() {
 
   const queryClient = useQueryClient();
 
+  const editMutation = useMutation(
+    (values: any) => http.put('/member', values),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('member');
+      },
+    }
+  );
+
   const {
     data: member,
     isLoading: memberLoading,
@@ -69,7 +78,7 @@ export default function EditMember() {
 
   const handleSubmit = async (values: Member) => {
     try {
-      const res = await http.put('/member', values);
+      const res = await editMutation.mutateAsync(values);
       if (res?.status === 200) push(`/socis/${member?._id}`);
       queryClient.invalidateQueries(['member', 'members']);
     } catch (ex) {

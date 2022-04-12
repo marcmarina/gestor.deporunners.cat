@@ -1,13 +1,13 @@
 const jwtKey = 'jwt-token';
 const refreshKey = 'refresh-token';
 
-export const storeToken = (jwtToken: string) => {
+export const storeJWT = (jwtToken: string) => {
   localStorage.setItem(jwtKey, jwtToken);
 };
 
-export const getToken = () => localStorage.getItem(jwtKey);
+export const getJWT = () => localStorage.getItem(jwtKey);
 
-export const removeToken = () => localStorage.removeItem(jwtKey);
+export const removeJWT = () => localStorage.removeItem(jwtKey);
 
 export const storeRefreshToken = (refreshToken: string) => {
   localStorage.setItem(refreshKey, refreshToken);

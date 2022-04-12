@@ -10,6 +10,7 @@ interface FormikFieldProps {
   required?: boolean;
   error?: boolean;
   variant?: 'filled' | 'outlined' | 'standard';
+  focused?: boolean;
 }
 
 export default function FormikField({
@@ -18,6 +19,7 @@ export default function FormikField({
   type = 'text',
   required = false,
   variant = 'standard',
+  focused = false,
 }: FormikFieldProps) {
   const { errors, touched } = useFormikContext<any>();
   const error =
@@ -36,6 +38,7 @@ export default function FormikField({
       noValidate
       error={error}
       helperText={<ErrorMessage name={name} />}
+      autoFocus={focused}
     />
   );
 }

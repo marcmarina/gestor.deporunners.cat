@@ -21,6 +21,8 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import './style.css';
 import { Box } from '@material-ui/core';
 import { useQueryString } from 'hooks';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -77,12 +79,16 @@ export default function LoginScreen() {
 
   const { login, user } = useAuthContext();
 
+  const loginMutation = useMutation((values: FormValues) =>
+    http.post('/user/login', values)
+  );
+
   const handleSubmit = async (
     { email, password }: FormValues,
-    { setFieldValue }: FormikHelpers<FormValues>
+    { resetForm }: FormikHelpers<FormValues>
   ) => {
     try {
-      const { data: authToken, headers } = await http.post('/user/login', {
+      const { data: authToken, headers } = await loginMutation.mutateAsync({
         email,
         password,
       });
@@ -90,9 +96,11 @@ export default function LoginScreen() {
       const refreshToken = headers['x-refresh-token'];
       login({ authToken, refreshToken });
     } catch (ex) {
-      if (ex.response.status === 401) {
+      if (axios.isAxiosError(ex) && ex?.response?.status === 401) {
         setOpen(true);
-        setFieldValue('password', '');
+        resetForm({
+          values: { email, password: '' },
+        });
       }
     }
   };
@@ -129,7 +137,6 @@ export default function LoginScreen() {
             Les dades introduïdes no son valides
           </Alert>
         </Collapse>
-
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}
@@ -144,6 +151,7 @@ export default function LoginScreen() {
                     label="Email"
                     name="email"
                     required
+                    focused
                   />
                 </Grid>
                 <Grid item xs>

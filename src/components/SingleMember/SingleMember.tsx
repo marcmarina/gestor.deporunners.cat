@@ -27,7 +27,10 @@ export default function SingleMember() {
     data: member,
     isLoading,
     error,
-  } = useQuery('member', async () => (await http.get(`/member/${id}`)).data);
+  } = useQuery(
+    ['member', id],
+    async () => (await http.get(`/member/${id}`)).data
+  );
 
   const deleteMember = useMutation(() => http.delete(`/member/${member._id}`), {
     onSuccess: () => {

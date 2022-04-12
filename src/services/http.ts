@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getRefreshToken, getToken, storeToken } from 'auth/storage';
+import { getRefreshToken, getJWT, storeJWT } from 'auth/storage';
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -12,7 +12,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
   config.headers = {
     ...config.headers,
-    'x-auth-token': `${getToken()}`,
+    'x-auth-token': `${getJWT()}`,
     'x-refresh-token': `${getRefreshToken()}`,
   };
   return config;
@@ -20,8 +20,8 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use((config) => {
   const returnedToken = config.headers['x-auth-token'];
-  if (returnedToken && returnedToken !== getToken()) {
-    storeToken(returnedToken);
+  if (returnedToken && returnedToken !== getJWT()) {
+    storeJWT(returnedToken);
   }
   return config;
 });
