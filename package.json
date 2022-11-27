@@ -11,11 +11,6 @@
     "prepare": "husky install",
     "lint": "eslint src --ext .ts,.tsx"
   },
-  "lint-staged": {
-    "**/*.*(ts|tsx)": [
-      "prettier --write"
-    ]
-  },
   "dependencies": {
     "@date-io/dayjs": "1.x",
     "@material-ui/core": "^4.11.0",
@@ -67,7 +62,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.31.11",
-    "lint-staged": "^12.3.5"
+    "lint-staged": "^13.0.4"
   },
   "browserslist": {
     "production": [
