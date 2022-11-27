@@ -17,7 +17,7 @@ To set up the project, install dependencies with `yarn` and then create a `.env`
 
 `VITE_API_TOKEN` is the token you have set up for your API.
 
-`VITE_STRIPE_KEY` is Stripe's publishable key.
+`VITE_STRIPE_PUB_KEY` is Stripe's publishable key.
 
 ### Serving the project
 
