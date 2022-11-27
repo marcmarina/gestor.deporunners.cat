@@ -1,23 +1,26 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
 import { StylesProvider } from '@material-ui/core';
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { Route, Switch } from 'react-router-dom';
+import { StripeProvider } from 'stripe';
 
-import LoginScreen from 'components/LoginScreen';
-import HomeScreen from 'components/HomeScreen';
-import PrivacyScreen from 'components/PrivacyScreen';
-import ProtectedRoute from 'components/common/ProtectedRoute';
 import { AuthContextProvider } from 'auth';
+import ProtectedRoute from 'components/common/ProtectedRoute';
+import HomeScreen from 'components/HomeScreen';
+import LoginScreen from 'components/LoginScreen';
+import PrivacyScreen from 'components/PrivacyScreen';
+
+import SignupScreen from 'components/SignupScreen';
 
 import './App.css';
-import SignupScreen from 'components/SignupScreen';
-import { StripeProvider } from 'stripe';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <StylesProvider injectFirst>
         <AuthContextProvider>
           <StripeProvider>
