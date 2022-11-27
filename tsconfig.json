@@ -16,7 +16,8 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "src",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "useUnknownInCatchVariables": false
   },
   "include": ["src"],
   "exclude": ["node_modules"]
