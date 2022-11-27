@@ -3,9 +3,9 @@ import axios from 'axios';
 import { getRefreshToken, getJWT, storeJWT } from 'auth/storage';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
-    'x-api-token': process.env.REACT_APP_API_TOKEN ?? '',
+    'x-api-token': import.meta.env.VITE_API_TOKEN ?? '',
   },
 });
 

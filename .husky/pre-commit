@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx eslint "**/*.*(ts|tsx)"
+npx eslint src --ext .ts,.tsx
 npx lint-staged --allow-empty
