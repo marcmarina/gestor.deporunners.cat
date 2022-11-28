@@ -3,13 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src --ext .ts,.tsx",
     "prepare": "husky install",
-    "lint": "eslint src --ext .ts,.tsx"
+    "serve": "vite preview",
+    "start": "vite",
+    "test": "react-scripts test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
     "@date-io/dayjs": "1.x",
@@ -63,17 +75,5 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.31.11",
     "lint-staged": "^13.0.4"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
