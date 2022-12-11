@@ -80,7 +80,7 @@ export default function LoginScreen() {
   const { login, user } = useAuthContext();
 
   const loginMutation = useMutation((values: FormValues) =>
-    http.post('/user/login/v2', values)
+    http.post('/user/login', values)
   );
 
   const handleSubmit = async (
