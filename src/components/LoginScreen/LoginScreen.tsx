@@ -80,7 +80,7 @@ export default function LoginScreen() {
   const { login, user } = useAuthContext();
 
   const loginMutation = useMutation((values: FormValues) =>
-    http.post('/user/login', values)
+    http.post('/user/login/v2', values)
   );
 
   const handleSubmit = async (
@@ -88,13 +88,12 @@ export default function LoginScreen() {
     { resetForm }: FormikHelpers<FormValues>
   ) => {
     try {
-      const { data: authToken, headers } = await loginMutation.mutateAsync({
+      const { data } = await loginMutation.mutateAsync({
         email,
         password,
       });
 
-      const refreshToken = headers['x-refresh-token'];
-      login({ authToken, refreshToken });
+      login(data);
     } catch (ex) {
       if (axios.isAxiosError(ex) && ex?.response?.status === 401) {
         setOpen(true);
