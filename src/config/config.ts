@@ -2,15 +2,15 @@ import { development } from './development';
 import { staging } from './staging';
 import { production } from './production';
 
-enum Environment {
+enum Mode {
   Development = 'development',
   Staging = 'staging',
   Production = 'production',
 }
 
-const envVars = import.meta.env;
+const env = import.meta.env;
 
-const environment = envVars.MODE as Environment;
+const mode = env.MODE as Mode;
 
 export type Config = {
   API_URL: string;
@@ -18,19 +18,19 @@ export type Config = {
   STRIPE_PUB_KEY: string;
 };
 
-function getConfigForEnvironment(env: Environment): Config {
-  switch (envVars.MODE) {
-    case Environment.Development:
+function getConfigForMode(mode: Mode): Config {
+  switch (mode) {
+    case Mode.Development:
       return development;
-    case Environment.Staging:
+    case Mode.Staging:
       return staging;
-    case Environment.Production:
+    case Mode.Production:
       return production;
     default:
-      throw new Error(`No config found for environment ${env}`);
+      throw new Error(`No config found for environment ${mode}`);
   }
 }
 
-const config = getConfigForEnvironment(environment);
+const config = getConfigForMode(mode);
 
 export default config;
