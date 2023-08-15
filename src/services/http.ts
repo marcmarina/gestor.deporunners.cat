@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { merge } from 'lodash';
 
 import { getRefreshToken, getJWT, storeJWT } from 'auth/storage';
 
@@ -7,29 +8,27 @@ const instance = axios.create({
   headers: {
     'x-api-token': import.meta.env.VITE_API_TOKEN ?? '',
   },
+  timeout: 10000,
 });
 
 instance.interceptors.request.use((config) => {
-  config.headers = {
-    ...config.headers,
-    'x-auth-token': `${getJWT()}`,
-    'x-refresh-token': `${getRefreshToken()}`,
-  };
-  return config;
+  return merge({}, config, {
+    headers: {
+      'x-auth-token': getJWT(),
+      'x-refresh-token': getRefreshToken(),
+      'x-request-id': crypto.randomUUID(),
+    },
+  });
 });
 
 instance.interceptors.response.use((config) => {
   const returnedToken = config.headers['x-auth-token'];
+
   if (returnedToken && returnedToken !== getJWT()) {
     storeJWT(returnedToken);
   }
+
   return config;
 });
 
-export default {
-  get: instance.get,
-  post: instance.post,
-  put: instance.put,
-  delete: instance.delete,
-  patch: instance.patch,
-};
+export default instance;
