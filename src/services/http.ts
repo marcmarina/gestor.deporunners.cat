@@ -2,11 +2,12 @@ import axios from 'axios';
 import { merge } from 'lodash';
 
 import { getRefreshToken, getJWT, storeJWT } from 'auth/storage';
+import { config } from 'config';
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: config.API_URL,
   headers: {
-    'x-api-token': import.meta.env.VITE_API_TOKEN ?? '',
+    'x-api-token': config.API_TOKEN ?? '',
   },
   timeout: 10000,
 });
